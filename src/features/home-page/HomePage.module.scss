@@ -2,7 +2,7 @@
 @use 'typography' as *;
 
 .bannerComponent {
-  --breadcrumbs-color-text: var(--color-primary-rgb, 0.7);
+  --breadcrumbs-color-text: rgba(var(--color-primary-rgb, 0.7));
   --color-link-primary: var(--color-primary);
   --color-link-hover: var(--color-accent-light);
 }

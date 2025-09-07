@@ -7,16 +7,16 @@ function getEndpoint(slug: string): string {
 }
 
 export function useFavoriteActions() {
-  const { callApiWithAuth } = useApiClient();
+  const { useApiWithAuth } = useApiClient();
 
   const favoriteArticle = async (slug: string) => {
-    return callApiWithAuth<{ article: Article }>(getEndpoint(slug), {
+    return useApiWithAuth<{ article: Article }>(getEndpoint(slug), {
       method: 'POST',
     });
   };
 
   const unfavoriteArticle = async (slug: string) => {
-    return callApiWithAuth<{ article: Article }>(getEndpoint(slug), {
+    return useApiWithAuth<{ article: Article }>(getEndpoint(slug), {
       method: 'DELETE',
     });
   };

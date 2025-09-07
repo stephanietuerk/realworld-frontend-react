@@ -17,6 +17,7 @@ import { ROUTE } from '../../shared/constants/routing';
 import { formatDate } from '../../shared/utilities/date-utilities';
 import { ErrorBoundary } from '../../shared/utilities/error-boundary';
 import styles from './ArticlePage.module.scss';
+import Comments from './comments/Comments';
 
 const BREADCRUMBS: (slug: string) => { display: string; route: string }[] = (
   slug,
@@ -47,12 +48,7 @@ export default function ArticlePage() {
             <Breadcrumbs segments={BREADCRUMBS(slug)}></Breadcrumbs>
           </div>
           <div className={styles.titleRow}>
-            <p className={styles.articleTitle}>{article.title}</p>
-            <FavoriteReadout
-              favorited={article.favorited}
-              count={article.favoritesCount}
-              className={styles.favoriteReadout}
-            ></FavoriteReadout>
+            <h1 className={styles.articleTitle}>{article.title}</h1>
           </div>
         </div>
         <Tags article={article}></Tags>
@@ -60,12 +56,33 @@ export default function ArticlePage() {
       <MainLayout>
         <BodyLayout>
           {article && (
-            <div
-              className={styles.articleBody}
-              dangerouslySetInnerHTML={{ __html: article.body }}
-            ></div>
+            <div>
+              <div
+                className={styles.articleBody}
+                dangerouslySetInnerHTML={{ __html: article.body }}
+              ></div>
+              <Comments slug={article.slug}></Comments>
+            </div>
           )}
           <SidebarLayout className={styles.sidebar}>
+            {loggedInUser ? (
+              <FavoriteButton
+                favorited={article.favorited}
+                count={article.favoritesCount}
+                slug={article.slug}
+                className={styles.favoriteButton}
+                displayIcon={true}
+                displayText={true}
+                syncWithApi={syncApi}
+              ></FavoriteButton>
+            ) : (
+              <FavoriteReadout
+                favorited={article.favorited}
+                count={article.favoritesCount}
+                className={styles.favoriteReadout}
+                expandedContext={true}
+              ></FavoriteReadout>
+            )}
             <div>
               <p className={styles.sidebarLabel}>Written by</p>
               <AuthorDate article={article} showDate={false}></AuthorDate>
@@ -86,19 +103,6 @@ export default function ArticlePage() {
               </p>
               <p>{formatDate(article.updatedAt || article.createdAt)}</p>
             </div>
-            {loggedInUser && (
-              <div>
-                <FavoriteButton
-                  favorited={article.favorited}
-                  count={article.favoritesCount}
-                  slug={article.slug}
-                  className={styles.favoriteButton}
-                  displayIcon={false}
-                  displayText={true}
-                  syncWithApi={syncApi}
-                ></FavoriteButton>
-              </div>
-            )}
           </SidebarLayout>
         </BodyLayout>
       </MainLayout>

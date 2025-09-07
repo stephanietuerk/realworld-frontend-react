@@ -15,7 +15,7 @@ export const UserContext = createContext<UserContextType | undefined>(
 );
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const { callApiWithAuth } = useApiClient();
+  const { useApiWithAuth: callApiWithAuth } = useApiClient();
   const { hasToken } = useAuth();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);

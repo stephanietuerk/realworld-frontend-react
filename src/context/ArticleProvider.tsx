@@ -28,7 +28,7 @@ function getTypedArticle(article: Article): Article {
 }
 
 export function ArticleProvider({ slug, children }: ArticleProviderProps) {
-  const { callApiWithAuth } = useApiClient();
+  const { useApiWithAuth: callApiWithAuth } = useApiClient();
   const [article, setArticle] = useState<Article>({} as Article);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 

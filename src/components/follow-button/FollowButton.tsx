@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useState, type MouseEventHandler } from 'react';
 import { useAuth } from '../../api/useAuth';
 import { useFollowActions } from '../../api/useFollow';
-import type { Profile } from '../../api/useProfile';
+import type { Profile } from '../../shared/types/articles.types';
 import AddAddedIcon from '../icons/AddAddedIcon';
 import styles from './FollowButton.module.scss';
 
@@ -26,11 +26,12 @@ export default function FollowButton({
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
-    const isUnfollowing = localFollowing;
-
-    setLocalFollowing(!localFollowing);
 
     if (hasToken) {
+      const isUnfollowing = localFollowing;
+
+      setLocalFollowing(!localFollowing);
+
       try {
         const action = isUnfollowing ? unfollowUser : followUser;
         await action(profile.username);

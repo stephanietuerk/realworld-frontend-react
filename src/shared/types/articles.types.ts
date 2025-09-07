@@ -1,5 +1,12 @@
 import type { Dispatch, SetStateAction } from 'react';
 
+export interface Profile {
+  username: string;
+  bio: string;
+  image: string;
+  following: boolean;
+}
+
 export interface ArticleMetadata {
   slug: string;
   title: string;
@@ -9,12 +16,7 @@ export interface ArticleMetadata {
   updatedAt: Date;
   favorited: boolean;
   favoritesCount: number;
-  author: {
-    username: string;
-    bio: string;
-    image: string;
-    following: boolean;
-  };
+  author: Profile;
 }
 
 export interface Article extends ArticleMetadata {

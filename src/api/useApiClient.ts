@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useAuth } from './useAuth';
 
 export interface ApiCallState {
@@ -30,6 +31,12 @@ type AuthenticatedCall = <T>(
   options?: RequestInit,
 ) => Promise<T>;
 
+type ApiGet = <T>(url: string) => {
+  data: T | null;
+  isLoading: boolean;
+  error: unknown;
+};
+
 async function fetchWithAuth<T>(
   endpoint: string,
   options: RequestInit = {},
@@ -57,11 +64,12 @@ async function fetchWithAuth<T>(
 }
 
 export function useApiClient(): {
-  callApiWithAuth: AuthenticatedCall;
+  useApiWithAuth: AuthenticatedCall;
+  useApiGet: ApiGet;
 } {
   const { setToken } = useAuth();
 
-  const authenticatedCall = async <T>(
+  const useApiWithAuth = async <T>(
     endpoint: string,
     options?: RequestInit,
   ): Promise<T> => {
@@ -75,5 +83,34 @@ export function useApiClient(): {
     }
   };
 
-  return { callApiWithAuth: authenticatedCall };
+  const useApiGet = <T>(
+    url: string,
+  ): { data: T | null; isLoading: boolean; error: unknown } => {
+    const [data, setData] = useState<T | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<unknown>(null);
+
+    useEffect(() => {
+      if (!url) return;
+
+      const fetchData = async () => {
+        setIsLoading(true);
+        try {
+          const result = await useApiWithAuth<T>(url);
+          setData(result);
+        } catch (err) {
+          setError(err);
+          setData(null);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchData();
+    }, [url]);
+
+    return { data, isLoading, error };
+  };
+
+  return { useApiWithAuth, useApiGet };
 }

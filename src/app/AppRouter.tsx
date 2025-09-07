@@ -13,6 +13,7 @@ import App from './App.tsx';
 export default function AppRouter() {
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location } | null;
+  console.log(location, state);
 
   return (
     <AuthProvider>

@@ -78,7 +78,7 @@ export function ArticlesProvider({
   feedControlsDefaults,
   children,
 }: ArticlesProviderProps) {
-  const { callApiWithAuth } = useApiClient();
+  const { useApiWithAuth: callApiWithAuth } = useApiClient();
   const { user } = useUser();
   const { username } = useParams();
   const [articles, setArticles] = useState<ArticleMetadata[]>([]);

@@ -1,13 +1,13 @@
 import { API_ROOT } from '../shared/constants/api';
+import type { Profile } from '../shared/types/articles.types';
 import { useApiClient } from './useApiClient';
-import type { Profile } from './useProfile';
 
 function getEndpoint(username: string): string {
   return `${API_ROOT}profiles/${username}/follow`;
 }
 
 export function useFollowActions() {
-  const { callApiWithAuth } = useApiClient();
+  const { useApiWithAuth: callApiWithAuth } = useApiClient();
 
   const followUser = async (username: string) => {
     return callApiWithAuth<{ profile: Profile }>(getEndpoint(username), {

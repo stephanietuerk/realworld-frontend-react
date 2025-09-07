@@ -34,7 +34,7 @@
 }
 
 .instructions {
-  @include label-medium-prominent;
+  @include label-medium;
   margin-left: grid(1);
 }
 
@@ -58,10 +58,14 @@
 }
 
 .plusIconSvg {
-  transform: translateY(-1px);
 }
 
 .plusIconPath {
   transition: all 0.2s ease-in-out;
   fill: var(--favorite-button-icon-color, var(--color-primary));
+}
+
+.countIcon {
+  transform: translateY(1px);
+  display: flex;
 }

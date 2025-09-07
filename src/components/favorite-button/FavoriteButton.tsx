@@ -19,6 +19,12 @@ interface FavoriteButtonProps {
   plusIconSize?: number;
 }
 
+const BUTTON_TEXT = {
+  add: 'Favorite article',
+  added: 'Favorited',
+  remove: 'Remove favorite',
+};
+
 export default function FavoriteButton({
   className,
   count,
@@ -39,19 +45,22 @@ export default function FavoriteButton({
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
+
+    if (!hasToken) {
+      return;
+    }
+
     const isRemovingFavorite = localFavorited;
 
     setLocalFavorited(!localFavorited);
     setLocalCount((c) => c + (isRemovingFavorite ? -1 : 1));
 
-    if (hasToken) {
-      try {
-        const action = isRemovingFavorite ? unfavoriteArticle : favoriteArticle;
-        await action(slug).then(() => syncWithApi());
-      } catch (error) {
-        setLocalFavorited(isRemovingFavorite);
-        setLocalCount((c) => c + (isRemovingFavorite ? 1 : -1));
-      }
+    try {
+      const action = isRemovingFavorite ? unfavoriteArticle : favoriteArticle;
+      await action(slug).then(() => syncWithApi());
+    } catch (error) {
+      setLocalFavorited(isRemovingFavorite);
+      setLocalCount((c) => c + (isRemovingFavorite ? 1 : -1));
     }
   };
 
@@ -84,22 +93,22 @@ export default function FavoriteButton({
             )}
           >
             {!localFavorited
-              ? 'Add article as favorite'
+              ? BUTTON_TEXT.add
               : hovering
-                ? 'Remove from favorites'
-                : 'Saved as favorite'}
+                ? BUTTON_TEXT.remove
+                : BUTTON_TEXT.added}
           </span>
         </>
       )}
       {displayIcon && (
-        <>
+        <div className={styles.countIcon}>
           <FavoriteIcon
             size={16}
             isOutline={!localFavorited}
             pathClassName={styles.favoritePathFill}
           ></FavoriteIcon>
           <span className={styles.favoriteCount}>{localCount}</span>
-        </>
+        </div>
       )}
     </button>
   );

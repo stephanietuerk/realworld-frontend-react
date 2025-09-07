@@ -5,6 +5,7 @@ import { useArticles } from '../../../api/useArticles';
 import { useAuth } from '../../../api/useAuth';
 import AuthorDate from '../../../components/author-date/AuthorDate';
 import FavoriteButton from '../../../components/favorite-button/FavoriteButton';
+import FavoriteReadout from '../../../components/favorite-readout/FavoriteReadout';
 import Tags from '../../../components/tags/Tags';
 import { ROUTE } from '../../../shared/constants/routing';
 import type { ArticleMetadata } from '../../../shared/types/articles.types';
@@ -68,14 +69,21 @@ export default function ArticleCard({ article }: ArticleCardProps) {
       <p className={styles.description}>{article.description}</p>
       <div className={styles.bottomRow}>
         <Tags article={article} className={styles.tags}></Tags>
-        <FavoriteButton
-          favorited={article.favorited}
-          count={article.favoritesCount}
-          slug={article.slug}
-          handlePointerEnter={(e) => handleFavoriteHover(e, true)}
-          handlePointerLeave={(e) => handleFavoriteHover(e, false)}
-          syncWithApi={refreshArticles}
-        ></FavoriteButton>
+        {hasToken ? (
+          <FavoriteButton
+            favorited={article.favorited}
+            count={article.favoritesCount}
+            slug={article.slug}
+            handlePointerEnter={(e) => handleFavoriteHover(e, true)}
+            handlePointerLeave={(e) => handleFavoriteHover(e, false)}
+            syncWithApi={refreshArticles}
+          ></FavoriteButton>
+        ) : (
+          <FavoriteReadout
+            count={article.favoritesCount}
+            favorited={article.favorited}
+          ></FavoriteReadout>
+        )}
       </div>
     </Link>
   );

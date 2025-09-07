@@ -1,0 +1,22 @@
+@use 'functions' as *;
+@use 'typography' as *;
+@use 'mixins' as *;
+
+$border: 1px solid var(--color-neutral-90);
+
+.comment {
+  border: $border;
+  margin-bottom: grid(4);
+  border-radius: grid(1);
+  width: var(--article-max-width);
+}
+
+.commentBody {
+  padding: grid(6);
+}
+
+.commentAuthor {
+  background: var(--color-neutral-95);
+  border-top: $border;
+  padding: grid(3) grid(6);
+}
