@@ -1,6 +1,7 @@
 import { API_ROOT } from '../shared/constants/api';
 import type { Profile } from '../shared/types/articles.types';
-import { useApiClient, type ApiCallState } from './useApiClient';
+import { type ApiCallState } from './callApiWithAuth';
+import { useApiGet } from './useApiGet';
 
 export interface Comment {
   id: number;
@@ -15,10 +16,9 @@ interface CommentsState extends ApiCallState {
 }
 
 export function useComments(slug: string): CommentsState {
-  const { useApiGet } = useApiClient();
-  const { data, isLoading, error } = useApiGet<{ comments: Comment[] }>(
-    `${API_ROOT}articles/${slug}/comments`,
-  );
+  const { data, isLoading, error } = useApiGet<{ comments: Comment[] }>({
+    url: !!slug ? `${API_ROOT}articles/${slug}/comments` : null,
+  });
 
   return { comments: data?.comments ?? null, isLoading, error };
 }

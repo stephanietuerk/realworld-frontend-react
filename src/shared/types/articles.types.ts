@@ -44,12 +44,12 @@ export interface ArticlesContextType {
   filteredArticles: ArticleMetadata[];
   isLoading: boolean;
   showLoading: boolean;
-  syncApi: () => void;
+  refetchArticles: () => void;
   setFeedSelections: Dispatch<SetStateAction<FeedSelections>>;
 }
 
 export interface ArticleContextType {
   article: Article;
   isLoading: boolean;
-  syncApi: () => void;
+  refetchArticle: () => void;
 }

@@ -45,18 +45,19 @@ export default function FavoriteReadout({
           <NavLink
             to={LOGIN_ROUTE.path()}
             state={{ backgroundLocation: location }}
-            className={styles.login}
+            className={styles.loginLink}
           >
             Sign in
           </NavLink>
-          <span> or </span>
+          <span>&nbsp;or&nbsp;</span>
           <NavLink
             to={REGISTER_ROUTE.path()}
             state={{ backgroundLocation: location }}
-            className={styles.login}
+            className={styles.loginLink}
           >
-            Sign in
+            Sign up
           </NavLink>
+          <p>&nbsp;to favorite</p>
         </div>
       )}
     </div>

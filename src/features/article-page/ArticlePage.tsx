@@ -31,7 +31,7 @@ const BREADCRUMBS: (slug: string) => { display: string; route: string }[] = (
 
 export default function ArticlePage() {
   const { slug } = useParams();
-  const { article, syncApi } = useArticle();
+  const { article, refetchArticle: syncApi } = useArticle();
   const { user: loggedInUser } = useUser();
   const { profile: authorProfile } = useProfile(article?.author?.username);
 

@@ -26,13 +26,14 @@
 }
 
 .loginText {
-  display: inline-block;
+  @include body-2xs;
+  display: inline-flex;
   margin-top: grid(1);
 }
 
-.loginButton {
+.loginLink {
   cursor: pointer;
-  color: var(--favorite-readout-login-color, var(--color-inert));
+  color: var(--favorite-readout-login-color, var(--color-primary));
 
   &:hover {
     color: var(--favorite-readout-login-color-hover, var(--color-primary));

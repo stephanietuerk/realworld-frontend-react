@@ -31,7 +31,7 @@ interface ArticleCardProps {
 export default function ArticleCard({ article }: ArticleCardProps) {
   const { hasToken } = useAuth();
   const { username: profile } = useParams();
-  const { syncApi: refreshArticles } = useArticles();
+  const { refetchArticles: refetch } = useArticles();
   const [favoriteIsHovered, setFavoriteIsHovered] = useState(false);
   const [authorIsHovered, setAuthorIsHovered] = useState(false);
 
@@ -76,7 +76,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             slug={article.slug}
             handlePointerEnter={(e) => handleFavoriteHover(e, true)}
             handlePointerLeave={(e) => handleFavoriteHover(e, false)}
-            syncWithApi={refreshArticles}
+            syncWithApi={refetch}
           ></FavoriteButton>
         ) : (
           <FavoriteReadout

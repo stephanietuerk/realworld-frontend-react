@@ -65,7 +65,7 @@ export default function AuthorDate({
           {article.author.username}
         </button>
         {showDate && (
-          <p className={styles.date}>{formatDate(article.createdAt)}</p>
+          <p className={styles.date}>{formatDate(article.updatedAt)}</p>
         )}
       </div>
     </div>
