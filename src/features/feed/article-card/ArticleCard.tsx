@@ -12,7 +12,7 @@ import type { ArticleMetadata } from '../../../shared/types/articles.types';
 import styles from './ArticleCard.module.scss';
 
 function handleNonCardHover(
-  e: React.PointerEvent<HTMLButtonElement>,
+  e: React.PointerEvent<HTMLAnchorElement | HTMLButtonElement>,
   setFx: Dispatch<React.SetStateAction<boolean>>,
   canSet: boolean,
   value: boolean,
@@ -36,7 +36,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
   const [authorIsHovered, setAuthorIsHovered] = useState(false);
 
   const handleAuthorHover: (
-    e: React.PointerEvent<HTMLButtonElement>,
+    e: React.PointerEvent<HTMLAnchorElement>,
     isEnter: boolean,
   ) => void = (e, isEnter) => {
     const canSet = profile !== article.author.username;
@@ -79,10 +79,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             syncWithApi={refetch}
           ></FavoriteButton>
         ) : (
-          <FavoriteReadout
-            count={article.favoritesCount}
-            favorited={article.favorited}
-          ></FavoriteReadout>
+          <FavoriteReadout count={article.favoritesCount}></FavoriteReadout>
         )}
       </div>
     </Link>

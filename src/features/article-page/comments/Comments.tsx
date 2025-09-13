@@ -1,5 +1,8 @@
 import { useComments } from '../../../api/useComments';
-import CommentDisplay from '../comment-display/CommentDisplay';
+import {
+  CommentDisplay,
+  LeaveComment,
+} from '../comment-display/CommentDisplay';
 import styles from './Comments.module.scss';
 
 interface CommentsProps {
@@ -11,7 +14,10 @@ export default function Comments({ slug }: CommentsProps) {
   return (
     <div className={styles.comments}>
       <p className={styles.header}>Comments</p>
-      {(!comments || comments.length < 1) && <p>No comments yet</p>}
+      <LeaveComment></LeaveComment>
+      {(!comments || comments.length < 1) && (
+        <p className={styles.noComments}>No comments yet</p>
+      )}
       {comments?.map((c) => (
         <CommentDisplay key={c.id} c={c} />
       ))}

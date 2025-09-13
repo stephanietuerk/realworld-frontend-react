@@ -7,7 +7,7 @@ import styles from './FavoriteReadout.module.scss';
 
 interface FavoriteReadoutProps {
   count: number;
-  favorited: boolean;
+  isOutline?: boolean;
   className?: string;
   expandedContext?: boolean;
 }
@@ -20,8 +20,8 @@ const REGISTER_ROUTE =
 
 export default function FavoriteReadout({
   count,
-  favorited,
   className,
+  isOutline = false,
   expandedContext = false,
 }: FavoriteReadoutProps) {
   const { hasToken } = useAuth();
@@ -32,7 +32,7 @@ export default function FavoriteReadout({
       <div className={clsx(styles.container, className)}>
         <FavoriteIcon
           size={16}
-          isOutline={!favorited}
+          isOutline={isOutline}
           svgClassName={styles.favoriteSvg}
           pathClassName={styles.favoritePathFill}
         ></FavoriteIcon>

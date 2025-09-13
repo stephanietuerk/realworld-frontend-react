@@ -1,10 +1,11 @@
 import clsx from 'clsx';
-import { useState, type MouseEventHandler } from 'react';
+import { useState, type PointerEventHandler } from 'react';
 import { useAuth } from '../../api/useAuth';
 import { useFavoriteActions } from '../../api/useFavorite';
 import AddAddedIcon from '../icons/AddAddedIcon';
 import FavoriteIcon from '../icons/FavoriteIcon';
 import styles from './FavoriteButton.module.scss';
+import Button from '../button/Button';
 
 interface FavoriteButtonProps {
   count: number;
@@ -43,7 +44,7 @@ export default function FavoriteButton({
   const [localCount, setLocalCount] = useState<number>(count);
   const [hovering, setHovering] = useState<boolean>(false);
 
-  const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
+  const handleClick: PointerEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
 
     if (!hasToken) {
@@ -66,8 +67,9 @@ export default function FavoriteButton({
 
   if (!slug) return null;
   return (
-    <button
+    <Button
       className={clsx(styles.button, hasToken && styles.clickable, className)}
+      onClick={handleClick}
       onPointerEnter={(e) => {
         setHovering(true);
         handlePointerEnter?.(e);
@@ -76,7 +78,7 @@ export default function FavoriteButton({
         setHovering(false);
         handlePointerLeave?.(e);
       }}
-      onClick={handleClick}
+      variant={displayText ? 'secondary' : 'tertiary'}
     >
       {displayText && (
         <>
@@ -110,6 +112,6 @@ export default function FavoriteButton({
           <span className={styles.favoriteCount}>{localCount}</span>
         </div>
       )}
-    </button>
+    </Button>
   );
 }

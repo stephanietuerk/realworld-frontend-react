@@ -74,7 +74,7 @@ export default function ProfilePage() {
   return (
     <>
       <Banner className={styles.bannerComponent}>
-        <div className={styles.banner}>
+        <div className={styles.banner} data-surface="dark">
           <div className={styles.breadcrumbs}>
             {!isLoggedInUser() && (
               <Breadcrumbs

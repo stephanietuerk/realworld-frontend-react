@@ -5,17 +5,20 @@ import { useFollowActions } from '../../api/useFollow';
 import type { Profile } from '../../shared/types/articles.types';
 import AddAddedIcon from '../icons/AddAddedIcon';
 import styles from './FollowButton.module.scss';
+import Button, { type ButtonVariant } from '../button/Button';
 
 interface FollowButtonProps {
   profile: Profile;
   className?: string;
   iconSize?: number;
+  variant?: ButtonVariant;
 }
 
 export default function FollowButton({
   profile,
   className,
   iconSize = 24,
+  variant = 'secondary',
 }: FollowButtonProps) {
   const { hasToken } = useAuth();
   const { followUser, unfollowUser } = useFollowActions();
@@ -42,11 +45,12 @@ export default function FollowButton({
   };
 
   return (
-    <button
+    <Button
       className={clsx(styles.followButton, className)}
       onClick={handleClick}
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
+      onPointerEnter={() => setHovering(true)}
+      onPointerLeave={() => setHovering(false)}
+      variant={variant}
     >
       <AddAddedIcon
         size={iconSize}
@@ -58,6 +62,6 @@ export default function FollowButton({
         {!localFollowing ? 'Follow' : hovering ? 'Unfollow' : 'Following'}{' '}
         {profile.username}
       </span>
-    </button>
+    </Button>
   );
 }

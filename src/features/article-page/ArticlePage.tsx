@@ -77,7 +77,6 @@ export default function ArticlePage() {
               ></FavoriteButton>
             ) : (
               <FavoriteReadout
-                favorited={article.favorited}
                 count={article.favoritesCount}
                 className={styles.favoriteReadout}
                 expandedContext={true}
@@ -93,6 +92,7 @@ export default function ArticlePage() {
                     <FollowButton
                       profile={authorProfile}
                       className={styles.followButton}
+                      variant="tertiary"
                     ></FollowButton>
                   </div>
                 )}

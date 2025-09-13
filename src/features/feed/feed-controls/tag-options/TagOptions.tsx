@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import styles from './TagOptions.module.scss';
+import Button from '../../../../components/button/Button';
 
 export const NONE_TAG = 'everything';
 
@@ -17,13 +18,15 @@ export default function TagOptions({
   return (
     <>
       {sortedTags.map((tag) => (
-        <button
+        <Button
+          key={tag}
+          variant="secondary"
+          pressed={selected.includes(tag)}
           className={clsx(styles.tag, selected.includes(tag) && styles.active)}
           onClick={() => toggleTag(tag)}
-          key={tag}
         >
           {tag}
-        </button>
+        </Button>
       ))}
     </>
   );

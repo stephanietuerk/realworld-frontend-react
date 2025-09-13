@@ -14,7 +14,7 @@ interface AuthorDateProps {
   article: ArticleMetadata | Article;
   showDate?: boolean;
   handleHover?: (
-    e: React.PointerEvent<HTMLButtonElement>,
+    e: React.PointerEvent<HTMLAnchorElement>,
     isEnter: boolean,
   ) => void;
 }
@@ -28,7 +28,7 @@ export default function AuthorDate({
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   const handleHoverLocal: (
-    e: React.PointerEvent<HTMLButtonElement>,
+    e: React.PointerEvent<HTMLAnchorElement>,
     isEnter: boolean,
   ) => void = (e, isEnter) => {
     setIsHovered(isEnter);
@@ -51,7 +51,7 @@ export default function AuthorDate({
         alt={`Avatar of ${article.author.username}`}
       />
       <div className={styles.authorDate}>
-        <button
+        <a
           role="link"
           className={styles.author}
           onPointerEnter={(e) => handleHoverLocal(e, true)}
@@ -63,7 +63,7 @@ export default function AuthorDate({
           }}
         >
           {article.author.username}
-        </button>
+        </a>
         {showDate && (
           <p className={styles.date}>{formatDate(article.updatedAt)}</p>
         )}
