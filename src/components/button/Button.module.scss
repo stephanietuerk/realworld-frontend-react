@@ -7,44 +7,113 @@
   border-radius: grid(1);
   display: inline-flex;
   align-items: center;
-
-  :focus-visible {
-    outline: 2px solid black;
-  }
 }
 
+.btn:focus-visible {
+  outline: 2px solid black;
+}
+
+// LIGHT SURFACE
+// PRIMARY
 .primary {
   @include label-small;
   background: var(--color-primary);
   color: var(--color-surface-accent);
 }
 
+.primary:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--color-primary) 90%, white);
+}
+
+.primary:active:not(:disabled) {
+  background: color-mix(in oklab, var(--color-primary) 90%, black);
+}
+
+.primary:disabled {
+  background: color-mix(in oklab, var(--color-primary) 35%, white);
+}
+
+// SECONDARY
 .secondary {
   @include label-small;
   background: var(--color-surface-accent);
   color: var(--color-primary);
   border-color: currentColor;
-
-  &[aria-pressed='true'] {
-    @include sans-semibold;
-    background: var(--color-primary);
-    color: var(--color-surface-accent);
-  }
 }
 
+.secondary:hover:not(:disabled) {
+  background: var(--color-accent-light);
+}
+
+.secondary[aria-pressed='true']:not(:disabled) {
+  @include sans-semibold;
+  background: var(--color-primary);
+  color: var(--color-surface-accent);
+}
+
+.secondary:disabled {
+  color: color-mix(in oklab, var(--color-primary) 45%, white);
+  border-color: color-mix(in oklab, var(--color-primary) 20%, white);
+}
+
+// TERTIARY
 .tertiary {
   @include label-xs;
   background: none;
   color: var(--color-primary);
-
-  &:hover {
-    background: var(--color-accent-faint);
-    border-color: var(--color-blue-80);
-  }
 }
 
+.teriary:hover:not(:disabled) {
+  background: var(--color-accent-faint);
+}
+
+.tertiary:disabled {
+  color: color-mix(in oklab, var(--color-primary) 45%, white);
+}
+
+// DARK SURFACE
 :global([data-surface='dark']) {
+  // PRIMARY
   .primary {
+    border-color: rgba(
+      var(--color-surface-accent-rgb),
+      var(--opacity-fade-strong)
+    );
+  }
+
+  // SECONDARY
+  .secondary {
+    background: transparent;
+    color: var(--color-surface-accent);
+    border-color: rgba(
+      var(--color-surface-accent-rgb),
+      var(--opacity-fade-light)
+    );
+  }
+
+  .secondary:hover:not(:disabled) {
+    background: var(--color-accent-light);
+    color: var(--color-primary);
+    border-color: var(--color-accent-light);
+  }
+
+  .secondary:active:not(:disabled) {
+    background: color-mix(
+      in oklab,
+      var(--color-accent) 94%,
+      var(--color-primary-dark)
+    );
+  }
+
+  .secondary:disabled {
+    color: rgba(var(--color-surface-accent-rgb), var(--opacity-fade-half));
+    border-color: rgba(
+      var(--color-surface-accent-rgb),
+      var(--opacity-fade-half)
+    );
+  }
+
+  .secondary[aria-pressed='true']:not(:disabled) {
     background: rgba(
       var(--color-surface-accent-rgb),
       var(--opacity-fade-faint)
@@ -52,37 +121,27 @@
     color: var(--color-primary);
   }
 
-  .secondary {
-    background: transparent;
-    color: rgba(var(--color-surface-accent-rgb), var(--opacity-fade-faint));
-    border-color: currentColor;
-
-    &[aria-pressed='true'] {
-      background: rgba(
-        var(--color-surface-accent-rgb),
-        var(--opacity-fade-faint)
-      );
-      color: var(--color-primary);
-    }
-
-    &:hover {
-      background: var(--color-accent-light);
-      color: var(--color-primary);
-      border-color: var(--color-accent-light);
-    }
-  }
-
+  // TERTIARY
   .tertiary {
     background: none;
-    color: rgba(var(--color-surface-accent-rgb), var(--opacity-fade-faint));
+    color: var(--color-surface-accent);
+  }
 
-    &:hover {
-      background: var(--color-accent-faint);
-      border-color: var(--color-blue-80);
-    }
+  .tertiary:hover:not(:disabled) {
+    background: var(--color-accent-faint);
+    color: var(--color-primary);
+  }
+
+  .tertiary:active:not(:disabled) {
+    background: var(--color-accent);
+  }
+
+  .tertiary:disabled {
+    color: rgba(var(--color-surface-accent-rgb), var(--opacity-fade-half));
   }
 }
 
+// SIZES
 .lg {
   padding: grid(3);
 }

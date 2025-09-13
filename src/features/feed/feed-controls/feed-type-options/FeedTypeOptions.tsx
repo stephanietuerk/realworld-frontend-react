@@ -22,7 +22,6 @@ export default function FeedTypeOptions({
               setFeedSelections((prev) => ({ ...prev, feed: option.id }))
             }
             aria-pressed={feedSelections.feed === option.id}
-            key={option.id}
           >
             {option.display}
           </button>
