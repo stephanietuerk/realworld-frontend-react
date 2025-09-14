@@ -17,7 +17,6 @@ export function useApiDelete({
   options = {},
   onSuccess,
 }: ApiDeleteParams): ApiDeleteState {
-  console.log(url);
   const callWithAuth = useApiWithAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
@@ -33,7 +32,6 @@ export function useApiDelete({
   );
 
   useEffect(() => {
-    console.log('apiDelete');
     if (!url) return;
 
     const controller = new AbortController();

@@ -7,7 +7,6 @@ export function useDeleteComment(
   id: number | undefined,
   onSuccess: () => void,
 ): ApiCallState {
-  console.log('useDeleteComments', slug, id);
   const { isLoading, error } = useApiDelete({
     url:
       !!slug && id !== undefined && id !== null

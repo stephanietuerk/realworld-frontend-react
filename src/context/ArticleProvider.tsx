@@ -28,7 +28,6 @@ export function ArticleProvider({ slug, children }: ArticleProviderProps) {
   });
 
   useEffect(() => {
-    console.log('useArticleProvider');
     if (!data) return;
 
     const article = dateifyResponse<RawArticle, Article>(data.article);

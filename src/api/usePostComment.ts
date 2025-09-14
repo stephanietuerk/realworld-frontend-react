@@ -12,7 +12,6 @@ export function usePostComment(
   body: string | undefined,
   onSuccess: () => void,
 ): PostCommentState {
-  console.log('usePostComment')!;
   const { data, isLoading, error } = useApiPost<{ comment: Comment }>({
     url: !!slug ? `${API_ROOT}articles/${slug}/comments` : null,
     options: {
