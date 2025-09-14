@@ -19,8 +19,19 @@ export interface ArticleMetadata {
   author: Profile;
 }
 
+export interface RawArticleMetadata
+  extends Omit<ArticleMetadata, 'createdAt' | 'updatedAt'> {
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Article extends ArticleMetadata {
   body: string;
+}
+
+export interface RawArticle extends Omit<Article, 'createdAt' | 'updatedAt'> {
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type FeedType = 'home' | 'profile';

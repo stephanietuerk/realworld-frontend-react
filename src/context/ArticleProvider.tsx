@@ -8,7 +8,9 @@ import { API_ROOT } from '../shared/constants/api';
 import type {
   Article,
   ArticleContextType,
+  RawArticle,
 } from '../shared/types/articles.types';
+import { dateifyResponse } from '../api/dateify';
 
 interface ArticleProviderProps {
   slug: string;
@@ -19,24 +21,16 @@ export const ArticleContext = createContext<ArticleContextType | undefined>(
   undefined,
 );
 
-function getTypedArticle(article: Article): Article {
-  return {
-    ...article,
-    createdAt: new Date(article.createdAt),
-    updatedAt: new Date(article.updatedAt),
-  };
-}
-
 export function ArticleProvider({ slug, children }: ArticleProviderProps) {
   const [article, setArticle] = useState<Article>({} as Article);
-  const { data, isLoading, refetch } = useApiGet<{ article: Article }>({
+  const { data, isLoading, refetch } = useApiGet<{ article: RawArticle }>({
     url: slug ? `${API_ROOT}articles/${slug}` : null,
   });
 
   useEffect(() => {
     if (!data) return;
 
-    const article = getTypedArticle(data.article);
+    const article = dateifyResponse<RawArticle, Article>(data.article);
     unified()
       .use(remarkParse)
       .use(remarkRehype)

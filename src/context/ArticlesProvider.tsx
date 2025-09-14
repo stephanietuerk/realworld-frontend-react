@@ -15,10 +15,12 @@ import type {
   ArticlesContextType,
   FeedSelections,
   ProfileFeed,
+  RawArticleMetadata,
 } from '../shared/types/articles.types';
+import { dateifyResponse, sortResponsesByDate } from '../api/dateify';
 
 interface ApiArticles {
-  articles: ArticleMetadata[];
+  articles: RawArticleMetadata[];
   articlesCount: number;
 }
 
@@ -39,16 +41,7 @@ export const ArticlesContext = createContext<ArticlesContextType | undefined>(
 );
 
 function getSortedArticles(data: ApiArticles): ArticleMetadata[] {
-  return data.articles
-    .map((article: ArticleMetadata) => {
-      return {
-        ...article,
-        createdAt: new Date(article.createdAt),
-        updatedAt: new Date(article.updatedAt),
-      };
-    })
-    .slice()
-    .sort((a, b) => b.updatedAt.valueOf() - a.updatedAt.valueOf());
+  return sortResponsesByDate(data.articles.map((a) => dateifyResponse(a)));
 }
 
 function getFilteredArticles(

@@ -84,7 +84,7 @@ export default function ArticlePage() {
             )}
             <div>
               <p className={styles.sidebarLabel}>Written by</p>
-              <AuthorDate article={article} showDate={false}></AuthorDate>
+              <AuthorDate author={article.author} showDate={false}></AuthorDate>
               {loggedInUser &&
                 authorProfile &&
                 article?.author?.username !== loggedInUser?.username && (

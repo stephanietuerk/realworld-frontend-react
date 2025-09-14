@@ -6,6 +6,9 @@
   justify-content: center;
   padding: grid(4) var(--page-margin-side);
   border-bottom: 1px solid var(--color-neutral-90);
+  background: var(--color-surface-accent);
+  position: sticky;
+  top: 0;
 }
 
 .widthContainer {

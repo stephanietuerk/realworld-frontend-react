@@ -3,16 +3,22 @@ import type { Comment } from '../../../api/useComments';
 import { useUser } from '../../../api/useUser';
 import styles from './CommentDisplay.module.scss';
 import Button from '../../../components/button/Button';
+import AuthorDate from '../../../components/author-date/AuthorDate';
 
-export function CommentDisplay({ c }: { c: Comment }) {
+export function CommentDisplay({ comment }: { comment: Comment }) {
   return (
     <div className={styles.comment}>
       <div
         className={styles.commentBody}
-        dangerouslySetInnerHTML={{ __html: c.body }}
+        dangerouslySetInnerHTML={{ __html: comment.body }}
       ></div>
       <div className={styles.commentAuthor}>
-        <p>{c.author.username}</p>
+        <AuthorDate
+          showDate={true}
+          author={comment.author}
+          layout="inline"
+          updatedAt={comment.updatedAt}
+        />
       </div>
     </div>
   );

@@ -13,6 +13,10 @@
   outline: 2px solid black;
 }
 
+.btn.animateOnClick:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
 // LIGHT SURFACE
 // PRIMARY
 .primary {
@@ -63,7 +67,7 @@
   color: var(--color-primary);
 }
 
-.teriary:hover:not(:disabled) {
+.tertiary:hover:not(:disabled) {
   background: var(--color-accent-faint);
 }
 
@@ -83,7 +87,7 @@
 
   // SECONDARY
   .secondary {
-    background: transparent;
+    background: rgba(var(--color-surface-accent-rgb), 0.1);
     color: var(--color-surface-accent);
     border-color: rgba(
       var(--color-surface-accent-rgb),
@@ -92,17 +96,9 @@
   }
 
   .secondary:hover:not(:disabled) {
-    background: var(--color-accent-light);
+    background: var(--color-accent);
     color: var(--color-primary);
-    border-color: var(--color-accent-light);
-  }
-
-  .secondary:active:not(:disabled) {
-    background: color-mix(
-      in oklab,
-      var(--color-accent) 94%,
-      var(--color-primary-dark)
-    );
+    border-color: var(--color-accent);
   }
 
   .secondary:disabled {

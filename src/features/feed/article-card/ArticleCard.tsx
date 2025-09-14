@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useState, type Dispatch } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useArticles } from '../../../api/useArticles';
 import { useAuth } from '../../../api/useAuth';
 import AuthorDate from '../../../components/author-date/AuthorDate';
@@ -30,17 +30,15 @@ interface ArticleCardProps {
 
 export default function ArticleCard({ article }: ArticleCardProps) {
   const { hasToken } = useAuth();
-  const { username: profile } = useParams();
   const { refetchArticles: refetch } = useArticles();
   const [favoriteIsHovered, setFavoriteIsHovered] = useState(false);
   const [authorIsHovered, setAuthorIsHovered] = useState(false);
 
   const handleAuthorHover: (
-    e: React.PointerEvent<HTMLAnchorElement>,
+    e: React.PointerEvent<HTMLButtonElement>,
     isEnter: boolean,
   ) => void = (e, isEnter) => {
-    const canSet = profile !== article.author.username;
-    handleNonCardHover(e, setAuthorIsHovered, canSet, isEnter);
+    handleNonCardHover(e, setAuthorIsHovered, true, isEnter);
   };
 
   const handleFavoriteHover: (
@@ -56,12 +54,13 @@ export default function ArticleCard({ article }: ArticleCardProps) {
       className={clsx(
         styles.articleCard,
         (favoriteIsHovered || authorIsHovered) &&
-          styles.articleCardFavoriteHovered,
+          styles.articleCardButtonHovered,
       )}
     >
       <div className={styles.topRow}>
         <AuthorDate
-          article={article}
+          author={article.author}
+          updatedAt={article.updatedAt}
           handleHover={handleAuthorHover}
         ></AuthorDate>
       </div>
@@ -71,6 +70,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
         <Tags article={article} className={styles.tags}></Tags>
         {hasToken ? (
           <FavoriteButton
+            className={styles.favoriteButton}
             favorited={article.favorited}
             count={article.favoritesCount}
             slug={article.slug}

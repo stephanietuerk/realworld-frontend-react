@@ -5,10 +5,11 @@ import { useFollowActions } from '../../api/useFollow';
 import type { Profile } from '../../shared/types/articles.types';
 import AddAddedIcon from '../icons/AddAddedIcon';
 import styles from './FollowButton.module.scss';
-import Button, { type ButtonVariant } from '../button/Button';
+import Button, { type ButtonSize, type ButtonVariant } from '../button/Button';
 
 interface FollowButtonProps {
   profile: Profile;
+  buttonSize?: ButtonSize;
   className?: string;
   iconSize?: number;
   variant?: ButtonVariant;
@@ -16,6 +17,7 @@ interface FollowButtonProps {
 
 export default function FollowButton({
   profile,
+  buttonSize = 'sm',
   className,
   iconSize = 24,
   variant = 'secondary',
@@ -46,6 +48,8 @@ export default function FollowButton({
 
   return (
     <Button
+      animateOnClick={true}
+      size={buttonSize}
       className={clsx(styles.followButton, className)}
       onClick={handleClick}
       onPointerEnter={() => setHovering(true)}

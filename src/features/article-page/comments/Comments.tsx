@@ -18,8 +18,8 @@ export default function Comments({ slug }: CommentsProps) {
       {(!comments || comments.length < 1) && (
         <p className={styles.noComments}>No comments yet</p>
       )}
-      {comments?.map((c) => (
-        <CommentDisplay key={c.id} c={c} />
+      {comments?.map((comment) => (
+        <CommentDisplay key={comment.id} comment={comment} />
       ))}
     </div>
   );

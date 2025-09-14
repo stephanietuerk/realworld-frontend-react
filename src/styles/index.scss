@@ -33,6 +33,7 @@ body {
   font-family: var(--font-sans);
   @include body-xs;
   color: var(--color-blue-10);
+  background: var(--color-surface);
   margin: 0;
   display: flex;
   place-items: center;

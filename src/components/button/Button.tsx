@@ -12,6 +12,7 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
 export type ButtonType = 'button' | 'submit' | 'reset';
 
 interface ButtonProps {
+  animateOnClick?: boolean;
   className?: string;
   disabled?: boolean;
   onClick?: ReactEventHandler<HTMLButtonElement>;
@@ -26,6 +27,7 @@ interface ButtonProps {
 }
 
 export default function Button({
+  animateOnClick = false,
   className,
   disabled,
   variant = 'primary',
@@ -40,7 +42,13 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      className={clsx(styles.btn, styles[variant], styles[size], className)}
+      className={clsx(
+        styles.btn,
+        styles[variant],
+        styles[size],
+        animateOnClick && styles.animateOnClick,
+        className,
+      )}
       disabled={disabled}
       onClick={onClick}
       onPointerEnter={onPointerEnter}

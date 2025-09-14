@@ -6,7 +6,7 @@
   border: 1px solid transparent;
   padding: grid(6) grid(4) grid(6) grid(4);
   border-top: 1px solid var(--color-neutral-90);
-  background: var(--color-surface);
+  background: var(--color-surface-accent);
   transition: all 0.2s ease-in-out;
 
   &:last-of-type {
@@ -32,8 +32,8 @@
   }
 }
 
-.articleCardFavoriteHovered:hover {
-  background: var(--color-surface);
+.articleCardButtonHovered:hover {
+  background: var(--color-surface-accent);
   border-top: 1px solid var(--color-neutral-90);
 
   &:last-of-type {
@@ -55,7 +55,11 @@
   margin-bottom: grid(6);
   align-items: flex-start;
 
-  --author-date-background-hover: var(--color-accent-light);
+  --author-date-hover-background: var(--color-accent-light);
+  --author-date-hover-border-color: rgba(
+    var(--color-primary-rgb),
+    var(--opacity-fade-half)
+  );
 }
 
 .title {
@@ -121,6 +125,11 @@
   &:active {
     transform: scale(0.95);
   }
+}
+
+.favoriteButton:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  background-color: var(--color-accent);
 }
 
 .favoritePathOutline {

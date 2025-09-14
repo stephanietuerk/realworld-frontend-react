@@ -68,7 +68,13 @@ export default function FavoriteButton({
   if (!slug) return null;
   return (
     <Button
-      className={clsx(styles.button, hasToken && styles.clickable, className)}
+      animateOnClick={true}
+      className={clsx(
+        styles.button,
+        hasToken && styles.clickable,
+        !displayText && styles.noText,
+        className,
+      )}
       onClick={handleClick}
       onPointerEnter={(e) => {
         setHovering(true);
