@@ -10,7 +10,9 @@ interface PostCommentState extends ApiCallState {
 export function usePostComment(
   slug: string | undefined,
   body: string | undefined,
+  onSuccess: () => void,
 ): PostCommentState {
+  console.log('usePostComment')!;
   const { data, isLoading, error } = useApiPost<{ comment: Comment }>({
     url: !!slug ? `${API_ROOT}articles/${slug}/comments` : null,
     options: {
@@ -21,6 +23,7 @@ export function usePostComment(
         },
       }),
     },
+    onSuccess,
   });
 
   return { comment: data?.comment ?? null, isLoading, error };

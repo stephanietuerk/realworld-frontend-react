@@ -33,6 +33,7 @@ function transformAndSortComments(
 }
 
 export function useComments(slug: string): ApiCommentsState {
+  console.log('use comments!', slug);
   const { data, isLoading, error, refetch } = useApiGet<{
     comments: RawComment[];
   }>({

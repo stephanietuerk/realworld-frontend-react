@@ -5,7 +5,13 @@ import styles from './CommentDisplay.module.scss';
 import Button from '../../../components/button/Button';
 import AuthorDate from '../../../components/author-date/AuthorDate';
 
-export function CommentDisplay({ comment }: { comment: Comment }) {
+interface CommentDisplayProps {
+  comment: Comment;
+  handleDelete: (comment: Comment) => void;
+}
+
+export function CommentDisplay({ comment, handleDelete }: CommentDisplayProps) {
+  const { user: loggedInUser } = useUser();
   return (
     <div className={styles.comment}>
       <div
@@ -19,6 +25,15 @@ export function CommentDisplay({ comment }: { comment: Comment }) {
           layout="inline"
           updatedAt={comment.updatedAt}
         />
+        {loggedInUser && comment.author.username === loggedInUser.username && (
+          <Button
+            animateOnClick={true}
+            variant="tertiary"
+            onClick={() => handleDelete(comment)}
+          >
+            Delete comment
+          </Button>
+        )}
       </div>
     </div>
   );
@@ -56,6 +71,7 @@ export function LeaveComment({ handlePost }: LeaveCommentProps) {
         ></textarea>
         <div className={styles.commentAuthor}>
           <Button
+            animateOnClick={true}
             className={styles.postButton}
             variant="primary"
             size="md"

@@ -70,9 +70,10 @@ export default function FavoriteButton({
     <Button
       animateOnClick={true}
       className={clsx(
-        styles.button,
+        styles.favoriteButton,
         hasToken && styles.clickable,
         !displayText && styles.noText,
+        localFavorited && displayText && styles.selected,
         className,
       )}
       onClick={handleClick}
@@ -87,7 +88,7 @@ export default function FavoriteButton({
       variant={displayText ? 'secondary' : 'tertiary'}
     >
       {displayText && (
-        <>
+        <div className={styles.iconLabelRow}>
           <AddAddedIcon
             size={plusIconSize}
             variant={!localFavorited ? 'plus' : hovering ? 'minus' : 'check'}
@@ -106,12 +107,12 @@ export default function FavoriteButton({
                 ? BUTTON_TEXT.remove
                 : BUTTON_TEXT.added}
           </span>
-        </>
+        </div>
       )}
       {displayIcon && (
         <div className={styles.countIcon}>
           <FavoriteIcon
-            size={16}
+            size={displayText ? 16 : 20}
             isOutline={!localFavorited}
             pathClassName={styles.favoritePathFill}
           ></FavoriteIcon>

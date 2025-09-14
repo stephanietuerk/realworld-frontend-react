@@ -21,6 +21,7 @@ $border: 1px solid var(--color-neutral-90);
   border-top: $border;
   padding: grid(3) grid(6);
   display: flex;
+  justify-content: space-between;
 }
 
 .textarea {

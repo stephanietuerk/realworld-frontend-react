@@ -42,6 +42,8 @@ export async function callApiWithAuth<T>(
     throw new ApiError('Request failed', response.status, response.statusText);
   }
 
+  if (response.status === 204) return undefined as any;
+
   return response.json();
 }
 

@@ -56,23 +56,45 @@ $sidebar-gap: grid(6);
   gap: $sidebar-gap;
 }
 
+.sidebarCard {
+  width: 100%;
+  padding: grid(4);
+  border-radius: grid(2);
+  background: var(--color-surface-accent);
+  border: 1px solid var(--color-neutral-95);
+}
+
+.sidebarStatic {
+  border-top: 1px solid var(--color-neutral-90);
+  padding-top: grid(5);
+  margin-top: grid(5);
+}
+
 .sidebarLabel {
-  @include label-xs-caps-prominent;
-  margin-bottom: grid(1);
+  @include label-2xs-caps;
+  @include slab;
+  margin-bottom: grid(2);
+}
+
+.sidebarLabel.date {
+  margin-top: grid(5);
 }
 
 .followButton {
   --follow-button-padding: #{grid(1)} #{grid(2)} #{grid(1)} #{grid(1)};
   --follow-button-min-height: 36px;
 
-  margin-left: grid(1) * -1;
-  margin-top: grid(1);
+  /* margin-left: grid(1) * -1; */
+  width: 100%;
+  margin-top: grid(3);
 }
 
 .favoriteButton {
   padding: #{grid(1)} #{grid(2)} #{grid(1)} #{grid(1)};
   min-height: 36px;
-  margin-left: grid(1) * -1;
+  width: 100%;
+  justify-content: space-between;
+  /* margin-left: grid(1) * -1; */
   margin-top: grid(1);
 }
 

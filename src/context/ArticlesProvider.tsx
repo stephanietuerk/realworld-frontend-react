@@ -98,6 +98,7 @@ export function ArticlesProvider({
   );
 
   useEffect(() => {
+    console.log('use Articles provider');
     if (data) {
       const articles = getSortedArticles(data);
       setPendingArticles(articles);

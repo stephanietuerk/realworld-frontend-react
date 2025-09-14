@@ -26,6 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
+    console.log('useAuthProvider');
     const handler = () => setHasToken(localStorageHasToken());
     window.addEventListener('storage', handler);
     return () => window.removeEventListener('storage', handler);

@@ -22,6 +22,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
+    console.log('useUserProvider');
     setUser(data?.user ?? null);
   }, [data]);
 

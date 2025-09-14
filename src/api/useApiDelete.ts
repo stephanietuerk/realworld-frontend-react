@@ -1,25 +1,24 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useApiWithAuth } from './callApiWithAuth';
 
-interface ApiPostParams<T> {
+interface ApiDeleteParams {
   url: string | null;
   options?: Omit<RequestInit, 'method'>;
-  onSuccess?: (data: T | null) => void;
+  onSuccess?: () => void;
 }
 
-export interface ApiPostState<T> {
-  data: T | null;
+export interface ApiDeleteState {
   isLoading: boolean;
   error: unknown;
 }
 
-export function useApiPost<T>({
+export function useApiDelete({
   url,
   options = {},
   onSuccess,
-}: ApiPostParams<T>): ApiPostState<T> {
+}: ApiDeleteParams): ApiDeleteState {
+  console.log(url);
   const callWithAuth = useApiWithAuth();
-  const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<unknown>(null);
 
@@ -29,11 +28,12 @@ export function useApiPost<T>({
   }, [onSuccess]);
 
   const stableOptions = useMemo(
-    () => ({ ...options, method: 'POST' }),
+    () => ({ ...options, method: 'DELETE' }),
     [JSON.stringify(options ?? {})],
   );
 
   useEffect(() => {
+    console.log('apiDelete');
     if (!url) return;
 
     const controller = new AbortController();
@@ -41,14 +41,10 @@ export function useApiPost<T>({
     setIsLoading(true);
     setError(null);
 
-    callWithAuth<T>(url, { ...stableOptions, signal: controller.signal })
-      .then((result) => {
-        setData(result);
-        onSuccessRef.current?.(result);
-      })
+    callWithAuth(url, { ...stableOptions, signal: controller.signal })
+      .then(() => onSuccessRef.current?.())
       .catch((e) => {
         if (e?.name !== 'AbortError') {
-          setData(null);
           setError(e);
         }
       })
@@ -57,5 +53,5 @@ export function useApiPost<T>({
     return () => controller.abort();
   }, [url, stableOptions]);
 
-  return { data, isLoading, error };
+  return { isLoading, error };
 }

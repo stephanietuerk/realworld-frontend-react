@@ -9,6 +9,7 @@ import Button, { type ButtonSize, type ButtonVariant } from '../button/Button';
 
 interface FollowButtonProps {
   profile: Profile;
+  syncWithApi: () => void;
   buttonSize?: ButtonSize;
   className?: string;
   iconSize?: number;
@@ -20,6 +21,7 @@ export default function FollowButton({
   buttonSize = 'sm',
   className,
   iconSize = 24,
+  syncWithApi,
   variant = 'secondary',
 }: FollowButtonProps) {
   const { hasToken } = useAuth();
@@ -39,7 +41,7 @@ export default function FollowButton({
 
       try {
         const action = isUnfollowing ? unfollowUser : followUser;
-        await action(profile.username);
+        await action(profile.username).then(() => syncWithApi());
       } catch (error) {
         setLocalFollowing(isUnfollowing);
       }
@@ -50,7 +52,11 @@ export default function FollowButton({
     <Button
       animateOnClick={true}
       size={buttonSize}
-      className={clsx(styles.followButton, className)}
+      className={clsx(
+        styles.followButton,
+        localFollowing && styles.selected,
+        className,
+      )}
       onClick={handleClick}
       onPointerEnter={() => setHovering(true)}
       onPointerLeave={() => setHovering(false)}

@@ -7,6 +7,7 @@ function getEndpoint(username: string): string {
 }
 
 export function useFollowActions() {
+  console.log('useFollow!');
   const callApiWithAuth = useApiWithAuth();
 
   const followUser = async (username: string) => {

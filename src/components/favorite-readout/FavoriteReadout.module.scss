@@ -21,6 +21,7 @@
 }
 
 .favoriteCount {
+  @include label-small;
   flex-shrink: 0;
   margin-left: grid(1);
 }

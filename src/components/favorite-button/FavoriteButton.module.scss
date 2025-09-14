@@ -1,7 +1,7 @@
 @use 'functions' as *;
 @use 'typography' as *;
 
-.button {
+.favoriteButton {
   display: flex;
   align-items: center;
   min-height: var(
@@ -9,13 +9,22 @@
   ); // don't change height if icon is not there
 }
 
+.favoriteButton.selected:not(:disabled),
+.favoriteButton.selected:hover:not(:disabled) {
+  background: var(--color-blue-95);
+}
+
 .clickable.noText {
   &:hover {
   }
 }
 
+.iconLabelRow {
+  display: flex;
+  align-items: center;
+}
+
 .instructions {
-  @include label-medium;
   margin-left: grid(1);
 }
 
@@ -35,6 +44,7 @@
 }
 
 .favoriteCount {
+  @include label-small;
   margin-left: grid(1);
 }
 
@@ -49,4 +59,5 @@
 .countIcon {
   transform: translateY(1px);
   display: flex;
+  align-items: center;
 }

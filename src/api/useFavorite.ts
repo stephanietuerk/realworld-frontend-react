@@ -7,6 +7,7 @@ function getEndpoint(slug: string): string {
 }
 
 export function useFavoriteActions() {
+  console.log('useFavorite');
   const callApiWithAuth = useApiWithAuth();
 
   const favoriteArticle = async (slug: string) => {

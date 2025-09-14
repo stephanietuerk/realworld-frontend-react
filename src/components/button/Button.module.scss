@@ -46,7 +46,7 @@
 }
 
 .secondary:hover:not(:disabled) {
-  background: var(--color-accent-light);
+  background: var(--color-accent-whisper);
 }
 
 .secondary[aria-pressed='true']:not(:disabled) {
@@ -68,7 +68,8 @@
 }
 
 .tertiary:hover:not(:disabled) {
-  background: var(--color-accent-faint);
+  background: var(--color-accent-whisper);
+  border-color: rgba(var(--color-primary-rgb), var(--opacity-fade-half));
 }
 
 .tertiary:disabled {

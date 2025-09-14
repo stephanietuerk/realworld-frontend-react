@@ -31,9 +31,11 @@ const BREADCRUMBS: (slug: string) => { display: string; route: string }[] = (
 
 export default function ArticlePage() {
   const { slug } = useParams();
-  const { article, refetchArticle: syncApi } = useArticle();
+  const { article, refetchArticle } = useArticle();
   const { user: loggedInUser } = useUser();
-  const { profile: authorProfile } = useProfile(article?.author?.username);
+  const { profile: authorProfile, refetch: refetchProfile } = useProfile(
+    article?.author?.username,
+  );
 
   if (!slug || !article.body) return null;
 
@@ -65,43 +67,47 @@ export default function ArticlePage() {
             </div>
           )}
           <SidebarLayout className={styles.sidebar}>
-            {loggedInUser ? (
-              <FavoriteButton
-                favorited={article.favorited}
-                count={article.favoritesCount}
-                slug={article.slug}
-                className={styles.favoriteButton}
-                displayIcon={true}
-                displayText={true}
-                syncWithApi={syncApi}
-              ></FavoriteButton>
-            ) : (
-              <FavoriteReadout
-                count={article.favoritesCount}
-                className={styles.favoriteReadout}
-                expandedContext={true}
-              ></FavoriteReadout>
-            )}
-            <div>
-              <p className={styles.sidebarLabel}>Written by</p>
-              <AuthorDate author={article.author} showDate={false}></AuthorDate>
+            <div className={styles.sidebarCard}>
+              {loggedInUser ? (
+                <FavoriteButton
+                  favorited={article.favorited}
+                  count={article.favoritesCount}
+                  slug={article.slug}
+                  className={styles.favoriteButton}
+                  displayIcon={true}
+                  displayText={true}
+                  syncWithApi={refetchArticle}
+                ></FavoriteButton>
+              ) : (
+                <FavoriteReadout
+                  count={article.favoritesCount}
+                  className={styles.favoriteReadout}
+                  expandedContext={true}
+                ></FavoriteReadout>
+              )}
               {loggedInUser &&
                 authorProfile &&
                 article?.author?.username !== loggedInUser?.username && (
-                  <div>
-                    <FollowButton
-                      profile={authorProfile}
-                      className={styles.followButton}
-                      variant="tertiary"
-                    ></FollowButton>
-                  </div>
+                  <FollowButton
+                    profile={authorProfile}
+                    className={styles.followButton}
+                    variant="secondary"
+                    syncWithApi={refetchProfile}
+                  ></FollowButton>
                 )}
-            </div>
-            <div>
-              <p className={clsx(styles.sidebarLabel, styles.date)}>
-                {article.updatedAt ? 'Last updated' : 'Published'}
-              </p>
-              <p>{formatDate(article.updatedAt || article.createdAt)}</p>
+              <div className={styles.sidebarStatic}>
+                <p className={styles.sidebarLabel}>Written by</p>
+                <AuthorDate
+                  author={article.author}
+                  showDate={false}
+                ></AuthorDate>
+                <div>
+                  <p className={clsx(styles.sidebarLabel, styles.date)}>
+                    {article.updatedAt ? 'Last updated' : 'Published'}
+                  </p>
+                  <p>{formatDate(article.updatedAt || article.createdAt)}</p>
+                </div>
+              </div>
             </div>
           </SidebarLayout>
         </BodyLayout>

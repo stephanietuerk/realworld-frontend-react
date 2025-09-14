@@ -11,6 +11,11 @@
   }
 }
 
+.followButton.selected:not(:disabled),
+.followButton.selected:hover:not(:disabled) {
+  background: var(--color-blue-95);
+}
+
 .iconPath {
   transition: all 0.2s ease-in-out;
   fill: rgba(var(--color-primary-rgb), var(--opacity-fade-faint));

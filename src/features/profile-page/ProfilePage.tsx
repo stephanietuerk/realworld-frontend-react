@@ -52,7 +52,7 @@ const BREADCRUMBS: (
 
 export default function ProfilePage() {
   const { username } = useParams();
-  const { profile, error } = useProfile(username);
+  const { profile, error, refetch } = useProfile(username);
   const { user: loggedInUser } = useUser();
 
   const isLoggedInUser = (): boolean => {
@@ -100,6 +100,7 @@ export default function ProfilePage() {
                 <FollowButton
                   profile={profile}
                   className={styles.followButton}
+                  syncWithApi={refetch}
                 ></FollowButton>
               )}
             </div>

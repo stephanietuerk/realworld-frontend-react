@@ -31,7 +31,7 @@ export default function FavoriteReadout({
     <div>
       <div className={clsx(styles.container, className)}>
         <FavoriteIcon
-          size={16}
+          size={20}
           isOutline={isOutline}
           svgClassName={styles.favoriteSvg}
           pathClassName={styles.favoritePathFill}
