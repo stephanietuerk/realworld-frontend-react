@@ -1,8 +1,7 @@
 import { API_ROOT } from '../shared/constants/api';
 import type { Profile } from '../shared/types/articles.types';
-import { type ApiCallState } from './callApiWithAuth';
 import { dateifyResponse } from './dateify';
-import { useApiGet } from './useApiGet';
+import { useApiGet, type ApiGetState } from './useApiGet';
 
 export interface Comment {
   id: number;
@@ -17,7 +16,7 @@ interface RawComment extends Omit<Comment, 'createdAt' | 'updatedAt'> {
   updatedAt: string;
 }
 
-interface CommentsState extends ApiCallState {
+interface ApiCommentsState extends Omit<ApiGetState<Comment[]>, 'data'> {
   comments: Comment[] | null;
 }
 
@@ -33,8 +32,10 @@ function transformAndSortComments(
     .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
 }
 
-export function useComments(slug: string): CommentsState {
-  const { data, isLoading, error } = useApiGet<{ comments: RawComment[] }>({
+export function useComments(slug: string): ApiCommentsState {
+  const { data, isLoading, error, refetch } = useApiGet<{
+    comments: RawComment[];
+  }>({
     url: !!slug ? `${API_ROOT}articles/${slug}/comments` : null,
   });
 
@@ -42,5 +43,6 @@ export function useComments(slug: string): CommentsState {
     comments: transformAndSortComments(data?.comments),
     isLoading,
     error,
+    refetch,
   };
 }

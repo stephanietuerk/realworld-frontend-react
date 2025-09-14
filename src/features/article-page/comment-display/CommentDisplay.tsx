@@ -24,7 +24,11 @@ export function CommentDisplay({ comment }: { comment: Comment }) {
   );
 }
 
-export function LeaveComment() {
+interface LeaveCommentProps {
+  handlePost: (body: string) => void;
+}
+
+export function LeaveComment({ handlePost }: LeaveCommentProps) {
   // parent component ensures user is defined
   const { user } = useUser();
   const [body, setBody] = useState('');
@@ -32,6 +36,11 @@ export function LeaveComment() {
   if (!user) {
     return null;
   }
+
+  const localHandlePost = () => {
+    handlePost(body);
+    setBody('');
+  };
 
   return (
     <form className={styles.leaveComment}>
@@ -46,7 +55,12 @@ export function LeaveComment() {
           placeholder="Write a comment..."
         ></textarea>
         <div className={styles.commentAuthor}>
-          <Button className={styles.postButton} variant="primary" size="md">
+          <Button
+            className={styles.postButton}
+            variant="primary"
+            size="md"
+            onClick={localHandlePost}
+          >
             Post comment
           </Button>
         </div>

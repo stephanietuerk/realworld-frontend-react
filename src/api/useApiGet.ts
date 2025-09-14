@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useApiWithAuth } from './callApiWithAuth';
+import { useApiWithAuth, type ApiCallState } from './callApiWithAuth';
 
 interface ApiGetParams {
   url: string | null;
   options?: RequestInit;
 }
 
-interface ApiGetState<T> {
+export interface ApiGetState<T> extends ApiCallState {
   data: T | null;
-  isLoading: boolean;
-  error: unknown;
   refetch: () => void;
 }
 
