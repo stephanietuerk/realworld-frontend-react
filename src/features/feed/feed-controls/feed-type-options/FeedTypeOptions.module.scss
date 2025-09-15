@@ -2,7 +2,8 @@
 @use 'typography' as *;
 
 .label {
-  @include label-xs-caps-prominent;
+  @include label-xs-caps;
+  @include slab-medium;
   margin-bottom: grid(2);
 }
 

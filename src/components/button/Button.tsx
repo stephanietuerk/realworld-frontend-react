@@ -13,6 +13,7 @@ export type ButtonType = 'button' | 'submit' | 'reset';
 
 interface ButtonProps {
   animateOnClick?: boolean;
+  busy?: boolean;
   className?: string;
   disabled?: boolean;
   onClick?: ReactEventHandler<HTMLButtonElement>;
@@ -28,6 +29,7 @@ interface ButtonProps {
 
 export default function Button({
   animateOnClick = false,
+  busy,
   className,
   disabled,
   variant = 'primary',
@@ -54,6 +56,7 @@ export default function Button({
       onPointerEnter={onPointerEnter}
       onPointerLeave={onPointerLeave}
       aria-pressed={pressed}
+      aria-busy={busy}
       ref={ref}
       type={type ?? 'button'}
     >

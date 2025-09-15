@@ -12,10 +12,11 @@
   width: 100%;
 }
 
-.widthContainer {
+.contentContainer {
   display: flex;
   flex-direction: column;
   max-width: var(--page-max-width);
   width: 100%;
   flex-grow: 1;
+  padding: grid(4) 0;
 }

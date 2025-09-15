@@ -3,7 +3,6 @@ import { useProfile } from '../../api/useProfile';
 import { useUser } from '../../api/useUser';
 import Banner from '../../components/banner/Banner';
 import BodyLayout from '../../components/body-layout/BodyLayout';
-import Breadcrumbs from '../../components/breadcrumbs/Breadcrumbs';
 import FollowButton from '../../components/follow-button/FollowButton';
 import Avatar from '../../components/icons/Avatar';
 import MainLayout from '../../components/main-layout/MainLayout';
@@ -73,45 +72,42 @@ export default function ProfilePage() {
 
   return (
     <>
-      <Banner className={styles.bannerComponent}>
-        <div className={styles.banner} data-surface="dark">
-          <div className={styles.breadcrumbs}>
-            {!isLoggedInUser() && (
-              <Breadcrumbs
-                segments={BREADCRUMBS(profile?.username)}
-              ></Breadcrumbs>
+      <Banner
+        outerContainerClassName={styles.bannerOuter}
+        surface='dark'
+        breadcrumbs={
+          !isLoggedInUser() ? BREADCRUMBS(profile?.username) : undefined
+        }
+      >
+        {profile && (
+          <div className={styles.bannerUserProfile}>
+            <div className={styles.bannerUserContainer}>
+              <div className={styles.userNameContainer}>
+                <Avatar
+                  imgClass={styles.avatar}
+                  src={profile.image}
+                  alt={`avatar for ${profile.username}`}
+                  size={40}
+                ></Avatar>
+                <p className={styles.bannerUserName}>{profile.username}</p>
+              </div>
+              <p className={styles.bannerUserBio}>{profile.bio}</p>
+            </div>
+            {profile.username !== loggedInUser?.username && (
+              <FollowButton
+                profile={profile}
+                className={styles.followButton}
+                syncWithApi={refetch}
+              ></FollowButton>
             )}
           </div>
-          {profile && (
-            <div className={styles.bannerUserProfile}>
-              <div className={styles.bannerUserContainer}>
-                <div className={styles.userNameContainer}>
-                  <Avatar
-                    imgClass={styles.avatar}
-                    src={profile.image}
-                    alt={`avatar for ${profile.username}`}
-                    size={40}
-                  ></Avatar>
-                  <p className={styles.bannerUserName}>{profile.username}</p>
-                </div>
-                <p className={styles.bannerUserBio}>{profile.bio}</p>
-              </div>
-              {profile.username !== loggedInUser?.username && (
-                <FollowButton
-                  profile={profile}
-                  className={styles.followButton}
-                  syncWithApi={refetch}
-                ></FollowButton>
-              )}
-            </div>
-          )}
-        </div>
+        )}
       </Banner>
       <MainLayout>
         <ArticlesProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
           <BodyLayout>
             <SidebarLayout>
-              <FeedControls tagsTitle="Show articles about">
+              <FeedControls tagsTitle='Show articles about'>
                 <div>
                   <p className={styles.feedTypeTitle}>
                     {isLoggedInUser() ? 'Show my' : "Show this user's"}

@@ -21,6 +21,14 @@ $color-accent-whisper: color.adjust($color-accent, $lightness: 10%);
   --color-surface-accent: #ffffff;
   --color-surface-accent-rgb: 255, 255, 255;
   --color-warn-light: #fdebeb;
+  --color-success-600: hsl(
+    156 62% 36%
+  ); /* main success (filled icons, badges) */
+  --color-success-700: hsl(156 62% 30%); /* pressed/darker */
+  --color-success-500: hsl(156 62% 42%); /* hover/lighter */
+  --color-success-100: color-mix(in oklab, var(--success-600) 14%, white);
+  --color-success-200: color-mix(in oklab, var(--success-600) 22%, white);
+  --color-on-success: #fff;
   --color-link-primary: var(--color-primary);
   --color-link-hover: var(--color-primary);
   --color-text: var(--color-blue-10);
@@ -28,6 +36,7 @@ $color-accent-whisper: color.adjust($color-accent, $lightness: 10%);
   --color-inert: rgba(var(--color-text-rgb), 0.7);
   --color-inert-light: rgba(var(--color-text-rgb), 0.5);
   --color-modal-background: 10, 31, 74;
+  --color-focus-ring: var(--color-primary);
 
   --color-blue-0: #000c1f;
   --color-blue-10: #041430;

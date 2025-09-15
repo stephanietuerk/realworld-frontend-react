@@ -9,11 +9,6 @@
   ); // don't change height if icon is not there
 }
 
-.favoriteButton.selected:not(:disabled),
-.favoriteButton.selected:hover:not(:disabled) {
-  background: var(--color-blue-95);
-}
-
 .clickable.noText {
   &:hover {
   }

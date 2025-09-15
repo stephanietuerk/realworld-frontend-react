@@ -64,3 +64,13 @@ export interface ArticleContextType {
   isLoading: boolean;
   refetchArticle: () => void;
 }
+
+export interface BaseArticleInput {
+  title: string;
+  description: string;
+  body: string;
+}
+
+export interface ValidArticleInput extends BaseArticleInput {
+  tagList: string[];
+}

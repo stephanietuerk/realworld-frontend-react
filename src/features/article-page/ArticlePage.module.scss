@@ -4,18 +4,18 @@
 
 $sidebar-gap: grid(6);
 
-.bannerComponent {
+.bannerOuter {
   --banner-color-background: var(--color-surface);
   --breadcrumbs-color-text: rgba(var(--color-primary-rgb), 0.7);
   --color-link-primary: rgba(var(--color-primary-rgb), 0.7);
   --color-link-hover: var(--color-primary);
 }
 
-.banner {
+.bannerContent {
   padding: grid(4) 0 grid(2) 0;
-  flex-grow: 1;
+  /* flex-grow: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; */
   justify-content: space-between;
 }
 
@@ -37,6 +37,7 @@ $sidebar-gap: grid(6);
   border-bottom: 6px solid var(--color-accent);
   gap: grid(2);
   justify-content: space-between;
+  margin-bottom: grid(2);
 }
 
 .bannerAuthor {
@@ -62,12 +63,19 @@ $sidebar-gap: grid(6);
   border-radius: grid(2);
   background: var(--color-surface-accent);
   border: 1px solid var(--color-neutral-95);
+  position: sticky;
+  top: 80px;
 }
 
 .sidebarStatic {
   border-top: 1px solid var(--color-neutral-90);
   padding-top: grid(5);
   margin-top: grid(5);
+}
+
+.sidebarArticleTitle {
+  @include slab;
+  margin-bottom: grid(5);
 }
 
 .sidebarLabel {
@@ -104,6 +112,11 @@ $sidebar-gap: grid(6);
   --favorite-button-heart-fill: rgba(var(--color-text-rgb), 0.5);
   --favorite-readout-color: currentColor;
   --favorite-readout-login-color: var(--color-primary);
+}
+
+.favoriteButton.selectedButton:not(:disabled),
+.followButton.selectedButton:not(:disabled) {
+  background: var(--color-blue-95);
 }
 
 .articleBody {

@@ -6,7 +6,6 @@ import { useUser } from '../../api/useUser';
 import AuthorDate from '../../components/author-date/AuthorDate';
 import Banner from '../../components/banner/Banner';
 import BodyLayout from '../../components/body-layout/BodyLayout';
-import Breadcrumbs from '../../components/breadcrumbs/Breadcrumbs';
 import FavoriteButton from '../../components/favorite-button/FavoriteButton';
 import FavoriteReadout from '../../components/favorite-readout/FavoriteReadout';
 import FollowButton from '../../components/follow-button/FollowButton';
@@ -44,16 +43,17 @@ export default function ArticlePage() {
       fallback={<p>Oops, error</p>}
       onError={(error, info) => console.log(error, info)}
     >
-      <Banner className={styles.bannerComponent}>
-        <div className={styles.banner}>
-          <div className={styles.breadcrumbs}>
-            <Breadcrumbs segments={BREADCRUMBS(slug)}></Breadcrumbs>
-          </div>
+      <Banner
+        outerContainerClassName={styles.bannerOuter}
+        contentClassName={styles.bannerContent}
+        breadcrumbs={BREADCRUMBS(slug)}
+      >
+        <div>
           <div className={styles.titleRow}>
             <h1 className={styles.articleTitle}>{article.title}</h1>
           </div>
+          <Tags article={article}></Tags>
         </div>
-        <Tags article={article}></Tags>
       </Banner>
       <MainLayout>
         <BodyLayout>
@@ -77,6 +77,7 @@ export default function ArticlePage() {
                   displayIcon={true}
                   displayText={true}
                   syncWithApi={refetchArticle}
+                  selectedClassName={styles.selectedButton}
                 ></FavoriteButton>
               ) : (
                 <FavoriteReadout
@@ -91,11 +92,13 @@ export default function ArticlePage() {
                   <FollowButton
                     profile={authorProfile}
                     className={styles.followButton}
-                    variant="secondary"
+                    selectedClassName={styles.selectedButton}
+                    variant='secondary'
                     syncWithApi={refetchProfile}
                   ></FollowButton>
                 )}
               <div className={styles.sidebarStatic}>
+                <p className={styles.sidebarArticleTitle}>{article.title}</p>
                 <p className={styles.sidebarLabel}>Written by</p>
                 <AuthorDate
                   author={article.author}

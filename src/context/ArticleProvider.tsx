@@ -30,15 +30,15 @@ export function ArticleProvider({ slug, children }: ArticleProviderProps) {
   useEffect(() => {
     if (!data) return;
 
-    const article = dateifyResponse<RawArticle, Article>(data.article);
+    const typedResponse = dateifyResponse<RawArticle, Article>(data.article);
     unified()
       .use(remarkParse)
       .use(remarkRehype)
       .use(rehypeStringify)
-      .process(article.body)
+      .process(typedResponse.body)
       .then((body) =>
         setArticle({
-          ...article,
+          ...typedResponse,
           body: body.toString(),
         }),
       )

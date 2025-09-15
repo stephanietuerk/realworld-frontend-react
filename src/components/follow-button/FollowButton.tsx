@@ -14,6 +14,7 @@ interface FollowButtonProps {
   className?: string;
   iconSize?: number;
   variant?: ButtonVariant;
+  selectedClassName?: string;
 }
 
 export default function FollowButton({
@@ -23,6 +24,7 @@ export default function FollowButton({
   iconSize = 24,
   syncWithApi,
   variant = 'secondary',
+  selectedClassName,
 }: FollowButtonProps) {
   const { hasToken } = useAuth();
   const { followUser, unfollowUser } = useFollowActions();
@@ -54,7 +56,7 @@ export default function FollowButton({
       size={buttonSize}
       className={clsx(
         styles.followButton,
-        localFollowing && styles.selected,
+        localFollowing && selectedClassName,
         className,
       )}
       onClick={handleClick}

@@ -9,6 +9,7 @@ import HomePage from '../features/home-page/HomePage.tsx';
 import ProfilePage from '../features/profile-page/ProfilePage.tsx';
 import { ROUTE } from '../shared/constants/routing.ts';
 import App from './App.tsx';
+import CreateArticlePage from '../features/create-article-page/CreateArticlePage.tsx';
 
 export default function AppRouter() {
   const location = useLocation();
@@ -24,6 +25,7 @@ export default function AppRouter() {
             <Route element={<ArticleProviderLayout />}>
               <Route path={'/article/:slug'} element={<ArticlePage />} />
             </Route>
+            <Route path={'/editor'} element={<CreateArticlePage />}></Route>
           </Route>
         </Routes>
 

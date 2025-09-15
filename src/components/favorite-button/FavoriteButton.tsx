@@ -18,6 +18,7 @@ interface FavoriteButtonProps {
   displayIcon?: boolean;
   displayText?: boolean;
   plusIconSize?: number;
+  selectedClassName?: string;
 }
 
 const BUTTON_TEXT = {
@@ -37,6 +38,7 @@ export default function FavoriteButton({
   displayText = false,
   displayIcon = true,
   plusIconSize = 24,
+  selectedClassName,
 }: FavoriteButtonProps) {
   const { hasToken } = useAuth();
   const { favoriteArticle, unfavoriteArticle } = useFavoriteActions();
@@ -73,7 +75,7 @@ export default function FavoriteButton({
         styles.favoriteButton,
         hasToken && styles.clickable,
         !displayText && styles.noText,
-        localFavorited && displayText && styles.selected,
+        localFavorited && selectedClassName,
         className,
       )}
       onClick={handleClick}
