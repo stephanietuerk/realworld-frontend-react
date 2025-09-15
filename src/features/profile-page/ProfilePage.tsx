@@ -3,7 +3,6 @@ import { useProfile } from '../../api/useProfile';
 import { useUser } from '../../api/useUser';
 import Banner from '../../components/banner/Banner';
 import BodyLayout from '../../components/body-layout/BodyLayout';
-import Breadcrumbs from '../../components/breadcrumbs/Breadcrumbs';
 import FollowButton from '../../components/follow-button/FollowButton';
 import Avatar from '../../components/icons/Avatar';
 import MainLayout from '../../components/main-layout/MainLayout';
@@ -41,7 +40,7 @@ const FEED_CONTROLS_DEFAULTS: FeedSelections = {
 };
 
 const BREADCRUMBS: (
-  username: string,
+  username?: string,
 ) => { display: string; route: string }[] = (username) => [
   { display: 'Home', route: ROUTE.home },
   {
@@ -52,16 +51,16 @@ const BREADCRUMBS: (
 
 export default function ProfilePage() {
   const { username } = useParams();
-  const { profile, isLoading, error } = useProfile(username);
+  const { profile, error, refetch } = useProfile(username);
   const { user: loggedInUser } = useUser();
 
   const isLoggedInUser = (): boolean => {
     return username === loggedInUser?.username;
   };
 
-  if (isLoading) {
-    return <div>Loading profile…</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading profile…</div>;
+  // }
 
   if (error) {
     return <div>Could not load profile.</div>;
@@ -73,15 +72,14 @@ export default function ProfilePage() {
 
   return (
     <>
-      <Banner className={styles.bannerComponent}>
-        <div className={styles.banner}>
-          <div className={styles.breadcrumbs}>
-            {!isLoggedInUser() && (
-              <Breadcrumbs
-                segments={BREADCRUMBS(profile.username)}
-              ></Breadcrumbs>
-            )}
-          </div>
+      <Banner
+        outerContainerClassName={styles.bannerOuter}
+        surface='dark'
+        breadcrumbs={
+          !isLoggedInUser() ? BREADCRUMBS(profile?.username) : undefined
+        }
+      >
+        {profile && (
           <div className={styles.bannerUserProfile}>
             <div className={styles.bannerUserContainer}>
               <div className={styles.userNameContainer}>
@@ -99,16 +97,17 @@ export default function ProfilePage() {
               <FollowButton
                 profile={profile}
                 className={styles.followButton}
+                syncWithApi={refetch}
               ></FollowButton>
             )}
           </div>
-        </div>
+        )}
       </Banner>
       <MainLayout>
         <ArticlesProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
           <BodyLayout>
             <SidebarLayout>
-              <FeedControls tagsTitle="Show articles about">
+              <FeedControls tagsTitle='Show articles about'>
                 <div>
                   <p className={styles.feedTypeTitle}>
                     {isLoggedInUser() ? 'Show my' : "Show this user's"}

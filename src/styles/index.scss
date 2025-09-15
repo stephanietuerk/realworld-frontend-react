@@ -27,12 +27,14 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  scrollbar-gutter: stable;
 }
 
 body {
   font-family: var(--font-sans);
   @include body-xs;
   color: var(--color-blue-10);
+  background: var(--color-surface);
   margin: 0;
   display: flex;
   place-items: center;
@@ -85,4 +87,39 @@ button {
 
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+:where(
+  a[href],
+  button,
+  [role='button'],
+  input:not([type='hidden']),
+  select,
+  textarea
+):focus {
+  outline: none;
+  box-shadow: none;
+}
+
+:where(
+  a[href],
+  button,
+  [role='button'],
+  input:not([type='hidden']),
+  select,
+  textarea
+):focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+:where(
+    a[href],
+    button,
+    [role='button'],
+    input:not([type='hidden']),
+    select,
+    textarea
+  ):focus:not(:focus-visible) {
+  outline: none;
 }

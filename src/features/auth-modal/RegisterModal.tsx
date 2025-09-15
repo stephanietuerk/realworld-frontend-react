@@ -23,7 +23,6 @@ export default function RegisterModal() {
     const password = formData.get('password') as string;
     try {
       const response = await register(username, email, password);
-      console.log('user', response);
       setToken(response.user.token);
       closeModal();
     } catch (err) {

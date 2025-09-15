@@ -16,9 +16,19 @@ $color-accent-whisper: color.adjust($color-accent, $lightness: 10%);
   --color-accent-light: #{$color-accent-light};
   --color-accent-faint: #{$color-accent-faint};
   --color-accent-whisper: #{$color-accent-whisper};
-  --color-surface: #ffffff;
-  --color-surface-rgb: 255, 255, 255;
+  --color-surface: #f8f9fa;
+  --color-surface-rgb: 248, 249, 250;
+  --color-surface-accent: #ffffff;
+  --color-surface-accent-rgb: 255, 255, 255;
   --color-warn-light: #fdebeb;
+  --color-success-600: hsl(
+    156 62% 36%
+  ); /* main success (filled icons, badges) */
+  --color-success-700: hsl(156 62% 30%); /* pressed/darker */
+  --color-success-500: hsl(156 62% 42%); /* hover/lighter */
+  --color-success-100: color-mix(in oklab, var(--success-600) 14%, white);
+  --color-success-200: color-mix(in oklab, var(--success-600) 22%, white);
+  --color-on-success: #fff;
   --color-link-primary: var(--color-primary);
   --color-link-hover: var(--color-primary);
   --color-text: var(--color-blue-10);
@@ -26,6 +36,7 @@ $color-accent-whisper: color.adjust($color-accent, $lightness: 10%);
   --color-inert: rgba(var(--color-text-rgb), 0.7);
   --color-inert-light: rgba(var(--color-text-rgb), 0.5);
   --color-modal-background: 10, 31, 74;
+  --color-focus-ring: var(--color-primary);
 
   --color-blue-0: #000c1f;
   --color-blue-10: #041430;
@@ -33,32 +44,13 @@ $color-accent-whisper: color.adjust($color-accent, $lightness: 10%);
   --color-blue-30: #132a65;
   --color-blue-40: #253785;
   --color-blue-50: #3a46a5;
-  --color-blue-60: #5e6ad2; /* brand */
+  --color-blue-60: #5e6ad2;
   --color-blue-70: #7d8ae3;
   --color-blue-80: #a8b0f0;
   --color-blue-90: #d6dcf9;
   --color-blue-95: #eef0fd;
   --color-blue-98: #f9faff;
   --color-blue-100: #ffffff;
-
-  --color-neutral-warm-0: #000000;
-  --color-neutral-warm-5: #111111;
-  --color-neutral-warm-10: #1c1b1b;
-  --color-neutral-warm-15: #262625;
-  --color-neutral-warm-20: #313030;
-  --color-neutral-warm-25: #3c3b3b;
-  --color-neutral-warm-30: #484646;
-  --color-neutral-warm-35: #535252;
-  --color-neutral-warm-40: #605e5d;
-  --color-neutral-warm-50: #797776;
-  --color-neutral-warm-60: #92908f;
-  --color-neutral-warm-70: #adabaa;
-  --color-neutral-warm-80: #c9c6c5;
-  --color-neutral-warm-90: #e5e2e1;
-  --color-neutral-warm-95: #f4f0ef;
-  --color-neutral-warm-98: #fcf8f7;
-  --color-neutral-warm-99: #f6fff0;
-  --color-neutral-warm-100: #ffffff;
 
   --color-neutral-0: #000000;
   --color-neutral-5: #101113;
@@ -91,4 +83,10 @@ $color-accent-whisper: color.adjust($color-accent, $lightness: 10%);
   --black-a10: #000c;
   --black-a11: #000000e6;
   --black-a12: #000000f2;
+
+  --opacity-fade-whisper: 0.9;
+  --opacity-fade-faint: 0.8;
+  --opacity-fade-light: 0.7;
+  --opacity-fade-half: 0.5;
+  --opacity-fade-strong: 0.4;
 }

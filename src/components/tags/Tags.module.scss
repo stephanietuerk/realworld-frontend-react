@@ -14,5 +14,6 @@
   color: var(--tags-color-text, var(--color-inert));
   padding: grid(1) grid(2);
   margin: grid(1) grid(1) 0 0;
-  background: var(--tags-background, var(--color-surface));
+  display: flex;
+  align-items: center;
 }

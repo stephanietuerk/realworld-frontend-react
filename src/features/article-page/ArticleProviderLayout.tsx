@@ -6,7 +6,6 @@ export default function ArticleProviderLayout() {
 
   if (!slug) return null;
 
-  console.log('slug', slug);
   return (
     <ArticleProvider slug={slug}>
       <Outlet />

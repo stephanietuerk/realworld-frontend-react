@@ -1,10 +1,11 @@
 import clsx from 'clsx';
-import { useState, type MouseEventHandler } from 'react';
+import { useState, type PointerEventHandler } from 'react';
 import { useAuth } from '../../api/useAuth';
 import { useFavoriteActions } from '../../api/useFavorite';
 import AddAddedIcon from '../icons/AddAddedIcon';
 import FavoriteIcon from '../icons/FavoriteIcon';
 import styles from './FavoriteButton.module.scss';
+import Button from '../button/Button';
 
 interface FavoriteButtonProps {
   count: number;
@@ -17,7 +18,14 @@ interface FavoriteButtonProps {
   displayIcon?: boolean;
   displayText?: boolean;
   plusIconSize?: number;
+  selectedClassName?: string;
 }
+
+const BUTTON_TEXT = {
+  add: 'Favorite article',
+  added: 'Favorited',
+  remove: 'Remove favorite',
+};
 
 export default function FavoriteButton({
   className,
@@ -30,6 +38,7 @@ export default function FavoriteButton({
   displayText = false,
   displayIcon = true,
   plusIconSize = 24,
+  selectedClassName,
 }: FavoriteButtonProps) {
   const { hasToken } = useAuth();
   const { favoriteArticle, unfavoriteArticle } = useFavoriteActions();
@@ -37,28 +46,39 @@ export default function FavoriteButton({
   const [localCount, setLocalCount] = useState<number>(count);
   const [hovering, setHovering] = useState<boolean>(false);
 
-  const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
+  const handleClick: PointerEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
+
+    if (!hasToken) {
+      return;
+    }
+
     const isRemovingFavorite = localFavorited;
 
     setLocalFavorited(!localFavorited);
     setLocalCount((c) => c + (isRemovingFavorite ? -1 : 1));
 
-    if (hasToken) {
-      try {
-        const action = isRemovingFavorite ? unfavoriteArticle : favoriteArticle;
-        await action(slug).then(() => syncWithApi());
-      } catch (error) {
-        setLocalFavorited(isRemovingFavorite);
-        setLocalCount((c) => c + (isRemovingFavorite ? 1 : -1));
-      }
+    try {
+      const action = isRemovingFavorite ? unfavoriteArticle : favoriteArticle;
+      await action(slug).then(() => syncWithApi());
+    } catch (error) {
+      setLocalFavorited(isRemovingFavorite);
+      setLocalCount((c) => c + (isRemovingFavorite ? 1 : -1));
     }
   };
 
   if (!slug) return null;
   return (
-    <button
-      className={clsx(styles.button, hasToken && styles.clickable, className)}
+    <Button
+      animateOnClick={true}
+      className={clsx(
+        styles.favoriteButton,
+        hasToken && styles.clickable,
+        !displayText && styles.noText,
+        localFavorited && selectedClassName,
+        className,
+      )}
+      onClick={handleClick}
       onPointerEnter={(e) => {
         setHovering(true);
         handlePointerEnter?.(e);
@@ -67,10 +87,10 @@ export default function FavoriteButton({
         setHovering(false);
         handlePointerLeave?.(e);
       }}
-      onClick={handleClick}
+      variant={displayText ? 'secondary' : 'tertiary'}
     >
       {displayText && (
-        <>
+        <div className={styles.iconLabelRow}>
           <AddAddedIcon
             size={plusIconSize}
             variant={!localFavorited ? 'plus' : hovering ? 'minus' : 'check'}
@@ -84,23 +104,23 @@ export default function FavoriteButton({
             )}
           >
             {!localFavorited
-              ? 'Add article as favorite'
+              ? BUTTON_TEXT.add
               : hovering
-                ? 'Remove from favorites'
-                : 'Saved as favorite'}
+                ? BUTTON_TEXT.remove
+                : BUTTON_TEXT.added}
           </span>
-        </>
+        </div>
       )}
       {displayIcon && (
-        <>
+        <div className={styles.countIcon}>
           <FavoriteIcon
-            size={16}
+            size={displayText ? 16 : 20}
             isOutline={!localFavorited}
             pathClassName={styles.favoritePathFill}
           ></FavoriteIcon>
           <span className={styles.favoriteCount}>{localCount}</span>
-        </>
+        </div>
       )}
-    </button>
+    </Button>
   );
 }

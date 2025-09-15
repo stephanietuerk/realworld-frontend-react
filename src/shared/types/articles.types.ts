@@ -1,5 +1,12 @@
 import type { Dispatch, SetStateAction } from 'react';
 
+export interface Profile {
+  username: string;
+  bio: string;
+  image: string;
+  following: boolean;
+}
+
 export interface ArticleMetadata {
   slug: string;
   title: string;
@@ -9,16 +16,22 @@ export interface ArticleMetadata {
   updatedAt: Date;
   favorited: boolean;
   favoritesCount: number;
-  author: {
-    username: string;
-    bio: string;
-    image: string;
-    following: boolean;
-  };
+  author: Profile;
+}
+
+export interface RawArticleMetadata
+  extends Omit<ArticleMetadata, 'createdAt' | 'updatedAt'> {
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Article extends ArticleMetadata {
   body: string;
+}
+
+export interface RawArticle extends Omit<Article, 'createdAt' | 'updatedAt'> {
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type FeedType = 'home' | 'profile';
@@ -42,12 +55,22 @@ export interface ArticlesContextType {
   filteredArticles: ArticleMetadata[];
   isLoading: boolean;
   showLoading: boolean;
-  syncApi: () => void;
+  refetchArticles: () => void;
   setFeedSelections: Dispatch<SetStateAction<FeedSelections>>;
 }
 
 export interface ArticleContextType {
   article: Article;
   isLoading: boolean;
-  syncApi: () => void;
+  refetchArticle: () => void;
+}
+
+export interface BaseArticleInput {
+  title: string;
+  description: string;
+  body: string;
+}
+
+export interface ValidArticleInput extends BaseArticleInput {
+  tagList: string[];
 }

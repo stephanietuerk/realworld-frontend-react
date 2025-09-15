@@ -1,16 +1,33 @@
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
 import styles from './Banner.module.scss';
+import Breadcrumbs from '../breadcrumbs/Breadcrumbs';
 
 interface BannerProps {
-  className?: string;
+  breadcrumbs?: { display: string; route: string }[];
+  outerContainerClassName?: string;
+  contentClassName?: string;
+  surface?: 'light' | 'dark';
   children: ReactNode;
 }
 
-export default function Banner({ className, children }: BannerProps) {
+export default function Banner({
+  breadcrumbs,
+  outerContainerClassName: className,
+  contentClassName,
+  surface = 'light',
+  children,
+}: BannerProps) {
   return (
-    <div className={clsx(styles.banner, className)}>
-      <div className={styles.widthContainer}>{children}</div>
+    <div className={clsx(styles.banner, className)} data-surface={surface}>
+      <div className={clsx(styles.contentContainer, contentClassName)}>
+        {breadcrumbs && (
+          <div className={styles.breadcrumbs}>
+            <Breadcrumbs segments={breadcrumbs}></Breadcrumbs>
+          </div>
+        )}
+        {children}
+      </div>
     </div>
   );
 }

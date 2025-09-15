@@ -1,17 +1,18 @@
 import clsx from 'clsx';
 import { useState, type Dispatch } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useArticles } from '../../../api/useArticles';
 import { useAuth } from '../../../api/useAuth';
 import AuthorDate from '../../../components/author-date/AuthorDate';
 import FavoriteButton from '../../../components/favorite-button/FavoriteButton';
+import FavoriteReadout from '../../../components/favorite-readout/FavoriteReadout';
 import Tags from '../../../components/tags/Tags';
 import { ROUTE } from '../../../shared/constants/routing';
 import type { ArticleMetadata } from '../../../shared/types/articles.types';
 import styles from './ArticleCard.module.scss';
 
 function handleNonCardHover(
-  e: React.PointerEvent<HTMLButtonElement>,
+  e: React.PointerEvent<HTMLAnchorElement | HTMLButtonElement>,
   setFx: Dispatch<React.SetStateAction<boolean>>,
   canSet: boolean,
   value: boolean,
@@ -29,8 +30,7 @@ interface ArticleCardProps {
 
 export default function ArticleCard({ article }: ArticleCardProps) {
   const { hasToken } = useAuth();
-  const { username: profile } = useParams();
-  const { syncApi: refreshArticles } = useArticles();
+  const { refetchArticles: refetch } = useArticles();
   const [favoriteIsHovered, setFavoriteIsHovered] = useState(false);
   const [authorIsHovered, setAuthorIsHovered] = useState(false);
 
@@ -38,8 +38,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
     e: React.PointerEvent<HTMLButtonElement>,
     isEnter: boolean,
   ) => void = (e, isEnter) => {
-    const canSet = profile !== article.author.username;
-    handleNonCardHover(e, setAuthorIsHovered, canSet, isEnter);
+    handleNonCardHover(e, setAuthorIsHovered, true, isEnter);
   };
 
   const handleFavoriteHover: (
@@ -55,12 +54,13 @@ export default function ArticleCard({ article }: ArticleCardProps) {
       className={clsx(
         styles.articleCard,
         (favoriteIsHovered || authorIsHovered) &&
-          styles.articleCardFavoriteHovered,
+          styles.articleCardButtonHovered,
       )}
     >
       <div className={styles.topRow}>
         <AuthorDate
-          article={article}
+          author={article.author}
+          updatedAt={article.updatedAt}
           handleHover={handleAuthorHover}
         ></AuthorDate>
       </div>
@@ -68,14 +68,19 @@ export default function ArticleCard({ article }: ArticleCardProps) {
       <p className={styles.description}>{article.description}</p>
       <div className={styles.bottomRow}>
         <Tags article={article} className={styles.tags}></Tags>
-        <FavoriteButton
-          favorited={article.favorited}
-          count={article.favoritesCount}
-          slug={article.slug}
-          handlePointerEnter={(e) => handleFavoriteHover(e, true)}
-          handlePointerLeave={(e) => handleFavoriteHover(e, false)}
-          syncWithApi={refreshArticles}
-        ></FavoriteButton>
+        {hasToken ? (
+          <FavoriteButton
+            className={styles.favoriteButton}
+            favorited={article.favorited}
+            count={article.favoritesCount}
+            slug={article.slug}
+            handlePointerEnter={(e) => handleFavoriteHover(e, true)}
+            handlePointerLeave={(e) => handleFavoriteHover(e, false)}
+            syncWithApi={refetch}
+          ></FavoriteButton>
+        ) : (
+          <FavoriteReadout count={article.favoritesCount}></FavoriteReadout>
+        )}
       </div>
     </Link>
   );

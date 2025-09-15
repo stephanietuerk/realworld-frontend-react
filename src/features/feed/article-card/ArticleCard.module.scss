@@ -3,46 +3,50 @@
 
 .articleCard {
   display: block;
-  border: 1px solid transparent;
+  border: 1px solid var(--color-neutral-90);
   padding: grid(6) grid(4) grid(6) grid(4);
-  border-top: 1px solid var(--color-neutral-90);
-  background: var(--color-surface);
+  margin-bottom: grid(2);
+  border-radius: grid(2);
+  /* border-top: 1px solid var(--color-neutral-90); */
+  background: var(--color-surface-accent);
   transition: all 0.2s ease-in-out;
 
   &:last-of-type {
-    border-bottom: 1px solid var(--color-neutral-90);
+    margin-bottom: 0;
+    /* border-bottom: 1px solid var(--color-neutral-90); */
   }
 }
 
 .articleCard:hover {
   cursor: pointer;
   background: var(--color-accent-whisper);
-  border-top: 1px solid var(--color-primary);
+  border: 1px solid rgba(var(--color-primary-rgb), var(--opacity-fade-half));
+  /* border-top: 1px solid var(--color-primary); */
 
-  &:last-of-type {
+  /* &:last-of-type {
     border-bottom: 1px solid var(--color-primary);
   }
 
   & + .articleCard {
     border-top: 1px solid var(--color-primary);
-  }
+  } */
 
   .title::after {
     transform: translate3d(0, 0, 0);
   }
 }
 
-.articleCardFavoriteHovered:hover {
-  background: var(--color-surface);
-  border-top: 1px solid var(--color-neutral-90);
+.articleCardButtonHovered:hover {
+  background: var(--color-surface-accent);
+  border: 1px solid var(--color-neutral-90);
 
-  &:last-of-type {
+  /* &:last-of-type {
     border-bottom: 1px solid var(--color-neutral-90);
   }
 
   & + .articleCard {
     border-top: 1px solid var(--color-neutral-90);
-  }
+  } */
 
   .title::after {
     transform: translate3d(-100%, 0, 0);
@@ -55,7 +59,11 @@
   margin-bottom: grid(6);
   align-items: flex-start;
 
-  --author-date-background-hover: var(--color-accent-light);
+  --author-date-hover-background: var(--color-accent-faint);
+  --author-date-hover-border-color: rgba(
+    var(--color-primary-rgb),
+    var(--opacity-fade-half)
+  );
 }
 
 .title {
@@ -121,6 +129,10 @@
   &:active {
     transform: scale(0.95);
   }
+}
+
+.favoriteButton:hover:not(:disabled) {
+  background-color: var(--color-accent-faint);
 }
 
 .favoritePathOutline {

@@ -3,30 +3,47 @@
 
 .authorInfo {
   display: flex;
-
   border-radius: grid(2);
+  transition: all 200ms ease-in-out;
 }
 
-.hasHover {
+.authorInfo.inline {
+  align-items: center;
+}
+
+.hasBackgroundOnHover {
   margin-left: grid(-2);
   margin-top: grid(-2);
   padding: grid(2);
+  border: 1px solid transparent;
 }
 
-.authorInfoHovered {
-  background: var(--author-date-background-hover, none);
+.isHovered {
+  background: var(--author-date-hover-background, none);
+  border-color: var(--author-date-hover-border-color, none);
 
   .author {
     text-decoration: underline;
+  }
+
+  .date {
+    color: var(--author-date-hover-color-date, var(--color-neutral-50));
   }
 }
 
 .authorDate {
   display: flex;
+  margin-left: grid(2);
+}
+
+.authorDate.stacked {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-left: grid(2);
+}
+
+.authorDate.inline {
+  align-items: center;
 }
 
 .author {
@@ -34,7 +51,14 @@
   @include label-small;
   display: block;
   color: var(--author-date-color-name, var(--color-primary));
+}
+
+.author.stacked {
   margin-bottom: grid(1);
+}
+
+.author.inline {
+  margin-right: grid(1);
 }
 
 .authorInert {
@@ -44,4 +68,15 @@
 .date {
   @include label-2xs;
   color: var(--author-date-color-date, var(--color-neutral-60));
+}
+
+.divider {
+  color: var(--author-date-color-date, var(--color-neutral-60));
+}
+
+.date.inline {
+  margin-left: grid(1);
+  position: relative;
+  top: 1px;
+  color: var(--author-date-color-date, var(--color-neutral-50));
 }

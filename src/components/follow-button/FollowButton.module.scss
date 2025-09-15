@@ -3,27 +3,35 @@
 
 .followButton {
   @include label-small;
-  transition: all 0.2s ease-in-out;
-  padding: var(--follow-button-padding);
-  background: var(--follow-button-background);
-  color: var(--follow-button-color);
-  border: 1px solid var(--follow-button-border-color);
-  border-radius: grid(1);
-  align-self: flex-end;
-  display: flex;
-  align-items: center;
-  min-height: var(
-    --follow-button-min-height
-  ); // don't change height if icon is not there
 
   &:hover {
-    background: var(--follow-button-hover-background);
-    border-color: var(--follow-button-hover-border-color);
-    color: var(--follow-button-hover-color);
-
     .iconPath {
-      fill: var(--follow-button-hover-icon-color);
+      fill: var(--color-primary);
     }
+  }
+}
+
+.followButton.selected:not(:disabled),
+.followButton.selected:hover:not(:disabled) {
+  background: var(--color-blue-95);
+}
+
+.iconPath {
+  transition: all 0.2s ease-in-out;
+  fill: rgba(var(--color-primary-rgb), var(--opacity-fade-faint));
+}
+
+:global([data-surface='dark']) {
+  .followButton {
+    &:hover {
+      .iconPath {
+        fill: var(--color-primary);
+      }
+    }
+  }
+
+  .iconPath {
+    fill: rgba(var(--color-surface-accent-rgb), var(--opacity-fade-light));
   }
 }
 
@@ -33,9 +41,4 @@
 
 .iconSvg {
   transform: translateY(-1px);
-}
-
-.iconPath {
-  transition: all 0.2s ease-in-out;
-  fill: var(--follow-button-icon-color);
 }

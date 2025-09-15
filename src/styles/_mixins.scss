@@ -19,36 +19,36 @@
   }
 
   h2 {
-    @include headline-small;
-    @include sans;
+    @include title-large;
+    @include sans-semibold;
     margin-top: grid(6);
   }
 
   h3 {
-    @include title-large;
-    @include sans;
+    @include title-medium;
+    @include sans-semibold;
   }
 
   h4 {
-    @include title-medium;
-    @include sans;
+    @include title-small;
+    @include sans-semibold;
   }
 
   h5 {
-    @include title-small;
-    @include sans;
+    @include body-large;
+    @include sans-semibold;
   }
 
   h6 {
-    @include body-large;
-    @include sans;
+    @include body-medium;
+    @include sans-semibold;
   }
 
   // Paragraphs & lists
   p {
     @include body-small;
     margin: grid(4) 0;
-    line-height: 1.6rem;
+    line-height: 1.6;
   }
 
   ul,
@@ -58,7 +58,7 @@
   }
   li + li {
     margin-top: grid(1);
-    line-height: 1.6rem;
+    line-height: 1.6;
   }
 
   // Links

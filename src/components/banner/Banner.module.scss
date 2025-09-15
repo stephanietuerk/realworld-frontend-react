@@ -7,15 +7,16 @@
   align-items: center;
   padding: 0 var(--page-margin-side);
   color: var(--banner-color-text);
-  background: var(--banner-color-background, white);
+  background: var(--banner-color-background, var(--color-surface));
   min-height: 180px;
   width: 100%;
 }
 
-.widthContainer {
+.contentContainer {
   display: flex;
   flex-direction: column;
   max-width: var(--page-max-width);
   width: 100%;
   flex-grow: 1;
+  padding: grid(4) 0;
 }

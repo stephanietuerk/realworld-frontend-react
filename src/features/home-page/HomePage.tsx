@@ -40,16 +40,17 @@ export default function HomePage() {
 
   return (
     <MainLayout>
-      <Banner className={styles.bannerComponent}>
-        <div className={styles.banner}>
-          <p className={styles.name}>{APP_NAME}</p>
-          <p className={styles.description}>A place to share your knowledge</p>
-        </div>
+      <Banner
+        outerContainerClassName={styles.bannerOuter}
+        contentClassName={styles.bannerContent}
+      >
+        <p className={styles.name}>{APP_NAME}</p>
+        <p className={styles.description}>A place to share your knowledge</p>
       </Banner>
       <ArticlesProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
         <BodyLayout>
           <SidebarLayout>
-            <FeedControls tagsTitle="Show articles about">
+            <FeedControls tagsTitle='Show articles about'>
               {hasToken && (
                 <div>
                   <p className={styles.feedTypeTitle}>Show articles from</p>

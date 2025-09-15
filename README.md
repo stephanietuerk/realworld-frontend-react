@@ -1,6 +1,6 @@
 # Building the Real World app in React, from scratch
 
-After 6+ years of working professionally in Angular, I'm learning React by rebuilding the [Real World](https://github.com/gothinkster/realworld) demo app. I'm building from scratch (not cloning the starter repo, Copilot turned off) to maximize learning :).
+After 6+ years of working professionally in Angular, I'm working on some React skills by rebuilding the [Real World](https://github.com/gothinkster/realworld) demo app. I'm building from scratch (not cloning the starter repo, Copilot turned off) to maximize learning :).
 
 Current status of app: In progress.
 
@@ -9,7 +9,7 @@ Current status of app: In progress.
 My approach is to try to keep libraries rather low-level, to focus on learning fundamentals. At the same time, I'm not using this project to work on skills outside of React (for example, building accessible UI components), so I'm happy to use libraries for those types of functionalities.
 
 - Vite + Typescript - scaffolded from the [Vite React + TypeScript template](https://vite.dev/guide/#scaffolding-your-first-vite-project).
-- React Router in declarative mode to facilitate overlay modals with their own routes. In a different situation I'd use TanStack Query for a million reasons but I'm trying to engage with React fundamentals here and not using TanStack Query highlights all of the reasons it's super helpful in a way that is useful when learning.
+- React Router in declarative mode to facilitate overlay modals with their own routes. In a different situation I'd use TanStack Query for a million reasons but I'm trying to engage with React fundamentals here and not using TanStack Query highlights all of the reasons it's super helpful -- part of learning is learning something's limitations.
 - CSS Modules and Sass for styling. (I actually like writing CSS).
 
 ## UX/Design Modifications

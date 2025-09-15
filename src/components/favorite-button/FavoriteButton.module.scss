@@ -1,40 +1,25 @@
 @use 'functions' as *;
 @use 'typography' as *;
 
-.button {
+.favoriteButton {
   display: flex;
   align-items: center;
-  transition: all 0.2s ease-in-out;
-  padding: var(--favorite-button-padding, #{grid(2)});
-  background: var(--favorite-button-background);
-  color: var(--favorite-button-color, var(--color-primary));
-  border: 1px solid var(--favorite-button-border-color);
-  border-radius: grid(1);
   min-height: var(
     --favorite-button-min-height
   ); // don't change height if icon is not there
 }
 
-.clickable {
+.clickable.noText {
   &:hover {
-    background: var(
-      --favorite-button-hover-background,
-      var(--color-accent-light)
-    );
-    border-color: var(
-      --favorite-button-hover-border-color,
-      var(--favorite-button-border-color)
-    );
-    color: var(--favorite-button-hover-color, var(--color-primary));
-  }
-
-  &:active {
-    transform: scale(0.95);
   }
 }
 
+.iconLabelRow {
+  display: flex;
+  align-items: center;
+}
+
 .instructions {
-  @include label-medium-prominent;
   margin-left: grid(1);
 }
 
@@ -54,14 +39,20 @@
 }
 
 .favoriteCount {
+  @include label-small;
   margin-left: grid(1);
 }
 
 .plusIconSvg {
-  transform: translateY(-1px);
 }
 
 .plusIconPath {
   transition: all 0.2s ease-in-out;
   fill: var(--favorite-button-icon-color, var(--color-primary));
+}
+
+.countIcon {
+  transform: translateY(1px);
+  display: flex;
+  align-items: center;
 }

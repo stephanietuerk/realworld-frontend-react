@@ -6,7 +6,7 @@ import {
   type ReactNode,
 } from 'react';
 import { useParams } from 'react-router';
-import { useApiClient } from '../api/useApiClient';
+import { useApiGet } from '../api/useApiGet';
 import { useUser } from '../api/useUser';
 import { NONE_TAG } from '../features/feed/feed-controls/tag-options/TagOptions';
 import { API_ROOT } from '../shared/constants/api';
@@ -15,10 +15,12 @@ import type {
   ArticlesContextType,
   FeedSelections,
   ProfileFeed,
+  RawArticleMetadata,
 } from '../shared/types/articles.types';
+import { dateifyResponse, sortResponsesByDate } from '../api/dateify';
 
 interface ApiArticles {
-  articles: ArticleMetadata[];
+  articles: RawArticleMetadata[];
   articlesCount: number;
 }
 
@@ -39,16 +41,7 @@ export const ArticlesContext = createContext<ArticlesContextType | undefined>(
 );
 
 function getSortedArticles(data: ApiArticles): ArticleMetadata[] {
-  return data.articles
-    .map((article: ArticleMetadata) => {
-      return {
-        ...article,
-        createdAt: new Date(article.createdAt),
-        updatedAt: new Date(article.updatedAt),
-      };
-    })
-    .slice()
-    .sort((a, b) => b.updatedAt.valueOf() - a.updatedAt.valueOf());
+  return sortResponsesByDate(data.articles.map((a) => dateifyResponse(a)));
 }
 
 function getFilteredArticles(
@@ -78,47 +71,40 @@ export function ArticlesProvider({
   feedControlsDefaults,
   children,
 }: ArticlesProviderProps) {
-  const { callApiWithAuth } = useApiClient();
   const { user } = useUser();
   const { username } = useParams();
   const [articles, setArticles] = useState<ArticleMetadata[]>([]);
   const [feedSelections, setFeedSelections] =
     useState<FeedSelections>(feedControlsDefaults);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showLoading, setShowLoading] = useState(false);
   const [pendingArticles, setPendingArticles] = useState<
     ArticleMetadata[] | null
   >(null);
+
+  const url = useMemo(() => {
+    const endpointType = isUsersFeed(feedSelections.feed) ? 'user' : 'global';
+    let url = API_ROOT + ARTICLES_ENDPOINT[endpointType];
+    if (isProfileView(feedSelections.feed) && username) {
+      url += `?${feedSelections.feed}=${encodeURIComponent(username)}`;
+    }
+    return url;
+  }, [feedSelections, username, user]);
+
+  const { data, isLoading, refetch } = useApiGet<ApiArticles>({ url });
 
   const filteredArticles = useMemo(
     () => getFilteredArticles(pendingArticles ?? articles, feedSelections),
     [pendingArticles, articles, feedSelections],
   );
 
-  const fetchArticles = async () => {
-    setIsLoading(true);
-
-    const endpointType = isUsersFeed(feedSelections.feed) ? 'user' : 'global';
-    let url = API_ROOT + ARTICLES_ENDPOINT[endpointType];
-    if (isProfileView(feedSelections.feed) && username) {
-      url += `?${feedSelections.feed}=${encodeURIComponent(username)}`;
-    }
-
-    try {
-      const data = await callApiWithAuth<ApiArticles>(url);
+  useEffect(() => {
+    if (data) {
       const articles = getSortedArticles(data);
       setPendingArticles(articles);
-    } catch (error) {
-      console.log('Failed to fetch articles:', error);
+    } else {
       setPendingArticles([]);
-    } finally {
-      setIsLoading(false);
     }
-  };
-
-  useEffect(() => {
-    fetchArticles();
-  }, [feedSelections, user, username]);
+  }, [data]);
 
   useEffect(() => {
     if (!isLoading && pendingArticles !== null) {
@@ -148,7 +134,7 @@ export function ArticlesProvider({
         filteredArticles,
         isLoading,
         showLoading,
-        syncApi: fetchArticles,
+        refetchArticles: refetch,
         setFeedSelections,
       }}
     >

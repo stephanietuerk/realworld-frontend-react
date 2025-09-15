@@ -5,6 +5,11 @@
   display: flex;
   align-items: center;
   color: var(--favorite-readout-color, var(--color-inert));
+  flex-shrink: 0;
+}
+
+.favoriteSvg {
+  flex-shrink: 0;
 }
 
 .favoritePathOutline {
@@ -16,5 +21,23 @@
 }
 
 .favoriteCount {
+  @include label-small;
+  flex-shrink: 0;
   margin-left: grid(1);
+}
+
+.loginText {
+  @include body-2xs;
+  display: inline-flex;
+  margin-top: grid(1);
+}
+
+.loginLink {
+  cursor: pointer;
+  color: var(--favorite-readout-login-color, var(--color-primary));
+
+  &:hover {
+    color: var(--favorite-readout-login-color-hover, var(--color-primary));
+    text-decoration: underline;
+  }
 }

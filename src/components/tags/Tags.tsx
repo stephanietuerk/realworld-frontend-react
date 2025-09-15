@@ -14,9 +14,9 @@ export default function Tags({ article, className }: TagsProps) {
   return (
     <div className={clsx(styles.tags, className)}>
       {article.tagList?.map((tag) => (
-        <p className={styles.tag} key={tag}>
-          {tag}
-        </p>
+        <div className={styles.tag} key={tag}>
+          <p>{tag}</p>
+        </div>
       ))}
     </div>
   );

@@ -13,7 +13,7 @@ interface RouteConfig {
   requiresParam?: boolean;
 }
 
-const NAVBAR_ROUTES_NO_AUTH: RouteConfig[] = [
+export const NAVBAR_ROUTES_NO_AUTH: RouteConfig[] = [
   {
     key: 'home',
     path: () => ROUTE.home,
@@ -97,7 +97,7 @@ export default function Header() {
             } else {
               return (
                 <NavLink
-                  to={route.key}
+                  to={route.path()}
                   state={{ backgroundLocation: location }}
                   className={({ isActive }) =>
                     isActive ? styles.linkActive : styles.link
