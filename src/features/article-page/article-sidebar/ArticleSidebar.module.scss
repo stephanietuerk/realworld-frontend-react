@@ -1,0 +1,84 @@
+@use 'functions' as *;
+@use 'typography' as *;
+@use 'mixins' as *;
+
+$sidebar-gap: grid(6);
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $sidebar-gap;
+}
+
+.card {
+  width: 100%;
+  padding: grid(4);
+  border-radius: grid(2);
+  background: var(--color-surface-accent);
+  border: 1px solid var(--color-neutral-95);
+  position: sticky;
+  top: 80px;
+}
+
+.articleMetadata {
+  border-top: 1px solid var(--color-neutral-90);
+  padding-top: grid(5);
+  margin-top: grid(5);
+}
+
+.articleTitleContainer {
+  margin-bottom: grid(5);
+  display: flex;
+  flex-direction: column;
+}
+
+.articleTitle {
+  @include slab;
+}
+
+.label {
+  @include label-2xs-caps;
+  @include slab;
+  margin-bottom: grid(2);
+}
+
+.label.date {
+  margin-top: grid(5);
+}
+
+.editIcon {
+  margin-right: grid(1);
+  margin-left: -1 * grid(1);
+}
+
+.followButton {
+  --follow-button-padding: #{grid(1)} #{grid(2)} #{grid(1)} #{grid(1)};
+  --follow-button-min-height: 36px;
+
+  /* margin-left: grid(1) * -1; */
+  width: 100%;
+  margin-top: grid(3);
+}
+
+.favoriteButton {
+  padding: #{grid(1)} #{grid(2)} #{grid(1)} #{grid(1)};
+  min-height: 36px;
+  width: 100%;
+  justify-content: space-between;
+  /* margin-left: grid(1) * -1; */
+  margin-top: grid(1);
+}
+
+.favoriteReadout {
+  --favorite-button-color: rgba(var(--color-text-rgb), 0.7);
+  --favorite-button-heart-outline: rgba(var(--color-text-rgb), 0.5);
+  --favorite-button-heart-fill: rgba(var(--color-text-rgb), 0.5);
+  --favorite-readout-color: currentColor;
+  --favorite-readout-login-color: var(--color-primary);
+}
+
+.favoriteButton.selectedButton:not(:disabled),
+.followButton.selectedButton:not(:disabled) {
+  background: var(--color-blue-95);
+}

@@ -27,6 +27,7 @@ export interface RawArticleMetadata
 
 export interface Article extends ArticleMetadata {
   body: string;
+  bodyMarkdown: string;
 }
 
 export interface RawArticle extends Omit<Article, 'createdAt' | 'updatedAt'> {

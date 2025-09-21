@@ -2,22 +2,26 @@ import clsx from 'clsx';
 import styles from './Field.module.scss';
 import AddAddedIcon from '../../../components/icons/AddAddedIcon';
 
+interface FieldProps extends React.PropsWithChildren {
+  className?: string;
+  id: string;
+  label: string;
+  required?: boolean;
+  showStatus?: boolean;
+  valid?: boolean;
+}
+
 export default function Field({
+  className,
   id,
   label,
   required,
   showStatus = true,
   valid,
   children,
-}: React.PropsWithChildren<{
-  id: string;
-  label: string;
-  required?: boolean;
-  showStatus?: boolean;
-  valid?: boolean;
-}>) {
+}: FieldProps) {
   return (
-    <div className={styles.field}>
+    <div className={clsx(styles.field, className)}>
       <label htmlFor={id} className={styles.label}>
         <span>{label}</span>
         {showStatus && (

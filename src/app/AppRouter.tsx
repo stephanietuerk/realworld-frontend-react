@@ -10,6 +10,7 @@ import ProfilePage from '../features/profile-page/ProfilePage.tsx';
 import { ROUTE } from '../shared/constants/routing.ts';
 import App from './App.tsx';
 import CreateArticlePage from '../features/create-article-page/CreateArticlePage.tsx';
+import EditArticlePage from '../features/edit-article-page/EditArticlePage.tsx';
 
 export default function AppRouter() {
   const location = useLocation();
@@ -19,11 +20,15 @@ export default function AppRouter() {
     <AuthProvider>
       <UserProvider>
         <Routes location={state?.backgroundLocation || location}>
-          <Route path="/" element={<App />}>
+          <Route path='/' element={<App />}>
             <Route index element={<HomePage />} />
             <Route path={'/profile/:username'} element={<ProfilePage />} />
             <Route element={<ArticleProviderLayout />}>
               <Route path={'/article/:slug'} element={<ArticlePage />} />
+              <Route
+                path={'/editor/:slug'}
+                element={<EditArticlePage />}
+              ></Route>
             </Route>
             <Route path={'/editor'} element={<CreateArticlePage />}></Route>
           </Route>

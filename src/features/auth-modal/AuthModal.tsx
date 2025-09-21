@@ -7,7 +7,7 @@ import {
   type SetStateAction,
 } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import CloseIcon from '../../components/icons/CloseXButton';
+import CancelIcon from '../../components/icons/CancelIcon';
 import styles from './AuthModal.module.scss';
 
 interface AuthModalProps {
@@ -98,13 +98,13 @@ export default function AuthModal({
           <button
             ref={closeButtonRef}
             onClick={closeModal}
-            aria-label="Close login modal"
+            aria-label='Close login modal'
             style={{
               alignSelf: 'flex-end',
               position: 'relative',
             }}
           >
-            <CloseIcon
+            <CancelIcon
               size={28}
               svgClassName={styles.closeButtonSvg}
               circleClassName={styles.closeButtonCircle}
@@ -128,7 +128,7 @@ export default function AuthModal({
             onInput={handleInputLocal}
             onSubmit={handleSubmitLocal}
             className={styles.formRoot}
-            method="post"
+            method='post'
             noValidate
           >
             {children}

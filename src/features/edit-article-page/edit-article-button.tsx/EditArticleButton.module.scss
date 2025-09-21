@@ -1,0 +1,8 @@
+@use 'functions' as *;
+@use 'typography' as *;
+@use 'mixins' as *;
+
+.editIcon {
+  margin-right: grid(1);
+  margin-left: -1 * grid(1);
+}
