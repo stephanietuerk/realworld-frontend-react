@@ -27,6 +27,7 @@ export interface RawArticleMetadata
 
 export interface Article extends ArticleMetadata {
   body: string;
+  bodyMarkdown: string;
 }
 
 export interface RawArticle extends Omit<Article, 'createdAt' | 'updatedAt'> {
@@ -65,12 +66,12 @@ export interface ArticleContextType {
   refetchArticle: () => void;
 }
 
-export interface BaseArticleInput {
+export interface BaseArticleMutation {
   title: string;
   description: string;
   body: string;
 }
 
-export interface ValidArticleInput extends BaseArticleInput {
+export interface ValidArticleMutation extends BaseArticleMutation {
   tagList: string[];
 }

@@ -10,7 +10,14 @@
 }
 
 .clickable.noText {
+  padding: grid(2);
+  border-radius: grid(1);
+  border: 1px solid transparent;
+  background-image: none;
+  margin-bottom: 0;
+
   &:hover {
+    border: 1px solid rgba(var(--color-primary-rgb), 0.7);
   }
 }
 
@@ -41,9 +48,6 @@
 .favoriteCount {
   @include label-small;
   margin-left: grid(1);
-}
-
-.plusIconSvg {
 }
 
 .plusIconPath {

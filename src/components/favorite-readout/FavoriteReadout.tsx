@@ -24,7 +24,7 @@ export default function FavoriteReadout({
   isOutline = false,
   expandedContext = false,
 }: FavoriteReadoutProps) {
-  const { hasToken } = useAuth();
+  const { isLoggedIn } = useAuth();
   const location = useLocation();
 
   return (
@@ -40,7 +40,7 @@ export default function FavoriteReadout({
           {count} {expandedContext && 'favorited'}
         </span>
       </div>
-      {expandedContext && !hasToken && LOGIN_ROUTE && REGISTER_ROUTE && (
+      {expandedContext && !isLoggedIn && LOGIN_ROUTE && REGISTER_ROUTE && (
         <div className={clsx(styles.loginText, className)}>
           <NavLink
             to={LOGIN_ROUTE.path()}

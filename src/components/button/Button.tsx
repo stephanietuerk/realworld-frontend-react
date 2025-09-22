@@ -28,7 +28,7 @@ interface ButtonProps {
 }
 
 export default function Button({
-  animateOnClick = false,
+  animateOnClick = true,
   busy,
   className,
   disabled,

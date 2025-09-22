@@ -20,7 +20,8 @@ export default function TagOptions({
       {sortedTags.map((tag) => (
         <Button
           key={tag}
-          variant="secondary"
+          animateOnClick={false}
+          variant='secondary'
           pressed={selected.includes(tag)}
           className={clsx(styles.tag, selected.includes(tag) && styles.active)}
           onClick={() => toggleTag(tag)}

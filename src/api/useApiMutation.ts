@@ -1,36 +1,40 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useApiWithAuth } from './callApiWithAuth';
+import { useApiWithAuth, type ApiCallState } from './callApiWithAuth';
+import type { ApiError } from '../shared/types/errors.types';
 
-interface ApiPostParams<T> {
+type Method = 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+interface ApiMutationParams<T> {
   url: string | null;
+  method: Method;
   options?: Omit<RequestInit, 'method'>;
   onSuccess?: (data: T | null) => void;
 }
 
-export interface ApiPostState<T> {
+export interface ApiMutationState<T> extends ApiCallState {
   data: T | null;
-  isLoading: boolean;
-  error: unknown;
 }
 
-export function useApiPost<T>({
+export function useApiMutation<T>({
   url,
+  method,
   options = {},
   onSuccess,
-}: ApiPostParams<T>): ApiPostState<T> {
+}: ApiMutationParams<T>): ApiMutationState<T> {
   const callWithAuth = useApiWithAuth();
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown>(null);
+  const [error, setError] = useState<ApiError | null>(null);
 
   const onSuccessRef = useRef(onSuccess);
+
   useEffect(() => {
     onSuccessRef.current = onSuccess;
   }, [onSuccess]);
 
   const stableOptions = useMemo(
-    () => ({ ...options, method: 'POST' }),
-    [JSON.stringify(options ?? {})],
+    () => ({ ...options, method }),
+    [method, JSON.stringify(options ?? {})],
   );
 
   useEffect(() => {
@@ -47,7 +51,7 @@ export function useApiPost<T>({
         onSuccessRef.current?.(result);
       })
       .catch((e) => {
-        if (e?.name !== 'AbortError') {
+        if (e?.kind !== 'aborted') {
           setData(null);
           setError(e);
         }
@@ -55,7 +59,7 @@ export function useApiPost<T>({
       .finally(() => setIsLoading(false));
 
     return () => controller.abort();
-  }, [url, stableOptions]);
+  }, [url, stableOptions, callWithAuth]);
 
   return { data, isLoading, error };
 }

@@ -24,6 +24,7 @@
   @include label-small;
   flex-shrink: 0;
   margin-left: grid(1);
+  color: var(--favorite-readout-heart-fill, var(--color-inert-light));
 }
 
 .loginText {

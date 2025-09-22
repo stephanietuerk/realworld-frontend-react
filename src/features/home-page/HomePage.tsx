@@ -36,7 +36,7 @@ const FEED_CONTROLS_DEFAULTS: FeedSelections = {
 };
 
 export default function HomePage() {
-  const { hasToken } = useAuth();
+  const { isLoggedIn } = useAuth();
 
   return (
     <MainLayout>
@@ -51,7 +51,7 @@ export default function HomePage() {
         <BodyLayout>
           <SidebarLayout>
             <FeedControls tagsTitle='Show articles about'>
-              {hasToken && (
+              {isLoggedIn && (
                 <div>
                   <p className={styles.feedTypeTitle}>Show articles from</p>
                   <FeedTypeOptions

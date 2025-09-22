@@ -1,0 +1,66 @@
+@use 'typography' as *;
+@use 'functions' as *;
+
+.triggerButton {
+  display: flex;
+  align-items: center;
+}
+
+.triggerButton[data-state='open'] .chevronIcon {
+  transform: rotate(180deg);
+}
+
+.triggerButton.active,
+.triggerButton.active .chevronIcon {
+  color: var(--color-primary);
+}
+
+.chevronIcon {
+  margin-left: grid(1);
+  transition: transform 0.2s ease;
+}
+
+.content {
+  background: var(--color-surface-accent);
+  border-radius: grid(1);
+  padding: grid(3) grid(2);
+  border: 1px solid var(--color-neutral-90);
+}
+
+.menuItem {
+  @include body-small;
+  color: var(--color-neutral-40);
+  padding: grid(3) grid(2);
+  cursor: pointer;
+  border-radius: grid(1);
+}
+
+.menuItem:hover {
+  background: var(--color-accent-faint);
+}
+
+.menuItem:hover .itemLabel {
+  color: var(--color-primary);
+}
+
+.menuItem:not(:last-child) {
+  border-bottom: 1px solid var(--color-neutral-95);
+}
+
+.menuItem.active {
+  color: var(--color-primary);
+}
+
+.menuItem.active .itemContext {
+  color: var(--color-blue-60);
+}
+
+.itemLabel {
+  @include label-small;
+}
+
+.itemContext {
+  @include label-2xs;
+  margin-top: grid(1);
+  color: var(--color-neutral-50);
+}

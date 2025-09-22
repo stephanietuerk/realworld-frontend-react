@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { useParams } from 'react-router';
 import { useApiGet } from '../api/useApiGet';
-import { useUser } from '../api/useUser';
+import { useAuthenticatedUser } from '../api/useAuthenticatedUser';
 import { NONE_TAG } from '../features/feed/feed-controls/tag-options/TagOptions';
 import { API_ROOT } from '../shared/constants/api';
 import type {
@@ -71,7 +71,7 @@ export function ArticlesProvider({
   feedControlsDefaults,
   children,
 }: ArticlesProviderProps) {
-  const { user } = useUser();
+  const { user } = useAuthenticatedUser();
   const { username } = useParams();
   const [articles, setArticles] = useState<ArticleMetadata[]>([]);
   const [feedSelections, setFeedSelections] =

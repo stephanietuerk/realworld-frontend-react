@@ -26,7 +26,7 @@ export default function FollowButton({
   variant = 'secondary',
   selectedClassName,
 }: FollowButtonProps) {
-  const { hasToken } = useAuth();
+  const { isLoggedIn } = useAuth();
   const { followUser, unfollowUser } = useFollowActions();
   const [localFollowing, setLocalFollowing] = useState<boolean>(
     profile.following,
@@ -36,7 +36,7 @@ export default function FollowButton({
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
 
-    if (hasToken) {
+    if (isLoggedIn) {
       const isUnfollowing = localFollowing;
 
       setLocalFollowing(!localFollowing);
@@ -52,7 +52,6 @@ export default function FollowButton({
 
   return (
     <Button
-      animateOnClick={true}
       size={buttonSize}
       className={clsx(
         styles.followButton,

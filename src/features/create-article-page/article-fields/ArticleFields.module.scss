@@ -1,0 +1,72 @@
+@use 'functions' as *;
+@use 'typography' as *;
+@use 'mixins' as *;
+
+.input,
+.textarea {
+  border: none;
+  padding: grid(3);
+  margin-bottom: grid(5);
+  background: var(--color-surface-accent);
+  border-bottom: 1px solid currentColor;
+}
+
+.input:focus-visible {
+  outline: none;
+  box-shadow: inset 0 -2px 0 0 var(--color-focus-ring);
+  border-bottom: 1px solid transparent;
+}
+
+.textarea:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-focus-ring);
+  outline: none;
+  border-bottom: 1px solid transparent;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--color-neutral-70);
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.inputTitle {
+  @include label-large;
+}
+
+.inputDescription {
+  @include body-xs;
+}
+
+.inputTags {
+  @include label-xs;
+}
+
+.inputBody {
+  @include body-small;
+  overflow-y: hidden;
+  resize: vertical;
+  flex-grow: 1;
+  margin-bottom: grid(12);
+
+  :first-child {
+    margin-top: 0;
+  }
+}
+
+.preview {
+  @include markdown-content;
+  padding-top: grid(2);
+}
+
+.tabsTrigger {
+  @include label-small;
+  padding: grid(2);
+}
+
+.activeTab {
+  border-bottom: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}

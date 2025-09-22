@@ -4,7 +4,7 @@
 .container {
   display: flex;
   justify-content: center;
-  padding: grid(4) var(--page-margin-side);
+  padding: grid(3) var(--page-margin-side);
   border-bottom: 1px solid var(--color-neutral-90);
   background: var(--color-surface-accent);
   position: sticky;
@@ -14,6 +14,7 @@
 .widthContainer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: var(--page-max-width);
 }
 
@@ -26,13 +27,28 @@
 .links {
   display: flex;
   align-items: center;
-  gap: grid(5);
+  gap: grid(2);
 }
 
 .link {
   @include body-2xs;
   color: var(--color-neutral-40);
   display: block;
+  padding: grid(2);
+  border-radius: grid(1);
+}
+
+.link:hover {
+  background: var(--color-accent-whisper);
+  color: var(--color-neutral-30);
+}
+
+.link:hover:not(.linkActive) {
+  color: var(--color-neutral-40);
+}
+
+.link:hover.linkActive {
+  color: var(--color-primary);
 }
 
 .linkActive {

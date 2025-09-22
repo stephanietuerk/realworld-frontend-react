@@ -1,6 +1,6 @@
 import { API_ROOT } from '../shared/constants/api';
 import type { ApiCallState } from './callApiWithAuth';
-import { useApiPost } from './useApiPost';
+import { useApiMutation } from './useApiMutation';
 import { type Comment } from './useComments';
 
 interface PostCommentState extends ApiCallState {
@@ -12,8 +12,9 @@ export function usePostComment(
   body: string | undefined,
   onSuccess: () => void,
 ): PostCommentState {
-  const { data, isLoading, error } = useApiPost<{ comment: Comment }>({
+  const { data, isLoading, error } = useApiMutation<{ comment: Comment }>({
     url: !!slug ? `${API_ROOT}articles/${slug}/comments` : null,
+    method: 'POST',
     options: {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

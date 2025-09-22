@@ -1,23 +1,23 @@
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../../api/useAuth';
-import { useUser } from '../../api/useUser';
+import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
 import { APP_NAME } from '../../shared/constants/app';
 import { ROUTE, type RouteId } from '../../shared/constants/routing';
 import styles from './Header.module.scss';
+import AccountMenu from './account-menu/AccountMenu';
 
 interface RouteConfig {
   key: RouteId;
   path: (param?: string) => string;
   display: string;
   type: 'page' | 'dialog';
-  requiresParam?: boolean;
 }
 
 export const NAVBAR_ROUTES_NO_AUTH: RouteConfig[] = [
   {
-    key: 'home',
-    path: () => ROUTE.home,
-    display: 'Home',
+    key: 'explore',
+    path: () => ROUTE.explore,
+    display: 'Explore',
     type: 'page',
   },
   {
@@ -36,44 +36,30 @@ export const NAVBAR_ROUTES_NO_AUTH: RouteConfig[] = [
 
 const NAVBAR_ROUTES_AUTH: RouteConfig[] = [
   {
-    key: 'home',
-    path: () => ROUTE.home,
-    display: 'Home',
+    key: 'explore',
+    path: () => ROUTE.explore,
+    display: 'Explore',
     type: 'page',
   },
   {
-    key: 'profile',
-    path: (username?: string) => ROUTE.profile(username),
-    display: 'My Content',
-    type: 'page',
-    requiresParam: true,
-  },
-  {
-    key: 'editor',
-    path: (slug?: string) => ROUTE.editor(slug),
-    display: 'New Article',
-    type: 'page',
-    requiresParam: false,
-  },
-  {
-    key: 'settings',
-    path: () => ROUTE.settings,
-    display: 'Account',
+    key: 'articleNew',
+    path: () => ROUTE.articleNew,
+    display: 'Write',
     type: 'page',
   },
 ];
 
 export default function Header() {
   const location = useLocation();
-  const { hasToken } = useAuth();
-  const { user } = useUser();
+  const { isLoggedIn } = useAuth();
+  const { user } = useAuthenticatedUser();
 
-  const routes = hasToken ? NAVBAR_ROUTES_AUTH : NAVBAR_ROUTES_NO_AUTH;
+  const routes = isLoggedIn ? NAVBAR_ROUTES_AUTH : NAVBAR_ROUTES_NO_AUTH;
 
   return (
     <nav className={styles.container}>
       <div className={styles.widthContainer}>
-        <Link to={ROUTE.home}>
+        <Link to={ROUTE.explore}>
           <h1 className={styles.name}>{APP_NAME}</h1>
         </Link>
         <div className={styles.links}>
@@ -109,6 +95,9 @@ export default function Header() {
               );
             }
           })}
+          {isLoggedIn && user && (
+            <AccountMenu className={styles.link}></AccountMenu>
+          )}
         </div>
       </div>
     </nav>

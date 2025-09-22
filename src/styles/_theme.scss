@@ -2,7 +2,7 @@
 
 $color-accent: #beffca;
 $color-accent-light: color.adjust($color-accent, $lightness: 2%);
-$color-accent-faint: color.adjust($color-accent, $lightness: 4%);
+$color-accent-faint: color.adjust($color-accent, $lightness: 6%);
 $color-accent-whisper: color.adjust($color-accent, $lightness: 10%);
 
 :root {

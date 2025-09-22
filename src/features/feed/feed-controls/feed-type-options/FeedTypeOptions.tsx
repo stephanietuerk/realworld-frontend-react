@@ -10,12 +10,12 @@ export default function FeedTypeOptions({
 }) {
   const { feedSelections, setFeedSelections } = useArticles();
   return (
-    <ul>
+    <ul className={styles.options}>
       {options.map((option) => (
-        <li style={{ listStyle: 'none' }} key={option.id}>
+        <li className={styles.option} key={option.id}>
           <button
             className={clsx(
-              styles.selection,
+              styles.button,
               feedSelections.feed === option.id && styles.active,
             )}
             onClick={() =>

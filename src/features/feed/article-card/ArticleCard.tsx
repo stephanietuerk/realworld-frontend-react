@@ -29,7 +29,7 @@ interface ArticleCardProps {
 }
 
 export default function ArticleCard({ article }: ArticleCardProps) {
-  const { hasToken } = useAuth();
+  const { isLoggedIn } = useAuth();
   const { refetchArticles: refetch } = useArticles();
   const [favoriteIsHovered, setFavoriteIsHovered] = useState(false);
   const [authorIsHovered, setAuthorIsHovered] = useState(false);
@@ -45,7 +45,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
     e: React.PointerEvent<HTMLButtonElement>,
     isEnter: boolean,
   ) => void = (e, isEnter) => {
-    handleNonCardHover(e, setFavoriteIsHovered, hasToken, isEnter);
+    handleNonCardHover(e, setFavoriteIsHovered, isLoggedIn, isEnter);
   };
 
   return (
@@ -68,7 +68,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
       <p className={styles.description}>{article.description}</p>
       <div className={styles.bottomRow}>
         <Tags article={article} className={styles.tags}></Tags>
-        {hasToken ? (
+        {isLoggedIn ? (
           <FavoriteButton
             className={styles.favoriteButton}
             favorited={article.favorited}

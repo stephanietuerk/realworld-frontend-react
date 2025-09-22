@@ -8,7 +8,7 @@ interface FeedControlsProps {
   children: ReactNode;
 }
 
-const SHOW_TAGS_IF_NUM_ARTICLES = 1;
+const SHOW_TAGS_IF_NUM_ARTICLES = 2;
 
 function getNewTagSelections(
   prevTags: string[],

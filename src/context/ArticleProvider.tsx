@@ -1,8 +1,4 @@
 import { createContext, useEffect, useState, type ReactNode } from 'react';
-import rehypeStringify from 'rehype-stringify';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import { unified } from 'unified';
 import { useApiGet } from '../api/useApiGet';
 import { API_ROOT } from '../shared/constants/api';
 import type {
@@ -11,6 +7,7 @@ import type {
   RawArticle,
 } from '../shared/types/articles.types';
 import { dateifyResponse } from '../api/dateify';
+import { mdToHtml } from '../shared/utilities/markdown-to-html';
 
 interface ArticleProviderProps {
   slug: string;
@@ -31,15 +28,12 @@ export function ArticleProvider({ slug, children }: ArticleProviderProps) {
     if (!data) return;
 
     const typedResponse = dateifyResponse<RawArticle, Article>(data.article);
-    unified()
-      .use(remarkParse)
-      .use(remarkRehype)
-      .use(rehypeStringify)
-      .process(typedResponse.body)
+    mdToHtml(typedResponse.body)
       .then((body) =>
         setArticle({
           ...typedResponse,
-          body: body.toString(),
+          body: body,
+          bodyMarkdown: typedResponse.body,
         }),
       )
       .catch((err) => {

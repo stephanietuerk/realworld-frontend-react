@@ -1,12 +1,6 @@
 @use 'functions' as *;
 @use 'typography' as *;
 
-.formField {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: grid(3);
-}
-
 .formLabel {
   font-weight: 500;
   margin: grid(2) 0;
