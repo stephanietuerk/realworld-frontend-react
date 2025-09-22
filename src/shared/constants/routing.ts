@@ -1,18 +1,20 @@
 export type RouteId =
-  | 'home'
+  | 'explore'
   | 'login'
   | 'register'
   | 'settings'
   | 'profile'
   | 'article'
-  | 'editor';
+  | 'articleEdit'
+  | 'articleNew';
 
 export const ROUTE = {
-  home: '/',
+  explore: '/',
   login: '/login',
   register: '/register',
   settings: '/settings',
-  profile: (username?: string) => `/profile/${username ?? 'username'}`,
+  profile: (username = 'username') => `/profile/${username}`,
   article: (slug: string) => `/article/${slug}`,
-  editor: (slug?: string) => (slug ? `/editor/${slug}` : '/editor'),
+  articleEdit: (slug: string) => `/article/${slug}/edit`,
+  articleNew: '/article/new',
 } as const;

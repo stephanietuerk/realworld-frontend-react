@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState, type ReactNode } from 'react';
 
 interface AuthContextType {
-  hasToken: boolean;
+  isLoggedIn: boolean;
   setToken: (token: string | null) => void;
 }
 
@@ -14,7 +14,7 @@ function localStorageHasToken(): boolean {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [hasToken, setHasToken] = useState(localStorageHasToken());
+  const [isLoggedIn, setHasToken] = useState(localStorageHasToken());
 
   const setToken = (token: string | null) => {
     if (token) {
@@ -32,7 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ hasToken, setToken }}>
+    <AuthContext.Provider value={{ isLoggedIn, setToken }}>
       {children}
     </AuthContext.Provider>
   );

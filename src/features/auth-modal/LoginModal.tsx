@@ -1,71 +1,63 @@
-import { login } from '../../api/authenticate';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../../api/useAuth';
 import { ROUTE } from '../../shared/constants/routing';
 import AuthModal from './AuthModal';
-import styles from './ImplementedModal.module.scss';
+import type { UserLogin } from '../../shared/types/user.types';
+import { useCloseModal } from './useCloseModal';
+import { useUiError } from '../../shared/utilities/useUiError';
+import { EmailField, PasswordField } from './AuthFields';
+import { useLoginUser } from '../../api/useLogin';
 
 export default function LoginModal() {
   const { setToken } = useAuth();
+  const closeModal = useCloseModal();
+  const [login, setLogin] = useState<UserLogin | undefined>(undefined);
+  const {
+    user: loggedInUser,
+    isLoading,
+    error,
+  } = useLoginUser({
+    body: login,
+    onSuccess: () => {},
+  });
+  const uiError = useUiError(error);
+  const [formValidity] = useState<boolean>(false);
 
-  const handleInput = (
-    setError: React.Dispatch<React.SetStateAction<string | null>>,
-  ) => {
-    setError(null);
-  };
+  useEffect(() => {
+    if (!loggedInUser) return;
+    setToken(loggedInUser.token);
+    closeModal();
+  }, [loggedInUser, setToken, closeModal]);
 
-  const handleSubmit = async (
-    formData: FormData,
-    closeModal: () => void,
-    handleAuthError: (err: unknown) => void,
-  ): Promise<void> => {
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
+  // const updateValidityFrom = (el: HTMLInputElement) => {
+  //   el.setCustomValidity('');
+  //   setFormValidity(el.form?.checkValidity() ?? false);
+  // };
 
-    try {
-      const res = await login(email, password);
-      setToken(res.user.token);
-      closeModal();
-    } catch (err) {
-      handleAuthError(err);
-    }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    if (!form.reportValidity()) return;
+    const formData = new FormData(form);
+    const email = String(formData.get('email') ?? '');
+    const password = String(formData.get('password') ?? '');
+    setLogin({ email, password });
   };
 
   return (
     <AuthModal
-      title="Sign in"
+      title='Sign in'
       altAuthRoute={ROUTE.register}
-      altAuthLabel="Need an account?"
-      handleInput={handleInput}
+      altAuthLabel='Need an account?'
+      submitLabel='Sign in'
       handleSubmit={handleSubmit}
-      submitLabel="Sign in"
-      key="Login"
+      formValidity={formValidity}
+      isSubmitting={isLoading}
+      submitError={uiError?.message || null}
+      key='Login'
     >
-      <div className={styles.formField}>
-        <label className={styles.formLabel} htmlFor="email">
-          Email
-        </label>
-        <input
-          className={styles.input}
-          type="email"
-          name="email"
-          id="login-email"
-          autoComplete="email"
-          required
-        />
-      </div>
-      <div className={styles.formField}>
-        <label className={styles.formLabel} htmlFor="password">
-          Password
-        </label>
-        <input
-          className={styles.input}
-          type="password"
-          name="password"
-          id="login-password"
-          autoComplete="current-password"
-          required
-        />
-      </div>
+      <EmailField />
+      <PasswordField />
     </AuthModal>
   );
 }

@@ -15,7 +15,7 @@ import EditIcon from '../../components/icons/EditIcon';
 const BREADCRUMBS: (slug: string) => { display: string; route: string }[] = (
   slug,
 ) => [
-  { display: 'Home', route: ROUTE.home },
+  { display: 'Explore', route: ROUTE.explore },
   {
     display: 'Read Article',
     route: ROUTE.article(slug),
@@ -29,7 +29,7 @@ export default function ArticlePage() {
 
   const navigateToEditor = () => {
     if (slug) {
-      navigate(ROUTE.editor(slug));
+      navigate(ROUTE.articleEdit(slug));
     }
   };
 
@@ -66,7 +66,7 @@ export default function ArticlePage() {
           <ArticleSidebar>
             <Button
               variant='secondary'
-              className={styles.sidebarEditButton}
+              className={styles.editButton}
               onClick={navigateToEditor}
             >
               <EditIcon size={20} className={styles.editIcon}></EditIcon>

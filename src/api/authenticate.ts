@@ -1,17 +1,10 @@
 import { API_ROOT } from '../shared/constants/api';
-
-export interface User {
-  email: string;
-  token: string;
-  username: string;
-  bio: string;
-  image: string;
-}
+import type { AuthenticatedUser } from '../shared/types/user.types';
 
 export async function login(
   email: string,
   password: string,
-): Promise<{ user: User }> {
+): Promise<{ user: AuthenticatedUser }> {
   const res = await fetch(API_ROOT + 'users/login', {
     method: 'POST',
     headers: {
@@ -23,14 +16,14 @@ export async function login(
   if (!res.ok) {
     await handleErrorResponse(res);
   }
-  return res.json() as Promise<{ user: User }>;
+  return res.json() as Promise<{ user: AuthenticatedUser }>;
 }
 
 export async function register(
   username: string,
   email: string,
   password: string,
-): Promise<{ user: User }> {
+): Promise<{ user: AuthenticatedUser }> {
   const res = await fetch(API_ROOT + 'users', {
     method: 'POST',
     headers: {
@@ -42,7 +35,7 @@ export async function register(
   if (!res.ok) {
     await handleErrorResponse(res);
   }
-  return res.json() as Promise<{ user: User }>;
+  return res.json() as Promise<{ user: AuthenticatedUser }>;
 }
 
 function handleErrorResponse(res: Response): Promise<never> {

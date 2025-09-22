@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useApiWithAuth, type ApiCallState } from './callApiWithAuth';
+import type { ApiError } from '../shared/types/errors.types';
 
 interface ApiGetParams {
   url: string | null;
@@ -15,7 +16,7 @@ export function useApiGet<T>({ url, options }: ApiGetParams): ApiGetState<T> {
   const callWithAuth = useApiWithAuth();
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<unknown>(null);
+  const [error, setError] = useState<ApiError | null>(null);
   const [refetchIndex, setRefetchIndex] = useState(0);
 
   const stableOptions = useMemo(() => options, [JSON.stringify(options ?? {})]);

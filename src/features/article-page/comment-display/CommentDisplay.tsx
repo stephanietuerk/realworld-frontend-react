@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Comment } from '../../../api/useComments';
-import { useUser } from '../../../api/useUser';
+import { useAuthenticatedUser } from '../../../api/useAuthenticatedUser';
 import styles from './CommentDisplay.module.scss';
 import Button from '../../../components/button/Button';
 import AuthorDate from '../../../components/author-date/AuthorDate';
@@ -11,14 +11,22 @@ interface CommentDisplayProps {
 }
 
 export function CommentDisplay({ comment, handleDelete }: CommentDisplayProps) {
-  const { user: loggedInUser } = useUser();
+  const { user: loggedInUser } = useAuthenticatedUser();
   return (
     <div className={styles.comment}>
-      <div className={styles.commentBody} dangerouslySetInnerHTML={{ __html: comment.body }}></div>
+      <div
+        className={styles.commentBody}
+        dangerouslySetInnerHTML={{ __html: comment.body }}
+      ></div>
       <div className={styles.commentAuthor}>
-        <AuthorDate showDate={true} author={comment.author} layout='inline' updatedAt={comment.updatedAt} />
+        <AuthorDate
+          showDate={true}
+          author={comment.author}
+          layout='inline'
+          updatedAt={comment.updatedAt}
+        />
         {loggedInUser && comment.author.username === loggedInUser.username && (
-          <Button animateOnClick={true} variant='tertiary' onClick={() => handleDelete(comment)}>
+          <Button variant='tertiary' onClick={() => handleDelete(comment)}>
             Delete comment
           </Button>
         )}
@@ -33,7 +41,7 @@ interface LeaveCommentProps {
 
 export function LeaveComment({ handlePost }: LeaveCommentProps) {
   // parent component ensures user is defined
-  const { user } = useUser();
+  const { user } = useAuthenticatedUser();
   const [body, setBody] = useState('');
 
   if (!user) {
@@ -59,7 +67,6 @@ export function LeaveComment({ handlePost }: LeaveCommentProps) {
         ></textarea>
         <div className={styles.commentAuthor}>
           <Button
-            animateOnClick={true}
             className={styles.postButton}
             variant='primary'
             size='md'

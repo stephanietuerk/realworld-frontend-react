@@ -1,6 +1,6 @@
 import { useParams } from 'react-router';
 import { useProfile } from '../../api/useProfile';
-import { useUser } from '../../api/useUser';
+import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
 import Banner from '../../components/banner/Banner';
 import BodyLayout from '../../components/body-layout/BodyLayout';
 import FollowButton from '../../components/follow-button/FollowButton';
@@ -18,6 +18,8 @@ import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOpt
 import FeedControls from '../feed/feed-controls/FeedControls';
 import { NONE_TAG } from '../feed/feed-controls/tag-options/TagOptions';
 import styles from './ProfilePage.module.scss';
+import { ErrorBoundary } from '../../shared/utilities/error-boundary';
+import { useAuth } from '../../api/useAuth';
 
 export const PROFILE_FEED_OPTIONS: FeedOption[] = [
   {
@@ -42,7 +44,7 @@ const FEED_CONTROLS_DEFAULTS: FeedSelections = {
 const BREADCRUMBS: (
   username?: string,
 ) => { display: string; route: string }[] = (username) => [
-  { display: 'Home', route: ROUTE.home },
+  { display: 'Explore', route: ROUTE.explore },
   {
     display: 'User profile',
     route: ROUTE.profile(username),
@@ -50,19 +52,17 @@ const BREADCRUMBS: (
 ];
 
 export default function ProfilePage() {
+  const { isLoggedIn } = useAuth();
   const { username } = useParams();
+  const { user: loggedInUser } = useAuthenticatedUser();
   const { profile, error, refetch } = useProfile(username);
-  const { user: loggedInUser } = useUser();
 
-  const isLoggedInUser = (): boolean => {
-    return username === loggedInUser?.username;
-  };
-
-  // if (isLoading) {
-  //   return <div>Loading profile…</div>;
-  // }
+  const isLoggedInUser = isLoggedIn && username === loggedInUser?.username;
+  const showFollowUserButton =
+    isLoggedIn && username !== loggedInUser?.username;
 
   if (error) {
+    console.log(error);
     return <div>Could not load profile.</div>;
   }
 
@@ -71,13 +71,14 @@ export default function ProfilePage() {
   }
 
   return (
-    <>
+    <ErrorBoundary
+      fallback={<p>Oops, error</p>}
+      onError={(error, info) => console.log(error, info)}
+    >
       <Banner
         outerContainerClassName={styles.bannerOuter}
         surface='dark'
-        breadcrumbs={
-          !isLoggedInUser() ? BREADCRUMBS(profile?.username) : undefined
-        }
+        breadcrumbs={BREADCRUMBS(profile?.username)}
       >
         {profile && (
           <div className={styles.bannerUserProfile}>
@@ -93,7 +94,7 @@ export default function ProfilePage() {
               </div>
               <p className={styles.bannerUserBio}>{profile.bio}</p>
             </div>
-            {profile.username !== loggedInUser?.username && (
+            {showFollowUserButton && (
               <FollowButton
                 profile={profile}
                 className={styles.followButton}
@@ -110,7 +111,7 @@ export default function ProfilePage() {
               <FeedControls tagsTitle='Show articles about'>
                 <div>
                   <p className={styles.feedTypeTitle}>
-                    {isLoggedInUser() ? 'Show my' : "Show this user's"}
+                    {isLoggedInUser ? 'Show my' : "Show this user's"}
                   </p>
                   <FeedTypeOptions
                     options={PROFILE_FEED_OPTIONS}
@@ -122,6 +123,6 @@ export default function ProfilePage() {
           </BodyLayout>
         </ArticlesProvider>
       </MainLayout>
-    </>
+    </ErrorBoundary>
   );
 }

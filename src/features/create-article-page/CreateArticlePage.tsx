@@ -4,11 +4,11 @@ import styles from './CreateArticlePage.module.scss';
 import { useEffect, useState } from 'react';
 import Banner from '../../components/banner/Banner';
 import { ROUTE } from '../../shared/constants/routing';
-import { usePostArticle } from '../../api/usePostArticle';
+import { useMutateArticle } from '../../api/useMutateArticle';
 import { useNavigate } from 'react-router-dom';
 import type {
-  BaseArticleInput,
-  ValidArticleInput,
+  BaseArticleMutation,
+  ValidArticleMutation,
 } from '../../shared/types/articles.types';
 import { ErrorBoundary } from '../../shared/utilities/error-boundary';
 import {
@@ -16,19 +16,11 @@ import {
   DescriptionField,
   TagsField,
   TitleField,
-} from './fields/Fields';
+} from './article-fields/ArticleFields';
 
-export interface FormArticle extends BaseArticleInput {
+export interface FormArticle extends BaseArticleMutation {
   tagList: string;
 }
-
-const BREADCRUMBS: { display: string; route: string }[] = [
-  { display: 'Home', route: ROUTE.home },
-  {
-    display: 'Create Article',
-    route: ROUTE.editor(),
-  },
-];
 
 export default function CreateArticlePage() {
   const navigate = useNavigate();
@@ -39,9 +31,13 @@ export default function CreateArticlePage() {
     tagList: '',
   });
   const [validArticle, setValidArticle] = useState<
-    ValidArticleInput | undefined
+    ValidArticleMutation | undefined
   >(undefined);
-  const { article, isLoading, error } = usePostArticle(validArticle, () => {});
+  const { article, isLoading, error } = useMutateArticle({
+    body: validArticle,
+    onSuccess: () => {},
+    method: 'POST',
+  });
 
   useEffect(() => {
     if (!article) return;
@@ -72,7 +68,6 @@ export default function CreateArticlePage() {
       <Banner
         outerContainerClassName={styles.bannerOuter}
         contentClassName={styles.bannerContent}
-        breadcrumbs={BREADCRUMBS}
       >
         <div className={styles.titleRow}>
           <h1 className={styles.bannerTitle}>Create an article</h1>

@@ -62,14 +62,27 @@
 
 // TERTIARY
 .tertiary {
+  --webkit-appearance: none;
+  appearance: none;
+  border: none;
+  background: none;
+
   @include label-xs;
+  padding: 0;
+  border-radius: 0;
   background: none;
   color: var(--color-primary);
+  transition:
+    color 0.15s ease,
+    background-size 0.18s ease;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
 }
 
 .tertiary:hover:not(:disabled) {
-  background: var(--color-accent-whisper);
-  border-color: rgba(var(--color-primary-rgb), var(--opacity-fade-half));
+  background-size: 100% 1px;
 }
 
 .tertiary:disabled {
@@ -143,10 +156,27 @@
   padding: grid(3);
 }
 
+.lg.tertiary {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .md {
   padding: grid(2);
 }
 
+.md.tertiary {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: grid(1);
+  margin-bottom: grid(1);
+}
+
 .sm {
   padding: grid(1);
+}
+
+.sm.tertiary {
+  padding-left: 0;
+  padding-right: 0;
 }

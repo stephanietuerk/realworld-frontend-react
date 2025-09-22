@@ -1,9 +1,9 @@
-import Field from '../field/Field';
-import styles from './Fields.module.scss';
+import styles from './ArticleFields.module.scss';
 import { clsx } from 'clsx';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { mdToHtml } from '../../../shared/utilities/markdown-to-html';
 import { Tabs } from 'radix-ui';
+import Field from '../../../components/field/Field';
 
 export function TitleField({
   id = 'field-title',
@@ -31,6 +31,7 @@ export function TitleField({
         type='text'
         value={value}
         required
+        autoComplete='off'
         className={clsx(styles.input, styles.inputTitle, formControlClassName)}
         placeholder='Article Title'
         onChange={onChange}
@@ -104,6 +105,7 @@ export function TagsField({
         name='tagList'
         type='text'
         value={value}
+        autoComplete='off'
         className={clsx(styles.input, styles.inputTags, formControlClassName)}
         placeholder='Enter tags (comma separated)'
         onChange={onChange}

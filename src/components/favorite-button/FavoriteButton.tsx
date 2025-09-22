@@ -40,7 +40,7 @@ export default function FavoriteButton({
   plusIconSize = 24,
   selectedClassName,
 }: FavoriteButtonProps) {
-  const { hasToken } = useAuth();
+  const { isLoggedIn } = useAuth();
   const { favoriteArticle, unfavoriteArticle } = useFavoriteActions();
   const [localFavorited, setLocalFavorited] = useState<boolean>(favorited);
   const [localCount, setLocalCount] = useState<number>(count);
@@ -49,7 +49,7 @@ export default function FavoriteButton({
   const handleClick: PointerEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
 
-    if (!hasToken) {
+    if (!isLoggedIn) {
       return;
     }
 
@@ -70,10 +70,9 @@ export default function FavoriteButton({
   if (!slug) return null;
   return (
     <Button
-      animateOnClick={true}
       className={clsx(
         styles.favoriteButton,
-        hasToken && styles.clickable,
+        isLoggedIn && styles.clickable,
         !displayText && styles.noText,
         localFavorited && selectedClassName,
         className,

@@ -16,15 +16,27 @@ $sidebar-gap: grid(6);
   justify-content: space-between;
 }
 
+.exitButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  flex-basis: 25%;
+}
+
+.exitButton {
+  @include label-small;
+  margin-left: grid(4);
+  align-self: flex-end;
+  margin-bottom: grid(1);
+}
+
 .titleRow {
   width: 100%;
   display: flex;
-  align-items: flex-end;
+  gap: grid(8);
   border-bottom: 6px solid var(--color-accent);
-  gap: grid(2);
+  gap: grid(8);
   justify-content: space-between;
   margin-bottom: grid(2);
-  margin-top: grid(4);
 }
 
 .titleField {
@@ -55,30 +67,22 @@ $sidebar-gap: grid(6);
   width: 100%;
 }
 
-.articleBody {
-  @include markdown-content;
-  flex-grow: 1;
-  margin-bottom: grid(12);
-
-  :first-child {
-    margin-top: 0;
-  }
-}
-
-.preview {
-  padding-top: grid(2);
-}
-
-.tabsTrigger {
-  @include label-small;
-  padding: grid(2);
-}
-
-.activeTab {
-  border-bottom: 2px solid var(--color-primary);
-  color: var(--color-primary);
-}
-
-.closeCircle {
+.saveIcon,
+.closeCircle,
+.revertIcon {
   margin-right: grid(1);
+}
+
+.saveButton {
+  width: 100%;
+  justify-content: center;
+  margin-bottom: grid(4);
+}
+
+.canRevert {
+  margin-bottom: 0;
+}
+
+.revertButton {
+  margin-top: grid(2);
 }

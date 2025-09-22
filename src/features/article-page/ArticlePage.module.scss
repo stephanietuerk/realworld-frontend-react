@@ -53,6 +53,12 @@ $sidebar-gap: grid(6);
   }
 }
 
+.editButton {
+  width: 100%;
+  justify-content: center;
+  margin-bottom: grid(3);
+}
+
 .editIcon {
   margin-right: grid(1);
   margin-left: -1 * grid(1);

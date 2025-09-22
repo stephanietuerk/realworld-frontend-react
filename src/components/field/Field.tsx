@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import styles from './Field.module.scss';
-import AddAddedIcon from '../../../components/icons/AddAddedIcon';
+import AddAddedIcon from '../icons/AddAddedIcon';
 
 interface FieldProps extends React.PropsWithChildren {
   className?: string;

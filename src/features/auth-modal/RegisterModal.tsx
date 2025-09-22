@@ -1,88 +1,66 @@
-import { register } from '../../api/authenticate';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../../api/useAuth';
 import { ROUTE } from '../../shared/constants/routing';
 import AuthModal from './AuthModal';
-import styles from './ImplementedModal.module.scss';
+import type { UserRegistration } from '../../shared/types/user.types';
+import { useCloseModal } from './useCloseModal';
+import { useUiError } from '../../shared/utilities/useUiError';
+import { EmailField, PasswordField, UsernameField } from './AuthFields';
+import { useRegisterUser } from '../../api/useRegister';
 
 export default function RegisterModal() {
   const { setToken } = useAuth();
+  const closeModal = useCloseModal();
+  const [registration, setRegistration] = useState<
+    UserRegistration | undefined
+  >(undefined);
+  const {
+    user: registeredUser,
+    isLoading,
+    error,
+  } = useRegisterUser({
+    body: registration,
+    onSuccess: () => {},
+  });
+  const uiError = useUiError(error);
+  const [formValidity] = useState<boolean>(false);
 
-  const handleInput = (
-    setError: React.Dispatch<React.SetStateAction<string | null>>,
-  ) => {
-    setError(null);
-  };
+  useEffect(() => {
+    if (!registeredUser) return;
+    setToken(registeredUser.token);
+    closeModal();
+  }, [registeredUser, setToken, closeModal]);
 
-  const handleSubmit = async (
-    formData: FormData,
-    closeModal: () => void,
-    handleAuthError: (err: unknown) => void,
-  ): Promise<void> => {
-    const username = formData.get('username') as string;
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    try {
-      const response = await register(username, email, password);
-      setToken(response.user.token);
-      closeModal();
-    } catch (err) {
-      handleAuthError(err);
-    }
+  // const updateValidityFrom = (el: HTMLInputElement) => {
+  //   setFormValidity(el.form?.checkValidity() ?? false);
+  // };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    if (!form.reportValidity()) return;
+    const formData = new FormData(form);
+    const username = String(formData.get('username') ?? '');
+    const email = String(formData.get('email') ?? '');
+    const password = String(formData.get('password') ?? '');
+    setRegistration({ username, email, password });
   };
 
   return (
     <AuthModal
-      title="Sign up"
+      title='Sign up'
       altAuthRoute={ROUTE.login}
-      altAuthLabel="Have an account?"
-      handleInput={handleInput}
+      altAuthLabel='Have an account?'
+      submitLabel='Sign up'
       handleSubmit={handleSubmit}
-      submitLabel="Sign up"
-      key="Register"
+      formValidity={formValidity}
+      isSubmitting={isLoading}
+      submitError={uiError?.message || null}
+      key='Register'
     >
-      <div className={styles.formField}>
-        <label className={styles.formLabel} htmlFor="username">
-          Username
-        </label>
-        <input
-          className={styles.input}
-          type="text"
-          name="username"
-          id="register-username"
-          required
-        />
-      </div>
-      <div
-        className={styles.formField}
-        style={{
-          display: 'flex',
-          alignItems: 'baseline',
-          justifyContent: 'space-between',
-        }}
-      >
-        <label className={styles.formLabel} htmlFor="email">
-          Email
-        </label>
-        <input
-          className={styles.input}
-          type="email"
-          name="email"
-          id="register-email"
-          required
-        />
-      </div>
-      <div className={styles.formField}>
-        <label className={styles.formLabel} htmlFor="password">
-          Create a password
-        </label>
-        <input
-          className={styles.input}
-          type="password"
-          name="password"
-          id="register-password"
-          required
-        />
-      </div>
+      <UsernameField />
+      <EmailField />
+      <PasswordField />
     </AuthModal>
   );
 }
