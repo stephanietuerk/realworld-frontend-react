@@ -1,6 +1,7 @@
 import { useParams } from 'react-router';
-import { useProfile } from '../../api/useProfile';
+import { useAuth } from '../../api/useAuth';
 import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
+import { useProfile } from '../../api/useProfile';
 import Banner from '../../components/banner/Banner';
 import BodyLayout from '../../components/body-layout/BodyLayout';
 import FollowButton from '../../components/follow-button/FollowButton';
@@ -13,13 +14,12 @@ import type {
   FeedOption,
   FeedSelections,
 } from '../../shared/types/articles.types';
+import { ErrorBoundary } from '../../shared/utilities/error-boundary';
 import Feed from '../feed/Feed';
 import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOptions';
 import FeedControls from '../feed/feed-controls/FeedControls';
 import { NONE_TAG } from '../feed/feed-controls/tag-options/TagOptions';
 import styles from './ProfilePage.module.scss';
-import { ErrorBoundary } from '../../shared/utilities/error-boundary';
-import { useAuth } from '../../api/useAuth';
 
 export const PROFILE_FEED_OPTIONS: FeedOption[] = [
   {

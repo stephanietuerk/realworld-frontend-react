@@ -1,31 +1,31 @@
+import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useArticle } from '../../api/useArticle';
+import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
+import { useMutateArticle } from '../../api/useMutateArticle';
 import Banner from '../../components/banner/Banner';
 import BodyLayout from '../../components/body-layout/BodyLayout';
+import Button from '../../components/button/Button';
+import CloseIcon from '../../components/icons/CloseIcon';
+import RevertIcon from '../../components/icons/RevertIcon';
+import SaveIcon from '../../components/icons/SaveIcon';
 import MainLayout from '../../components/main-layout/MainLayout';
 import { ROUTE } from '../../shared/constants/routing';
-import { ErrorBoundary } from '../../shared/utilities/error-boundary';
-import styles from './EditArticlePage.module.scss';
-import type { FormArticle } from '../create-article-page/CreateArticlePage';
-import { useEffect, useState } from 'react';
-import ArticleSidebar from '../article-page/article-sidebar/ArticleSidebar';
 import type {
   Article,
   ValidArticleMutation,
 } from '../../shared/types/articles.types';
-import { useMutateArticle } from '../../api/useMutateArticle';
-import Button from '../../components/button/Button';
-import SaveIcon from '../../components/icons/SaveIcon';
-import CloseIcon from '../../components/icons/CloseIcon';
+import { ErrorBoundary } from '../../shared/utilities/error-boundary';
+import ArticleSidebar from '../article-page/article-sidebar/ArticleSidebar';
 import {
   BodyField,
   DescriptionField,
   TagsField,
   TitleField,
 } from '../create-article-page/article-fields/ArticleFields';
-import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
-import RevertIcon from '../../components/icons/RevertIcon';
-import clsx from 'clsx';
+import type { FormArticle } from '../create-article-page/CreateArticlePage';
+import styles from './EditArticlePage.module.scss';
 
 interface ArticleEditItem {
   value: string;
@@ -45,12 +45,8 @@ const BREADCRUMBS: ({
 }: {
   slug: string;
   username: string;
-}) => { display: string; route: string }[] = ({ slug, username }) => [
+}) => { display: string; route: string }[] = ({ slug }) => [
   { display: 'Explore', route: ROUTE.explore },
-  {
-    display: 'My Content',
-    route: ROUTE.profile(username),
-  },
   {
     display: 'Edit Article',
     route: ROUTE.articleEdit(slug),

@@ -1,9 +1,9 @@
-import styles from './ArticleFields.module.scss';
 import { clsx } from 'clsx';
-import { useLayoutEffect, useRef, useState } from 'react';
-import { mdToHtml } from '../../../shared/utilities/markdown-to-html';
 import { Tabs } from 'radix-ui';
+import { useLayoutEffect, useRef, useState } from 'react';
 import Field from '../../../components/field/Field';
+import { mdToHtml } from '../../../shared/utilities/markdown-to-html';
+import styles from './ArticleFields.module.scss';
 
 export function TitleField({
   id = 'field-title',
@@ -190,9 +190,11 @@ export function BodyField({
             Write
           </Tabs.Trigger>
           <Tabs.Trigger
+            disabled={!body}
             className={clsx(
               styles.tabsTrigger,
               activeTab === 'preview' && styles.activeTab,
+              !body && styles.disabledTab,
             )}
             value='preview'
           >
@@ -219,6 +221,11 @@ export function BodyField({
         <Tabs.Content value='preview'>
           <div
             className={clsx(styles.inputBody, styles.preview, previewClassName)}
+            style={
+              {
+                '--preview-min-height': `${TEXTAREA_MIN_HEIGHT + 5}px`,
+              } as React.CSSProperties
+            }
             dangerouslySetInnerHTML={{ __html: preview }}
           ></div>
         </Tabs.Content>

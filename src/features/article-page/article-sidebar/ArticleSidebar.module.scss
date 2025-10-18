@@ -51,22 +51,11 @@ $sidebar-gap: grid(6);
   margin-top: grid(5);
 }
 
-.followButton {
-  --follow-button-padding: #{grid(1)} #{grid(2)} #{grid(1)} #{grid(1)};
-  --follow-button-min-height: 36px;
-
-  /* margin-left: grid(1) * -1; */
-  width: 100%;
-  margin-top: grid(3);
-}
-
 .favoriteButton {
   padding: #{grid(1)} #{grid(2)} #{grid(1)} #{grid(1)};
   min-height: 36px;
   width: 100%;
   justify-content: space-between;
-  /* margin-left: grid(1) * -1; */
-  margin-top: grid(1);
 }
 
 .favoriteReadout {
@@ -75,6 +64,15 @@ $sidebar-gap: grid(6);
   --favorite-button-heart-fill: rgba(var(--color-text-rgb), 0.5);
   --favorite-readout-color: currentColor;
   --favorite-readout-login-color: var(--color-primary);
+}
+
+.followButton {
+  --follow-button-padding: #{grid(1)} #{grid(2)} #{grid(1)} #{grid(1)};
+  --follow-button-min-height: 36px;
+
+  /* margin-left: grid(1) * -1; */
+  width: 100%;
+  margin: grid(3) 0 grid(2) 0;
 }
 
 .favoriteButton.selectedButton:not(:disabled),

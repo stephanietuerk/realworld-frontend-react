@@ -56,17 +56,27 @@
   }
 }
 
+.previewContainer {
+}
+
 .preview {
   @include markdown-content;
+  resize: initial;
   padding-top: grid(2);
+  min-height: var(--preview-min-height);
+  margin-bottom: grid(12);
 }
 
 .tabsTrigger {
   @include label-small;
-  padding: grid(2);
+  padding: grid(2) grid(4);
 }
 
 .activeTab {
   border-bottom: 2px solid var(--color-primary);
   color: var(--color-primary);
+}
+
+.disabledTab {
+  color: var(--color-neutral-70);
 }
