@@ -1,4 +1,7 @@
 import clsx from 'clsx';
+import { useArticle } from '../../../api/useArticle';
+import { useAuthenticatedUser } from '../../../api/useAuthenticatedUser';
+import { useProfile } from '../../../api/useProfile';
 import AuthorDate from '../../../components/author-date/AuthorDate';
 import FavoriteButton from '../../../components/favorite-button/FavoriteButton';
 import FavoriteReadout from '../../../components/favorite-readout/FavoriteReadout';
@@ -6,13 +9,10 @@ import FollowButton from '../../../components/follow-button/FollowButton';
 import SidebarLayout from '../../../components/sidebar-layout/SidebarLayout';
 import { formatDate } from '../../../shared/utilities/date-utilities';
 import styles from './ArticleSidebar.module.scss';
-import { useAuthenticatedUser } from '../../../api/useAuthenticatedUser';
-import { useArticle } from '../../../api/useArticle';
-import { useProfile } from '../../../api/useProfile';
 
 export default function ArticleSidebar({ children }: React.PropsWithChildren) {
   const { user: loggedInUser } = useAuthenticatedUser();
-  const { article, refetchArticle } = useArticle();
+  const { article } = useArticle();
   const { profile: authorProfile, refetch: refetchProfile } = useProfile(
     article?.author?.username,
   );
@@ -36,7 +36,6 @@ export default function ArticleSidebar({ children }: React.PropsWithChildren) {
                   className={styles.favoriteButton}
                   displayIcon={true}
                   displayText={true}
-                  syncWithApi={refetchArticle}
                   selectedClassName={styles.selectedButton}
                 ></FavoriteButton>
               ) : (

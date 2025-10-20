@@ -13,7 +13,6 @@ interface FavoriteButtonProps {
   slug: string;
   handlePointerEnter?: (e: React.PointerEvent<HTMLButtonElement>) => void;
   handlePointerLeave?: (e: React.PointerEvent<HTMLButtonElement>) => void;
-  syncWithApi: () => void;
   className?: string;
   displayIcon?: boolean;
   displayText?: boolean;

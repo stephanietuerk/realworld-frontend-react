@@ -2,7 +2,6 @@ import clsx from 'clsx';
 import { useState, type Dispatch } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../api/useAuth';
-import { useFeed } from '../../../api/useFeed';
 import AuthorDate from '../../../components/author-date/AuthorDate';
 import FavoriteButton from '../../../components/favorite-button/FavoriteButton';
 import FavoriteReadout from '../../../components/favorite-readout/FavoriteReadout';
@@ -30,7 +29,6 @@ interface ArticleCardProps {
 
 export default function ArticleCard({ article }: ArticleCardProps) {
   const { isLoggedIn } = useAuth();
-  const { refetch: refetch } = useFeed();
   const [favoriteIsHovered, setFavoriteIsHovered] = useState(false);
   const [authorIsHovered, setAuthorIsHovered] = useState(false);
 
@@ -76,7 +74,6 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             slug={article.slug}
             handlePointerEnter={(e) => handleFavoriteHover(e, true)}
             handlePointerLeave={(e) => handleFavoriteHover(e, false)}
-            syncWithApi={refetch}
           ></FavoriteButton>
         ) : (
           <FavoriteReadout count={article.favoritesCount}></FavoriteReadout>
