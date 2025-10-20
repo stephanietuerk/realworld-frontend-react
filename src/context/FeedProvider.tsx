@@ -14,7 +14,7 @@ import type {
   RawFeedItem,
 } from '../shared/types/feed.types';
 
-interface RawFeed {
+export interface RawFeed {
   articles: RawFeedItem[];
   articlesCount: number;
 }

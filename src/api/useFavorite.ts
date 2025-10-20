@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { RawFeed } from '../context/FeedProvider';
 import { API_ROOT } from '../shared/constants/api';
 import type { ApiError } from '../shared/types/errors.types';
-import type { Article, FeedItem } from '../shared/types/feed.types';
+import type { Article } from '../shared/types/feed.types';
 import { callApiWithAuth } from './callApiWithAuth';
 import { queryKeys } from './queryKeys';
 
@@ -31,21 +32,22 @@ export function useFavorite(slug: string) {
         });
       }
 
-      qc.setQueriesData<FeedItem[]>(
-        { queryKey: queryKeys.feedAll() },
-        (list) => {
-          if (!list) return list;
-          return list.map((item) =>
-            item.slug === slug
-              ? {
-                  ...item,
-                  favorited: action === 'add',
-                  favoritesCount: Math.max(0, item.favoritesCount + increment),
-                }
-              : item,
-          );
-        },
-      );
+      qc.setQueriesData<RawFeed>({ queryKey: queryKeys.feedAll() }, (list) => {
+        if (!list || !list.articles) return list;
+        const articles = list.articles.map((item) =>
+          item.slug === slug
+            ? {
+                ...item,
+                favorited: action === 'add',
+                favoritesCount: Math.max(0, item.favoritesCount + increment),
+              }
+            : item,
+        );
+        return {
+          articles,
+          articlesCount: list.articlesCount,
+        };
+      });
 
       return { prevArticle };
     },
