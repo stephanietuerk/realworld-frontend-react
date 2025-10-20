@@ -1,34 +1,32 @@
+import { useMutation } from '@tanstack/react-query';
+import { useCloseModal } from '../features/auth-modal/useCloseModal';
 import { API_ROOT } from '../shared/constants/api';
+import type { ApiError } from '../shared/types/errors.types';
 import type { AuthenticatedUser, UserLogin } from '../shared/types/user.types';
-import type { ApiCallState } from './callApiWithAuth';
-import { useApiMutation } from './useApiMutation';
+import { callApiWithAuth } from './callApiWithAuth';
 
-interface LoginUserState extends ApiCallState {
-  user: AuthenticatedUser | null;
-}
+export function useLoginUser(setToken: (token: string | null) => void) {
+  const closeModal = useCloseModal();
 
-interface LoginUserParams {
-  body: UserLogin | undefined;
-  onSuccess: () => void;
-}
-
-export function useLoginUser({
-  body,
-  onSuccess,
-}: LoginUserParams): LoginUserState {
-  const { data, isLoading, error } = useApiMutation<{
-    user: AuthenticatedUser;
-  }>({
-    url: !!body ? `${API_ROOT}users/login` : null,
-    method: 'POST',
-    options: {
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        user: body,
-      }),
+  return useMutation<
+    {
+      user: AuthenticatedUser;
     },
-    onSuccess,
+    ApiError,
+    UserLogin
+  >({
+    mutationKey: ['login'],
+    mutationFn: (login) =>
+      callApiWithAuth(`${API_ROOT}users/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user: login,
+        }),
+      }),
+    onSuccess: ({ user }) => {
+      setToken(user.token);
+      closeModal();
+    },
   });
-
-  return { user: data?.user ?? null, isLoading, error };
 }

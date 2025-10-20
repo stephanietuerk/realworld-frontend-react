@@ -14,7 +14,7 @@ function localStorageHasToken(): boolean {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isLoggedIn, setHasToken] = useState(localStorageHasToken());
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorageHasToken());
 
   const setToken = (token: string | null) => {
     if (token) {
@@ -22,11 +22,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } else {
       localStorage.removeItem('token');
     }
-    setHasToken(!!token);
+    setIsLoggedIn(!!token);
   };
 
   useEffect(() => {
-    const handler = () => setHasToken(localStorageHasToken());
+    const handler = () => setIsLoggedIn(localStorageHasToken());
     window.addEventListener('storage', handler);
     return () => window.removeEventListener('storage', handler);
   }, []);

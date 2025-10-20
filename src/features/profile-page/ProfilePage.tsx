@@ -8,12 +8,9 @@ import FollowButton from '../../components/follow-button/FollowButton';
 import Avatar from '../../components/icons/Avatar';
 import MainLayout from '../../components/main-layout/MainLayout';
 import SidebarLayout from '../../components/sidebar-layout/SidebarLayout';
-import { ArticlesProvider } from '../../context/ArticlesProvider';
+import { FeedProvider } from '../../context/FeedProvider';
 import { ROUTE } from '../../shared/constants/routing';
-import type {
-  FeedOption,
-  FeedSelections,
-} from '../../shared/types/articles.types';
+import type { FeedOption, FeedSelections } from '../../shared/types/feed.types';
 import { ErrorBoundary } from '../../shared/utilities/error-boundary';
 import Feed from '../feed/Feed';
 import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOptions';
@@ -105,7 +102,7 @@ export default function ProfilePage() {
         )}
       </Banner>
       <MainLayout>
-        <ArticlesProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
+        <FeedProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
           <BodyLayout>
             <SidebarLayout>
               <FeedControls tagsTitle='Show articles about'>
@@ -121,7 +118,7 @@ export default function ProfilePage() {
             </SidebarLayout>
             <Feed options={PROFILE_FEED_OPTIONS}></Feed>
           </BodyLayout>
-        </ArticlesProvider>
+        </FeedProvider>
       </MainLayout>
     </ErrorBoundary>
   );

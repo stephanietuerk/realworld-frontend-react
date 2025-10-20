@@ -1,33 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../api/useAuth';
+import { useLoginUser } from '../../api/useLogin';
 import { ROUTE } from '../../shared/constants/routing';
-import AuthModal from './AuthModal';
-import type { UserLogin } from '../../shared/types/user.types';
-import { useCloseModal } from './useCloseModal';
 import { useUiError } from '../../shared/utilities/useUiError';
 import { EmailField, PasswordField } from './AuthFields';
-import { useLoginUser } from '../../api/useLogin';
+import AuthModal from './AuthModal';
+import { useCloseModal } from './useCloseModal';
 
 export default function LoginModal() {
   const { setToken } = useAuth();
   const closeModal = useCloseModal();
-  const [login, setLogin] = useState<UserLogin | undefined>(undefined);
-  const {
-    user: loggedInUser,
-    isLoading,
-    error,
-  } = useLoginUser({
-    body: login,
-    onSuccess: () => {},
-  });
-  const uiError = useUiError(error);
+  const login = useLoginUser(setToken);
+  const uiError = useUiError(login.error);
   const [formValidity] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!loggedInUser) return;
-    setToken(loggedInUser.token);
+    if (!login.data) return;
     closeModal();
-  }, [loggedInUser, setToken, closeModal]);
+  }, [login.data]);
 
   // const updateValidityFrom = (el: HTMLInputElement) => {
   //   el.setCustomValidity('');
@@ -41,7 +31,7 @@ export default function LoginModal() {
     const formData = new FormData(form);
     const email = String(formData.get('email') ?? '');
     const password = String(formData.get('password') ?? '');
-    setLogin({ email, password });
+    login.mutate({ email, password });
   };
 
   return (
@@ -52,7 +42,7 @@ export default function LoginModal() {
       submitLabel='Sign in'
       handleSubmit={handleSubmit}
       formValidity={formValidity}
-      isSubmitting={isLoading}
+      isSubmitting={login.isPending}
       submitError={uiError?.message || null}
       key='Login'
     >

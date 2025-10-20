@@ -1,25 +1,21 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { API_ROOT } from '../shared/constants/api';
-import type { Profile } from '../shared/types/articles.types';
-import { useApiWithAuth } from './callApiWithAuth';
+import type { ApiError } from '../shared/types/errors.types';
+import type { Profile } from '../shared/types/feed.types';
+import { callApiWithAuth } from './callApiWithAuth';
+import { queryKeys } from './queryKeys';
 
-function getEndpoint(username: string): string {
-  return `${API_ROOT}profiles/${username}/follow`;
-}
+export function useFollow(username: string) {
+  const qc = useQueryClient();
 
-export function useFollowActions() {
-  const callApiWithAuth = useApiWithAuth();
-
-  const followUser = async (username: string) => {
-    return callApiWithAuth<{ profile: Profile }>(getEndpoint(username), {
-      method: 'POST',
-    });
-  };
-
-  const unfollowUser = async (username: string) => {
-    return callApiWithAuth<{ profile: Profile }>(getEndpoint(username), {
-      method: 'DELETE',
-    });
-  };
-
-  return { followUser, unfollowUser };
+  return useMutation<{ profile: Profile }, ApiError, 'add' | 'remove'>({
+    mutationKey: ['profile', 'follow', username],
+    mutationFn: (action) =>
+      callApiWithAuth(`${API_ROOT}profiles/${username}/follow`, {
+        method: action === 'add' ? 'POST' : 'DELETE',
+      }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.profile(username) });
+    },
+  });
 }

@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { ROUTE } from '../../shared/constants/routing';
-import type { Profile } from '../../shared/types/articles.types';
+import type { Profile } from '../../shared/types/feed.types';
 import { formatDate } from '../../shared/utilities/date-utilities';
 import Avatar from '../icons/Avatar';
 import styles from './AuthorDate.module.scss';
@@ -58,7 +58,7 @@ export default function AuthorDate({
       />
       <div className={clsx(styles.authorDate, styles[layout])}>
         <button
-          role="link"
+          role='link'
           className={clsx(styles.author, styles[layout])}
           onPointerEnter={(e) => handleHoverLocal(e, true)}
           onPointerLeave={(e) => handleHoverLocal(e, false)}

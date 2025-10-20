@@ -1,13 +1,18 @@
-import { createContext, useEffect, useState, type ReactNode } from 'react';
+import type { QueryObserverResult } from '@tanstack/react-query';
+import { createContext, type ReactNode } from 'react';
+import { queryKeys } from '../api/queryKeys';
 import { useApiGet } from '../api/useApiGet';
 import { useAuth } from '../api/useAuth';
 import { API_ROOT } from '../shared/constants/api';
+import type { ApiError } from '../shared/types/errors.types';
 import type { AuthenticatedUser } from '../shared/types/user.types';
 
 interface UserContextType {
-  user: AuthenticatedUser | null;
-  isLoading: boolean;
-  setUser: (user: AuthenticatedUser | null) => void;
+  user?: AuthenticatedUser;
+  isPending: boolean;
+  isError: boolean;
+  error: ApiError | null;
+  refetch: () => Promise<QueryObserverResult<AuthenticatedUser, ApiError>>;
 }
 
 export const AuthenticatedUserContext = createContext<
@@ -20,21 +25,25 @@ export function AuthenticatedUserProvider({
   children: ReactNode;
 }) {
   const { isLoggedIn } = useAuth();
-  const { data, isLoading } = useApiGet<{ user: AuthenticatedUser }>({
-    url: isLoggedIn ? `${API_ROOT}user` : null,
-  });
-  const [user, setUser] = useState<AuthenticatedUser | null>(null);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      setUser(null);
-      return;
-    }
-    setUser(data?.user ?? null);
-  }, [data, isLoggedIn]);
+  const { data, isPending, refetch, isError, error } = useApiGet<
+    { user: AuthenticatedUser },
+    AuthenticatedUser
+  >({
+    queryKey: queryKeys.loggedInUser(),
+    enabled: isLoggedIn,
+    url: isLoggedIn ? `${API_ROOT}user` : undefined,
+    queryOptions: {
+      select: ({ user }) => user,
+    },
+  });
+
+  const user = isLoggedIn ? (data ?? undefined) : undefined;
 
   return (
-    <AuthenticatedUserContext.Provider value={{ user, isLoading, setUser }}>
+    <AuthenticatedUserContext.Provider
+      value={{ user, isPending, isError, error, refetch }}
+    >
       {children}
     </AuthenticatedUserContext.Provider>
   );

@@ -1,37 +1,35 @@
+import { useMutation } from '@tanstack/react-query';
+import { useCloseModal } from '../features/auth-modal/useCloseModal';
 import { API_ROOT } from '../shared/constants/api';
+import type { ApiError } from '../shared/types/errors.types';
 import type {
   AuthenticatedUser,
   UserRegistration,
 } from '../shared/types/user.types';
-import type { ApiCallState } from './callApiWithAuth';
-import { useApiMutation } from './useApiMutation';
+import { callApiWithAuth } from './callApiWithAuth';
 
-interface RegisterUserState extends ApiCallState {
-  user: AuthenticatedUser | null;
-}
+export function useRegisterUser(setToken: (token: string | null) => void) {
+  const closeModal = useCloseModal();
 
-interface RegisterUserParams {
-  body: UserRegistration | undefined;
-  onSuccess: () => void;
-}
-
-export function useRegisterUser({
-  body,
-  onSuccess,
-}: RegisterUserParams): RegisterUserState {
-  const { data, isLoading, error } = useApiMutation<{
-    user: AuthenticatedUser;
-  }>({
-    url: !!body ? `${API_ROOT}users` : null,
-    method: 'POST',
-    options: {
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        user: body,
-      }),
+  return useMutation<
+    {
+      user: AuthenticatedUser;
     },
-    onSuccess,
+    ApiError,
+    UserRegistration
+  >({
+    mutationKey: ['register'],
+    mutationFn: (registration) =>
+      callApiWithAuth(`${API_ROOT}users`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user: registration,
+        }),
+      }),
+    onSuccess: ({ user }) => {
+      setToken(user.token);
+      closeModal();
+    },
   });
-
-  return { user: data?.user ?? null, isLoading, error };
 }

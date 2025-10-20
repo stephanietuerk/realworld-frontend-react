@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 import { useState, type PointerEventHandler } from 'react';
 import { useAuth } from '../../api/useAuth';
-import { useFavoriteActions } from '../../api/useFavorite';
+import { useFavorite } from '../../api/useFavorite';
+import Button from '../button/Button';
 import AddAddedIcon from '../icons/AddAddedIcon';
 import FavoriteIcon from '../icons/FavoriteIcon';
 import styles from './FavoriteButton.module.scss';
-import Button from '../button/Button';
 
 interface FavoriteButtonProps {
   count: number;
@@ -34,36 +34,20 @@ export default function FavoriteButton({
   slug,
   handlePointerEnter,
   handlePointerLeave,
-  syncWithApi,
   displayText = false,
   displayIcon = true,
   plusIconSize = 24,
   selectedClassName,
 }: FavoriteButtonProps) {
   const { isLoggedIn } = useAuth();
-  const { favoriteArticle, unfavoriteArticle } = useFavoriteActions();
-  const [localFavorited, setLocalFavorited] = useState<boolean>(favorited);
-  const [localCount, setLocalCount] = useState<number>(count);
+  const favorite = useFavorite(slug);
   const [hovering, setHovering] = useState<boolean>(false);
 
   const handleClick: PointerEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
 
-    if (!isLoggedIn) {
-      return;
-    }
-
-    const isRemovingFavorite = localFavorited;
-
-    setLocalFavorited(!localFavorited);
-    setLocalCount((c) => c + (isRemovingFavorite ? -1 : 1));
-
-    try {
-      const action = isRemovingFavorite ? unfavoriteArticle : favoriteArticle;
-      await action(slug).then(() => syncWithApi());
-    } catch (error) {
-      setLocalFavorited(isRemovingFavorite);
-      setLocalCount((c) => c + (isRemovingFavorite ? 1 : -1));
+    if (isLoggedIn) {
+      favorite.mutate(favorited ? 'remove' : 'add');
     }
   };
 
@@ -74,7 +58,7 @@ export default function FavoriteButton({
         styles.favoriteButton,
         isLoggedIn && styles.clickable,
         !displayText && styles.noText,
-        localFavorited && selectedClassName,
+        favorited && selectedClassName,
         className,
       )}
       onClick={handleClick}
@@ -92,7 +76,7 @@ export default function FavoriteButton({
         <div className={styles.iconLabelRow}>
           <AddAddedIcon
             size={plusIconSize}
-            variant={!localFavorited ? 'plus' : hovering ? 'minus' : 'check'}
+            variant={!favorited ? 'plus' : hovering ? 'minus' : 'check'}
             svgClassName={styles.plusIconSvg}
             pathClassName={styles.plusIconPath}
           ></AddAddedIcon>
@@ -102,7 +86,7 @@ export default function FavoriteButton({
               displayIcon && styles.instructionsWithIcon,
             )}
           >
-            {!localFavorited
+            {!favorited
               ? BUTTON_TEXT.add
               : hovering
                 ? BUTTON_TEXT.remove
@@ -114,10 +98,10 @@ export default function FavoriteButton({
         <div className={styles.countIcon}>
           <FavoriteIcon
             size={displayText ? 16 : 20}
-            isOutline={!localFavorited}
+            isOutline={!favorited}
             pathClassName={styles.favoritePathFill}
           ></FavoriteIcon>
-          <span className={styles.favoriteCount}>{localCount}</span>
+          <span className={styles.favoriteCount}>{count}</span>
         </div>
       )}
     </Button>

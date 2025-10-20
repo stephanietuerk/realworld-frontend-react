@@ -1,35 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../api/useAuth';
-import { ROUTE } from '../../shared/constants/routing';
-import AuthModal from './AuthModal';
-import type { UserRegistration } from '../../shared/types/user.types';
-import { useCloseModal } from './useCloseModal';
-import { useUiError } from '../../shared/utilities/useUiError';
-import { EmailField, PasswordField, UsernameField } from './AuthFields';
 import { useRegisterUser } from '../../api/useRegister';
+import { ROUTE } from '../../shared/constants/routing';
+import { EmailField, PasswordField, UsernameField } from './AuthFields';
+import AuthModal from './AuthModal';
 
 export default function RegisterModal() {
   const { setToken } = useAuth();
-  const closeModal = useCloseModal();
-  const [registration, setRegistration] = useState<
-    UserRegistration | undefined
-  >(undefined);
-  const {
-    user: registeredUser,
-    isLoading,
-    error,
-  } = useRegisterUser({
-    body: registration,
-    onSuccess: () => {},
-  });
-  const uiError = useUiError(error);
+  const register = useRegisterUser(setToken);
   const [formValidity] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (!registeredUser) return;
-    setToken(registeredUser.token);
-    closeModal();
-  }, [registeredUser, setToken, closeModal]);
 
   // const updateValidityFrom = (el: HTMLInputElement) => {
   //   setFormValidity(el.form?.checkValidity() ?? false);
@@ -43,7 +22,7 @@ export default function RegisterModal() {
     const username = String(formData.get('username') ?? '');
     const email = String(formData.get('email') ?? '');
     const password = String(formData.get('password') ?? '');
-    setRegistration({ username, email, password });
+    register.mutate({ username, email, password });
   };
 
   return (
@@ -54,8 +33,8 @@ export default function RegisterModal() {
       submitLabel='Sign up'
       handleSubmit={handleSubmit}
       formValidity={formValidity}
-      isSubmitting={isLoading}
-      submitError={uiError?.message || null}
+      isSubmitting={register.isPending}
+      submitError={register.error ? 'error' : null}
       key='Register'
     >
       <UsernameField />

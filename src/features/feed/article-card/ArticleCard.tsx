@@ -1,14 +1,14 @@
 import clsx from 'clsx';
 import { useState, type Dispatch } from 'react';
 import { Link } from 'react-router-dom';
-import { useArticles } from '../../../api/useArticles';
 import { useAuth } from '../../../api/useAuth';
+import { useFeed } from '../../../api/useFeed';
 import AuthorDate from '../../../components/author-date/AuthorDate';
 import FavoriteButton from '../../../components/favorite-button/FavoriteButton';
 import FavoriteReadout from '../../../components/favorite-readout/FavoriteReadout';
 import Tags from '../../../components/tags/Tags';
 import { ROUTE } from '../../../shared/constants/routing';
-import type { ArticleMetadata } from '../../../shared/types/articles.types';
+import type { FeedItem } from '../../../shared/types/feed.types';
 import styles from './ArticleCard.module.scss';
 
 function handleNonCardHover(
@@ -25,12 +25,12 @@ function handleNonCardHover(
 }
 
 interface ArticleCardProps {
-  article: ArticleMetadata;
+  article: FeedItem;
 }
 
 export default function ArticleCard({ article }: ArticleCardProps) {
   const { isLoggedIn } = useAuth();
-  const { refetchArticles: refetch } = useArticles();
+  const { refetch: refetch } = useFeed();
   const [favoriteIsHovered, setFavoriteIsHovered] = useState(false);
   const [authorIsHovered, setAuthorIsHovered] = useState(false);
 

@@ -1,4 +1,6 @@
+import type { UseQueryResult } from '@tanstack/react-query';
 import type { Dispatch, SetStateAction } from 'react';
+import type { ApiError } from './errors.types';
 
 export interface Profile {
   username: string;
@@ -7,7 +9,7 @@ export interface Profile {
   following: boolean;
 }
 
-export interface ArticleMetadata {
+export interface FeedItem {
   slug: string;
   title: string;
   description: string;
@@ -19,13 +21,12 @@ export interface ArticleMetadata {
   author: Profile;
 }
 
-export interface RawArticleMetadata
-  extends Omit<ArticleMetadata, 'createdAt' | 'updatedAt'> {
+export interface RawFeedItem extends Omit<FeedItem, 'createdAt' | 'updatedAt'> {
   createdAt: string;
   updatedAt: string;
 }
 
-export interface Article extends ArticleMetadata {
+export interface Article extends FeedItem {
   body: string;
   bodyMarkdown: string;
 }
@@ -50,13 +51,12 @@ export interface FeedOption {
   noArticlesString: (username?: string) => string;
 }
 
-export interface ArticlesContextType {
-  articles: ArticleMetadata[];
+export interface FeedContextType {
+  allItems?: FeedItem[];
   feedSelections: FeedSelections;
-  filteredArticles: ArticleMetadata[];
-  isLoading: boolean;
-  showLoading: boolean;
-  refetchArticles: () => void;
+  filteredItems: FeedItem[];
+  isPending: boolean;
+  refetch: UseQueryResult<FeedItem[], ApiError>['refetch'];
   setFeedSelections: Dispatch<SetStateAction<FeedSelections>>;
 }
 

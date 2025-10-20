@@ -1,20 +1,19 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { API_ROOT } from '../shared/constants/api';
-import type { ApiCallState } from './callApiWithAuth';
-import { useApiMutation } from './useApiMutation';
+import type { ApiError } from '../shared/types/errors.types';
+import { callApiWithAuth } from './callApiWithAuth';
+import { queryKeys } from './queryKeys';
 
-export function useDeleteComment(
-  slug: string | undefined,
-  id: number | undefined,
-  onSuccess: () => void,
-): ApiCallState {
-  const { isLoading, error } = useApiMutation({
-    url:
-      !!slug && id !== undefined && id !== null
-        ? `${API_ROOT}articles/${slug}/comments/${id}`
-        : null,
-    method: 'DELETE',
-    onSuccess,
+export function useDeleteComment(slug: string) {
+  const qc = useQueryClient();
+
+  return useMutation<void, ApiError, number>({
+    mutationKey: ['comments', 'delete'],
+    mutationFn: (id) =>
+      callApiWithAuth(`${API_ROOT}articles/${slug}/comments/${id}`, {
+        method: 'DELETE',
+      }),
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: queryKeys.comments(slug) }),
   });
-
-  return { isLoading, error };
 }

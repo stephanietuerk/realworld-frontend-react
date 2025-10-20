@@ -1,54 +1,29 @@
-import { useCallback, useState } from 'react';
 import { useComments, type Comment } from '../../../api/useComments';
+import { useDeleteComment } from '../../../api/useDeleteComment';
 import { usePostComment } from '../../../api/usePostComment';
 import {
   CommentDisplay,
   LeaveComment,
 } from '../comment-display/CommentDisplay';
 import styles from './Comments.module.scss';
-import { useDeleteComment } from '../../../api/useDeleteComment';
 
 interface CommentsProps {
   slug: string;
 }
 
 export default function Comments({ slug }: CommentsProps) {
-  const { comments, refetch } = useComments(slug);
-  const [bodyToPost, setBodyToPost] = useState<string | undefined>(undefined);
-  const [commentIdToDelete, setCommentIdToDelete] = useState<
-    number | undefined
-  >(undefined);
-
-  const onSuccessfulPost = useCallback(() => {
-    refetch();
-    setBodyToPost(undefined);
-  }, [refetch]);
-
-  const onSuccessfulDelete = useCallback(() => {
-    refetch();
-    setCommentIdToDelete(undefined);
-  }, [refetch]);
-
-  const { isLoading: isPosting } = usePostComment(
-    bodyToPost ? slug : undefined,
-    bodyToPost,
-    onSuccessfulPost,
-  );
-
-  const { isLoading: isDeleting } = useDeleteComment(
-    commentIdToDelete ? slug : undefined,
-    commentIdToDelete ?? undefined,
-    onSuccessfulDelete,
-  );
+  const { comments } = useComments(slug);
+  const postComment = usePostComment(slug);
+  const deleteComment = useDeleteComment(slug);
 
   const handlePostComment = (body: string) => {
-    if (!body.trim() || isPosting) return;
-    setBodyToPost(body);
+    if (!body.trim()) return;
+    postComment.mutate(body);
   };
 
   const handleDeleteComment = (comment: Comment) => {
-    if (!comment || isDeleting) return;
-    setCommentIdToDelete(comment.id);
+    if (!comment) return;
+    deleteComment.mutate(comment.id);
   };
 
   return (

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useArticle } from '../../api/useArticle';
 import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
-import { useMutateArticle } from '../../api/useMutateArticle';
+import { useEditArticle } from '../../api/useEditArticle';
 import Banner from '../../components/banner/Banner';
 import BodyLayout from '../../components/body-layout/BodyLayout';
 import Button from '../../components/button/Button';
@@ -12,10 +12,7 @@ import RevertIcon from '../../components/icons/RevertIcon';
 import SaveIcon from '../../components/icons/SaveIcon';
 import MainLayout from '../../components/main-layout/MainLayout';
 import { ROUTE } from '../../shared/constants/routing';
-import type {
-  Article,
-  ValidArticleMutation,
-} from '../../shared/types/articles.types';
+import type { Article } from '../../shared/types/feed.types';
 import { ErrorBoundary } from '../../shared/utilities/error-boundary';
 import ArticleSidebar from '../article-page/article-sidebar/ArticleSidebar';
 import {
@@ -93,19 +90,11 @@ export default function EditArticlePage() {
   const [edits, setEdits] = useState<ArticleEdits>(() =>
     initArticleEdits(article),
   );
-  const [validArticle, setValidArticle] = useState<
-    ValidArticleMutation | undefined
-  >(undefined);
+  // const [validArticle, setValidArticle] = useState<
+  //   ValidArticleMutation | undefined
+  // >(undefined);
   const [everEdited, setEverEdited] = useState(false);
-  const {
-    article: postedArticle,
-    isLoading,
-    error,
-  } = useMutateArticle({
-    body: validArticle,
-    onSuccess: () => {},
-    method: 'PUT',
-  });
+  const editArticle = useEditArticle(slug!);
 
   const dirty = Boolean(
     article &&
@@ -117,18 +106,12 @@ export default function EditArticlePage() {
 
   useEffect(() => {
     if (dirty) setEverEdited(true);
-    console.log('everEdited', dirty);
   }, [dirty]);
 
   useEffect(() => {
     if (!article) return;
     setEdits(initArticleEdits(article));
   }, [article?.slug]);
-
-  useEffect(() => {
-    if (!postedArticle) return;
-    navigate(ROUTE.article(postedArticle.slug));
-  }, [postedArticle, navigate]);
 
   const updateEdits = (key: keyof FormArticle, content: string) => {
     setEdits((prev) => ({
@@ -142,14 +125,12 @@ export default function EditArticlePage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(edits);
-    setValidArticle({
+    editArticle.mutate({
       title: edits.title.value,
       description: edits.description.value,
       body: edits.body.value,
       tagList: edits.tagList.value.split(',').map((t) => t.trim()),
     });
-    console.log(validArticle);
   };
 
   const navigateToArticle = () => {
@@ -227,7 +208,7 @@ export default function EditArticlePage() {
               )}
               <ArticleSidebar>
                 <>
-                  {error && (
+                  {editArticle.error && (
                     <p className={styles.error}>
                       Saving was not successful. Please try again.
                     </p>
@@ -238,9 +219,9 @@ export default function EditArticlePage() {
                       styles.saveButton,
                       (everEdited || dirty) && styles.canRevert,
                     )}
-                    disabled={!dirty || isLoading}
+                    disabled={!dirty || editArticle.isPending}
                     type='submit'
-                    busy={isLoading}
+                    busy={editArticle.isPending}
                   >
                     <SaveIcon size={20} className={styles.saveIcon}></SaveIcon>
                     Save changes
@@ -249,7 +230,7 @@ export default function EditArticlePage() {
                     <Button
                       variant='tertiary'
                       className={styles.revertButton}
-                      disabled={!dirty || isLoading}
+                      disabled={!dirty || editArticle.isPending}
                       onClick={revertChanges}
                     >
                       <RevertIcon

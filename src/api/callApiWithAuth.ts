@@ -16,7 +16,7 @@ export async function callApiWithAuth<T>(
 
   const headers = new Headers(options.headers as HeadersInit);
   if (token && !headers.has('Authorization')) {
-    headers.set('Authorization', `Token ${token}`); // RealWorld uses "Token"
+    headers.set('Authorization', `Token ${token}`);
   }
   if (!headers.has('Accept')) headers.set('Accept', 'application/json');
 
@@ -59,7 +59,9 @@ export async function callApiWithAuth<T>(
   if (res.status === 204 || res.status === 205) {
     return null as unknown as T;
   }
+
   const ct = res.headers.get('content-type') ?? '';
+
   if (ct.includes('application/json')) {
     return (await res.json()) as T;
   }
@@ -68,7 +70,7 @@ export async function callApiWithAuth<T>(
 }
 
 export function useApiWithAuth() {
-  const { setToken } = useAuth();
+  const { setToken: setToken } = useAuth();
   return useCallback(
     <T>(url: string, options?: RequestInit) => {
       return callApiWithAuth<T>(url, options, () => setToken(null));
