@@ -50,7 +50,7 @@ export default function FeedControls({
       );
       return {
         ...prev,
-        tags: newTagSelections,
+        tags: newTagSelections.length > 0 ? newTagSelections : [NONE_TAG],
       };
     });
   };
