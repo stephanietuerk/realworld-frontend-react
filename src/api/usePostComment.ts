@@ -13,7 +13,7 @@ export function usePostComment(slug: string) {
   return useMutation<{ comment: Comment }, ApiError, string>({
     mutationKey: ['comments', 'create', slug] as const,
     mutationFn: (body) =>
-      callApiWithAuth(`${API_ROOT}articles/${slug}/comments`, {
+      callApiWithAuth(`${API_ROOT}/articles/${slug}/comments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ comment: { body } }),

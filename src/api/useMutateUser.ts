@@ -11,7 +11,7 @@ export function useMutateUser(username: string) {
   return useMutation<{ user: AuthenticatedUser }, ApiError, UserUpdate>({
     mutationKey: ['user', 'edit', username],
     mutationFn: (user) =>
-      callApiWithAuth(`${API_ROOT}user`, {
+      callApiWithAuth(`${API_ROOT}/user`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -19,17 +19,14 @@ export default function LoginModal() {
     closeModal();
   }, [login.data]);
 
-  // const updateValidityFrom = (el: HTMLInputElement) => {
-  //   el.setCustomValidity('');
-  //   setFormValidity(el.form?.checkValidity() ?? false);
-  // };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const form = e.currentTarget;
     if (!form.reportValidity()) return;
     const formData = new FormData(form);
-    const email = String(formData.get('email') ?? '');
+    const email = String(formData.get('email') ?? '')
+      .trim()
+      .toLowerCase();
     const password = String(formData.get('password') ?? '');
     login.mutate({ email, password });
   };

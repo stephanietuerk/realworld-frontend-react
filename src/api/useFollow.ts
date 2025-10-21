@@ -11,11 +11,12 @@ export function useFollow(username: string) {
   return useMutation<{ profile: Profile }, ApiError, 'add' | 'remove'>({
     mutationKey: ['profile', 'follow', username],
     mutationFn: (action) =>
-      callApiWithAuth(`${API_ROOT}profiles/${username}/follow`, {
+      callApiWithAuth(`${API_ROOT}/profiles/${username}/follow`, {
         method: action === 'add' ? 'POST' : 'DELETE',
       }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.profile(username) });
+      qc.invalidateQueries({ queryKey: ['feed', 'loggedInUser'] });
     },
   });
 }

@@ -1,4 +1,5 @@
 import type { UseQueryResult } from '@tanstack/react-query';
+import { useMemo } from 'react';
 import { API_ROOT } from '../shared/constants/api';
 import type { ApiError } from '../shared/types/errors.types';
 import type { Profile } from '../shared/types/feed.types';
@@ -45,17 +46,20 @@ export function useComments(slug: string): CommentsState {
     Comment[]
   >({
     queryKey: queryKeys.comments(slug),
-    url: !!slug ? `${API_ROOT}articles/${slug}/comments` : undefined,
+    url: !!slug ? `${API_ROOT}/articles/${slug}/comments` : undefined,
     queryOptions: {
       select: ({ comments }) => transformAndSortComments(comments),
     },
   });
 
-  return {
-    comments: data,
-    isPending,
-    isError,
-    error,
-    refetch,
-  };
+  return useMemo(
+    () => ({
+      comments: data,
+      isPending,
+      isError,
+      error,
+      refetch,
+    }),
+    [data, isPending, isError, error, refetch],
+  );
 }

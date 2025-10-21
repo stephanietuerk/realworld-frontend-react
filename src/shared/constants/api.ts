@@ -1,1 +1,1 @@
-export const API_ROOT = 'https://api.realworld.show/api/';
+export const API_ROOT = 'https://api.realworld.show/api';

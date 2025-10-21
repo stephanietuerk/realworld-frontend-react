@@ -19,8 +19,10 @@ export default function RegisterModal() {
     const form = e.currentTarget;
     if (!form.reportValidity()) return;
     const formData = new FormData(form);
-    const username = String(formData.get('username') ?? '');
-    const email = String(formData.get('email') ?? '');
+    const username = String(formData.get('username') ?? '').trim();
+    const email = String(formData.get('email') ?? '')
+      .trim()
+      .toLowerCase();
     const password = String(formData.get('password') ?? '');
     register.mutate({ username, email, password });
   };

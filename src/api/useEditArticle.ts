@@ -14,7 +14,7 @@ export function useEditArticle(slug: string) {
   return useMutation<{ article: Article }, ApiError, ValidArticleMutation>({
     mutationKey: ['article', 'edit', slug],
     mutationFn: (edits) =>
-      callApiWithAuth(`${API_ROOT}articles/${slug}`, {
+      callApiWithAuth(`${API_ROOT}/articles/${slug}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

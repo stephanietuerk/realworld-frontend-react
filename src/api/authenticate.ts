@@ -1,22 +1,26 @@
 import { API_ROOT } from '../shared/constants/api';
 import type { AuthenticatedUser } from '../shared/types/user.types';
+import { callApiWithAuth } from './callApiWithAuth';
 
 export async function login(
   email: string,
   password: string,
 ): Promise<{ user: AuthenticatedUser }> {
-  const res = await fetch(API_ROOT + 'users/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+  return callApiWithAuth<{ user: AuthenticatedUser }>(
+    `${API_ROOT}/users/login`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        user: { email: email.trim().toLowerCase(), password },
+      }),
     },
-    body: JSON.stringify({ user: { email, password } }),
-  });
-
-  if (!res.ok) {
-    await handleErrorResponse(res);
-  }
-  return res.json() as Promise<{ user: AuthenticatedUser }>;
+    undefined,
+    'none',
+  );
 }
 
 export async function register(
@@ -24,32 +28,23 @@ export async function register(
   email: string,
   password: string,
 ): Promise<{ user: AuthenticatedUser }> {
-  const res = await fetch(API_ROOT + 'users', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+  return callApiWithAuth<{ user: AuthenticatedUser }>(
+    `${API_ROOT}/users`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        user: {
+          username: username.trim(),
+          email: email.trim().toLowerCase(),
+          password,
+        },
+      }),
     },
-    body: JSON.stringify({ user: { username, email, password } }),
-  });
-
-  if (!res.ok) {
-    await handleErrorResponse(res);
-  }
-  return res.json() as Promise<{ user: AuthenticatedUser }>;
-}
-
-function handleErrorResponse(res: Response): Promise<never> {
-  return res.json().then((errorData) => {
-    const message = errorData?.errors
-      ? Object.entries(errorData.errors)
-          .map(
-            ([field, msgs]) =>
-              `${field} ${Array.isArray(msgs) ? msgs.join(', ') : msgs}`,
-          )
-          .join(', ')
-      : 'Unknown error';
-    const error = new Error(message) as Error & { code?: number };
-    error.code = res.status;
-    throw error;
-  });
+    undefined,
+    'none',
+  );
 }

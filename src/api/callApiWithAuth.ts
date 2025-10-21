@@ -7,15 +7,18 @@ export interface ApiCallState {
   error: ApiError | null;
 }
 
+type AuthMode = 'auto' | 'required' | 'none';
+
 export async function callApiWithAuth<T>(
   endpoint: string,
   options: RequestInit = {},
   onUnauthorized?: () => void,
+  auth: AuthMode = 'auto',
 ): Promise<T> {
   const token = localStorage.getItem('token');
 
   const headers = new Headers(options.headers as HeadersInit);
-  if (token && !headers.has('Authorization')) {
+  if (auth !== 'none' && token && !headers.has('Authorization')) {
     headers.set('Authorization', `Token ${token}`);
   }
   if (!headers.has('Accept')) headers.set('Accept', 'application/json');
@@ -28,6 +31,12 @@ export async function callApiWithAuth<T>(
       throw { kind: 'aborted' } as const;
     }
     throw { kind: 'network', message: e?.message ?? 'Network error' } as const;
+  }
+
+  const sentAuth = headers.has('Authorization');
+  if (res.status === 401 && sentAuth && auth !== 'none') {
+    localStorage.removeItem('token');
+    onUnauthorized?.();
   }
 
   if (res.status === 401) {

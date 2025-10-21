@@ -24,11 +24,11 @@ interface FeedProviderProps {
   children: ReactNode;
 }
 
-type ArticlesEndpoint = 'global' | 'user';
+export type FeedEndpoint = 'global' | 'loggedInUser';
 
-const FEED_ENDPOINT: Record<ArticlesEndpoint, string> = {
+const FEED_ENDPOINT: Record<FeedEndpoint, string> = {
   global: 'articles',
-  user: 'articles/feed',
+  loggedInUser: 'articles/feed',
 };
 
 export const FeedContext = createContext<FeedContextType | undefined>(
@@ -66,8 +66,8 @@ function isProfileView(feed: FeedSelections['feed']): feed is ProfileFeed {
   return feed === 'author' || feed === 'favorited';
 }
 
-function getEndpointType(feed: HomeFeed | ProfileFeed): 'user' | 'global' {
-  return isUsersFeed(feed) ? 'user' : 'global';
+function getEndpointType(feed: HomeFeed | ProfileFeed): FeedEndpoint {
+  return isUsersFeed(feed) ? 'loggedInUser' : 'global';
 }
 
 export function FeedProvider({
@@ -81,7 +81,7 @@ export function FeedProvider({
   const endpointType = getEndpointType(feedSelections.feed);
 
   const url = useMemo(() => {
-    let url = API_ROOT + FEED_ENDPOINT[endpointType];
+    let url = API_ROOT + '/' + FEED_ENDPOINT[endpointType];
     if (isProfileView(feedSelections.feed) && username) {
       url += `?${feedSelections.feed}=${encodeURIComponent(username)}`;
     }
@@ -91,6 +91,7 @@ export function FeedProvider({
   const { data, isPending, refetch } = useApiGet<RawFeed, FeedItem[]>({
     queryKey: queryKeys.feed({
       endpointType,
+      feed: feedSelections.feed,
       username,
     }),
     url,

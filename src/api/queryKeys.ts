@@ -1,15 +1,17 @@
-import type { UserLogin } from '../shared/types/user.types';
+import type { FeedEndpoint } from '../context/FeedProvider';
+import type { HomeFeed, ProfileFeed } from '../shared/types/feed.types';
 
 export const queryKeys = {
-  login: (user?: UserLogin) => ['login', user?.email, user?.password],
   comments: (slug: string) => ['comments', slug],
   feed: ({
     endpointType,
+    feed,
     username,
   }: {
-    endpointType: 'global' | 'user';
+    endpointType: FeedEndpoint;
+    feed: HomeFeed | ProfileFeed;
     username?: string;
-  }) => ['feed', endpointType, username],
+  }) => ['feed', endpointType, feed, username],
   feedAll: () => ['feed'],
   article: (slug: string) => ['article', slug],
   loggedInUser: () => ['loggedInUser'],

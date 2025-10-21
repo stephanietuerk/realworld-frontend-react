@@ -20,7 +20,7 @@ export function useRegisterUser(setToken: (token: string | null) => void) {
   >({
     mutationKey: ['register'],
     mutationFn: (registration) =>
-      callApiWithAuth(`${API_ROOT}users`, {
+      callApiWithAuth(`${API_ROOT}/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

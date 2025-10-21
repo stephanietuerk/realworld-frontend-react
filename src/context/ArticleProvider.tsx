@@ -27,7 +27,7 @@ export function ArticleProvider({ slug, children }: ArticleProviderProps) {
     Article
   >({
     queryKey: queryKeys.article(slug),
-    url: slug ? `${API_ROOT}articles/${slug}` : undefined,
+    url: slug ? `${API_ROOT}/articles/${slug}` : undefined,
     queryOptions: {
       select: ({ article }) => dateifyResponse(article),
     },
@@ -48,7 +48,7 @@ export function ArticleProvider({ slug, children }: ArticleProviderProps) {
         console.error('Failed to convert article body:', err);
         setArticle({} as Article);
       });
-  }, [data]);
+  }, [data?.slug, data?.body]);
 
   return (
     <ArticleContext.Provider

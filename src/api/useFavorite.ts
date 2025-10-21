@@ -13,7 +13,7 @@ export function useFavorite(slug: string) {
   return useMutation<{ article: Article }, ApiError, 'add' | 'remove'>({
     mutationKey: key,
     mutationFn: (action) =>
-      callApiWithAuth(`${API_ROOT}articles/${slug}/favorite`, {
+      callApiWithAuth(`${API_ROOT}/articles/${slug}/favorite`, {
         method: action === 'add' ? 'POST' : 'DELETE',
       }),
     onMutate: async (action) => {

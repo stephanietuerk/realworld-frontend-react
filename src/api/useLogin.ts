@@ -17,7 +17,7 @@ export function useLoginUser(setToken: (token: string | null) => void) {
   >({
     mutationKey: ['login'],
     mutationFn: (login) =>
-      callApiWithAuth(`${API_ROOT}users/login`, {
+      callApiWithAuth(`${API_ROOT}/users/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

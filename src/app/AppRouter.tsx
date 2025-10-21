@@ -14,7 +14,19 @@ import SettingsPage from '../features/settings-page/SettingsPage.tsx';
 import { ROUTE } from '../shared/constants/routing.ts';
 import App from './App.tsx';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      retry: 1,
+      staleTime: 60_000,
+    },
+    mutations: {
+      retry: 0,
+    },
+  },
+});
 
 export default function AppRouter() {
   const location = useLocation();

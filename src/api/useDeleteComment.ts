@@ -10,7 +10,7 @@ export function useDeleteComment(slug: string) {
   return useMutation<void, ApiError, number>({
     mutationKey: ['comments', 'delete'],
     mutationFn: (id) =>
-      callApiWithAuth(`${API_ROOT}articles/${slug}/comments/${id}`, {
+      callApiWithAuth(`${API_ROOT}/articles/${slug}/comments/${id}`, {
         method: 'DELETE',
       }),
     onSuccess: () =>

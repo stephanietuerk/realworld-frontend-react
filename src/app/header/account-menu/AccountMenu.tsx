@@ -1,15 +1,17 @@
 import clsx from 'clsx';
-import styles from './AccountMenu.module.scss';
-import ChevronIcon from '../../../components/icons/ChevronIcon';
 import { DropdownMenu } from 'radix-ui';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../api/useAuth';
 import { useAuthenticatedUser } from '../../../api/useAuthenticatedUser';
+import ChevronIcon from '../../../components/icons/ChevronIcon';
 import { ROUTE } from '../../../shared/constants/routing';
+import styles from './AccountMenu.module.scss';
 
 export default function AccountMenu({ className }: { className?: string }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuthenticatedUser();
+  const { setToken } = useAuth();
   const navigateToProfile = () => {
     // Implement navigation to profile page
     navigate(ROUTE.profile(user?.username));
@@ -21,8 +23,7 @@ export default function AccountMenu({ className }: { className?: string }) {
   };
 
   const logout = () => {
-    // Implement logout functionality
-    // E.g., clear user session, redirect to login page, etc.
+    setToken(null);
   };
 
   const isProfilePage = location.pathname === ROUTE.profile(user?.username);
