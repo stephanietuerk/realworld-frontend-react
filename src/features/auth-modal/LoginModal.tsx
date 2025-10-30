@@ -1,47 +1,32 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../api/useAuth';
+import { useLogin } from '../../api/useLogin';
 import { ROUTE } from '../../shared/constants/routing';
-import AuthModal from './AuthModal';
-import type { UserLogin } from '../../shared/types/user.types';
-import { useCloseModal } from './useCloseModal';
-import { useUiError } from '../../shared/utilities/useUiError';
 import { EmailField, PasswordField } from './AuthFields';
-import { useLoginUser } from '../../api/useLogin';
+import AuthModal from './AuthModal';
+import { useCloseModal } from './useCloseModal';
 
 export default function LoginModal() {
   const { setToken } = useAuth();
   const closeModal = useCloseModal();
-  const [login, setLogin] = useState<UserLogin | undefined>(undefined);
-  const {
-    user: loggedInUser,
-    isLoading,
-    error,
-  } = useLoginUser({
-    body: login,
-    onSuccess: () => {},
-  });
-  const uiError = useUiError(error);
+  const login = useLogin(setToken);
   const [formValidity] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!loggedInUser) return;
-    setToken(loggedInUser.token);
+    if (!login.data) return;
     closeModal();
-  }, [loggedInUser, setToken, closeModal]);
-
-  // const updateValidityFrom = (el: HTMLInputElement) => {
-  //   el.setCustomValidity('');
-  //   setFormValidity(el.form?.checkValidity() ?? false);
-  // };
+  }, [login.data]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const form = e.currentTarget;
     if (!form.reportValidity()) return;
     const formData = new FormData(form);
-    const email = String(formData.get('email') ?? '');
+    const email = String(formData.get('email') ?? '')
+      .trim()
+      .toLowerCase();
     const password = String(formData.get('password') ?? '');
-    setLogin({ email, password });
+    login.mutate({ email, password });
   };
 
   return (
@@ -52,8 +37,8 @@ export default function LoginModal() {
       submitLabel='Sign in'
       handleSubmit={handleSubmit}
       formValidity={formValidity}
-      isSubmitting={isLoading}
-      submitError={uiError?.message || null}
+      isSubmitting={login.isPending}
+      submitError={login.error}
       key='Login'
     >
       <EmailField />

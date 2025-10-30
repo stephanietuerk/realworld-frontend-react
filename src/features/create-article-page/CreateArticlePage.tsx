@@ -1,15 +1,9 @@
+import { useState } from 'react';
+import { useCreateArticle } from '../../api/useCreateArticle';
+import Banner from '../../components/banner/Banner';
 import Button from '../../components/button/Button';
 import MainLayout from '../../components/main-layout/MainLayout';
-import styles from './CreateArticlePage.module.scss';
-import { useEffect, useState } from 'react';
-import Banner from '../../components/banner/Banner';
-import { ROUTE } from '../../shared/constants/routing';
-import { useMutateArticle } from '../../api/useMutateArticle';
-import { useNavigate } from 'react-router-dom';
-import type {
-  BaseArticleMutation,
-  ValidArticleMutation,
-} from '../../shared/types/articles.types';
+import type { BaseArticleMutation } from '../../shared/types/feed.types';
 import { ErrorBoundary } from '../../shared/utilities/error-boundary';
 import {
   BodyField,
@@ -17,32 +11,20 @@ import {
   TagsField,
   TitleField,
 } from './article-fields/ArticleFields';
+import styles from './CreateArticlePage.module.scss';
 
 export interface FormArticle extends BaseArticleMutation {
   tagList: string;
 }
 
 export default function CreateArticlePage() {
-  const navigate = useNavigate();
   const [rawInput, setRawInput] = useState<FormArticle>({
     title: '',
     description: '',
     body: '',
     tagList: '',
   });
-  const [validArticle, setValidArticle] = useState<
-    ValidArticleMutation | undefined
-  >(undefined);
-  const { article, isLoading, error } = useMutateArticle({
-    body: validArticle,
-    onSuccess: () => {},
-    method: 'POST',
-  });
-
-  useEffect(() => {
-    if (!article) return;
-    navigate(ROUTE.article(article.slug));
-  }, [article, navigate]);
+  const createArticle = useCreateArticle();
 
   const updateArticle = (key: keyof FormArticle, content: string) => {
     setRawInput((prev) => ({ ...prev, [key]: content }));
@@ -50,7 +32,7 @@ export default function CreateArticlePage() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setValidArticle({
+    createArticle.mutate({
       ...rawInput,
       tagList: rawInput.tagList.split(',').map((t) => t.trim()),
     });
@@ -100,7 +82,7 @@ export default function CreateArticlePage() {
             ></TagsField>
           </fieldset>
           <>
-            {error && (
+            {createArticle.error && (
               <p className={styles.error}>
                 Publishing was not successful. Please try again.
               </p>
@@ -109,8 +91,8 @@ export default function CreateArticlePage() {
               className={styles.button}
               variant='primary'
               type='submit'
-              disabled={!canSubmit || isLoading}
-              busy={isLoading}
+              disabled={!canSubmit || createArticle.isPending}
+              busy={createArticle.isPending}
             >
               Publish article
             </Button>

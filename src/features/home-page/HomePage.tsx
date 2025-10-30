@@ -3,12 +3,9 @@ import Banner from '../../components/banner/Banner';
 import BodyLayout from '../../components/body-layout/BodyLayout';
 import MainLayout from '../../components/main-layout/MainLayout';
 import SidebarLayout from '../../components/sidebar-layout/SidebarLayout';
-import { ArticlesProvider } from '../../context/ArticlesProvider';
+import { FeedProvider } from '../../context/FeedProvider';
 import { APP_NAME } from '../../shared/constants/app';
-import type {
-  FeedOption,
-  FeedSelections,
-} from '../../shared/types/articles.types';
+import type { FeedOption, FeedSelections } from '../../shared/types/feed.types';
 import Feed from '../feed/Feed';
 import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOptions';
 import FeedControls from '../feed/feed-controls/FeedControls';
@@ -47,7 +44,7 @@ export default function HomePage() {
         <p className={styles.name}>{APP_NAME}</p>
         <p className={styles.description}>A place to share your knowledge</p>
       </Banner>
-      <ArticlesProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
+      <FeedProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
         <BodyLayout>
           <SidebarLayout>
             <FeedControls tagsTitle='Show articles about'>
@@ -63,7 +60,7 @@ export default function HomePage() {
           </SidebarLayout>
           <Feed options={HOME_FEED_OPTIONS}></Feed>
         </BodyLayout>
-      </ArticlesProvider>
+      </FeedProvider>
     </MainLayout>
   );
 }

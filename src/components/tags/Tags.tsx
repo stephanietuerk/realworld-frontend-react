@@ -1,12 +1,9 @@
 import clsx from 'clsx';
-import type {
-  Article,
-  ArticleMetadata,
-} from '../../shared/types/articles.types';
+import type { Article, FeedItem } from '../../shared/types/feed.types';
 import styles from './Tags.module.scss';
 
 interface TagsProps {
-  article: Article | ArticleMetadata;
+  article: Article | FeedItem;
   className?: string;
 }
 

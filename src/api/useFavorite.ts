@@ -1,25 +1,71 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { RawFeed } from '../context/FeedProvider';
 import { API_ROOT } from '../shared/constants/api';
-import type { Article } from '../shared/types/articles.types';
-import { useApiWithAuth } from './callApiWithAuth';
+import type { AppError } from '../shared/types/errors.types';
+import type { Article } from '../shared/types/feed.types';
+import { callApiWithAuth } from './callApiWithAuth';
+import { queryKeys } from './queryKeys';
 
-function getEndpoint(slug: string): string {
-  return `${API_ROOT}articles/${slug}/favorite`;
-}
+export function useFavorite(slug: string) {
+  const qc = useQueryClient();
+  const key = ['articles', 'favorite', slug];
 
-export function useFavoriteActions() {
-  const callApiWithAuth = useApiWithAuth();
+  return useMutation<
+    { article: Article },
+    AppError,
+    'add' | 'remove',
+    { prevArticle: Article | undefined }
+  >({
+    mutationKey: key,
+    mutationFn: (action) => {
+      console.log('mutationFn', action);
+      return callApiWithAuth(`${API_ROOT}/articles/${slug}/favorite`, {
+        method: action === 'add' ? 'POST' : 'DELETE',
+      });
+    },
+    onMutate: async (action) => {
+      console.log('on mutate', action);
+      await qc.cancelQueries({ queryKey: queryKeys.feedAll() });
+      await qc.cancelQueries({ queryKey: queryKeys.article(slug) });
 
-  const favoriteArticle = async (slug: string) => {
-    return callApiWithAuth<{ article: Article }>(getEndpoint(slug), {
-      method: 'POST',
-    });
-  };
+      const increment = action === 'add' ? +1 : -1;
 
-  const unfavoriteArticle = async (slug: string) => {
-    return callApiWithAuth<{ article: Article }>(getEndpoint(slug), {
-      method: 'DELETE',
-    });
-  };
+      const cachedArticle = qc.getQueryData<Article>(queryKeys.article(slug));
 
-  return { favoriteArticle, unfavoriteArticle };
+      if (cachedArticle) {
+        qc.setQueryData<Article>(queryKeys.article(slug), {
+          ...cachedArticle,
+          favorited: action === 'add',
+          favoritesCount: Math.max(0, cachedArticle.favoritesCount + increment),
+        });
+      }
+
+      qc.setQueriesData<RawFeed>({ queryKey: queryKeys.feedAll() }, (list) => {
+        if (!list || !list.articles) return list;
+        const articles = list.articles.map((item) =>
+          item.slug === slug
+            ? {
+                ...item,
+                favorited: action === 'add',
+                favoritesCount: Math.max(0, item.favoritesCount + increment),
+              }
+            : item,
+        );
+        return {
+          articles,
+          articlesCount: list.articlesCount,
+        };
+      });
+
+      return { prevArticle: cachedArticle };
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.feedAll() });
+      qc.invalidateQueries({ queryKey: queryKeys.article(slug) });
+    },
+    onError: (_error, _variables, _context) => {
+      console.warn('useFavorite mutation failed');
+      // qc.setQueryData<Article>(queryKeys.article(slug), context?.prevArticle);
+    },
+  });
 }

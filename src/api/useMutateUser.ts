@@ -1,36 +1,26 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { API_ROOT } from '../shared/constants/api';
+import type { AppError } from '../shared/types/errors.types';
 import type { AuthenticatedUser, UserUpdate } from '../shared/types/user.types';
-import type { ApiCallState } from './callApiWithAuth';
-import { useApiMutation } from './useApiMutation';
+import { callApiWithAuth } from './callApiWithAuth';
+import { queryKeys } from './queryKeys';
 
-interface MutateUserState extends ApiCallState {
-  user: AuthenticatedUser | null;
-}
+export function useMutateUser(username: string) {
+  const qc = useQueryClient();
 
-interface MutateUserParams {
-  body: UserUpdate | undefined;
-  onSuccess: () => void;
-  method: 'POST' | 'PUT';
-}
-
-export function useMutateUser({
-  body,
-  onSuccess,
-  method,
-}: MutateUserParams): MutateUserState {
-  const { data, isLoading, error } = useApiMutation<{
-    user: AuthenticatedUser;
-  }>({
-    url: !!body ? `${API_ROOT}user` : null,
-    method,
-    options: {
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        user: body,
+  return useMutation<{ user: AuthenticatedUser }, AppError, UserUpdate>({
+    mutationKey: ['user', 'edit', username],
+    mutationFn: (user) =>
+      callApiWithAuth(`${API_ROOT}/user`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user,
+        }),
       }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.loggedInUser() });
+      qc.invalidateQueries({ queryKey: queryKeys.profile(username) });
     },
-    onSuccess,
   });
-
-  return { user: data?.user ?? null, isLoading, error };
 }

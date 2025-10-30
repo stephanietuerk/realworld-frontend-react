@@ -1,9 +1,10 @@
 import { FocusTrap } from 'focus-trap-react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import CancelIcon from '../../components/icons/CancelIcon';
+import type { AppError } from '../../shared/types/errors.types';
 import styles from './AuthModal.module.scss';
 import { useCloseModal } from './useCloseModal';
-import { useRef, useState, useEffect } from 'react';
 
 interface AuthModalProps extends React.PropsWithChildren {
   title: string;
@@ -13,7 +14,7 @@ interface AuthModalProps extends React.PropsWithChildren {
   handleSubmit: React.FormEventHandler<HTMLFormElement>;
   formValidity: boolean;
   isSubmitting: boolean;
-  submitError: string | null;
+  submitError: AppError | null;
 }
 
 export default function AuthModal({
@@ -90,7 +91,7 @@ export default function AuthModal({
             {otherAuthLabel}
           </Link>
           {submitError && (
-            <div className={styles.formMessage}>{submitError}</div>
+            <div className={styles.formMessage}>{submitError.message}</div>
           )}
           <form
             ref={formRef}

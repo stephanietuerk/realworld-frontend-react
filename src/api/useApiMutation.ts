@@ -1,65 +1,56 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useApiWithAuth, type ApiCallState } from './callApiWithAuth';
-import type { ApiError } from '../shared/types/errors.types';
+import {
+  useMutation,
+  type UseMutationOptions,
+  type UseMutationResult,
+} from '@tanstack/react-query';
+import type { AppError } from '../shared/types/errors.types';
+import { useApiWithAuth } from './callApiWithAuth';
 
-type Method = 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+type HttpMethod = 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-interface ApiMutationParams<T> {
-  url: string | null;
-  method: Method;
-  options?: Omit<RequestInit, 'method'>;
-  onSuccess?: (data: T | null) => void;
+interface ApiMutationParams<TReturn, TVars = unknown> {
+  url: string; // mutations should have a concrete URL
+  method: HttpMethod;
+  options?: RequestInit; // extra fetch options (headers, etc.)
+  mutationOptions?: Omit<
+    UseMutationOptions<TReturn, AppError, TVars>,
+    'mutationFn' | 'mutationKey'
+  >;
 }
 
-export interface ApiMutationState<T> extends ApiCallState {
-  data: T | null;
-}
-
-export function useApiMutation<T>({
+export function useApiMutation<TReturn, TVars = unknown>({
   url,
   method,
-  options = {},
-  onSuccess,
-}: ApiMutationParams<T>): ApiMutationState<T> {
-  const callWithAuth = useApiWithAuth();
-  const [data, setData] = useState<T | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<ApiError | null>(null);
+  options,
+  mutationOptions,
+}: ApiMutationParams<TReturn, TVars>): UseMutationResult<
+  TReturn,
+  AppError,
+  TVars
+> {
+  const callApiWithAuth = useApiWithAuth();
 
-  const onSuccessRef = useRef(onSuccess);
-
-  useEffect(() => {
-    onSuccessRef.current = onSuccess;
-  }, [onSuccess]);
-
-  const stableOptions = useMemo(
-    () => ({ ...options, method }),
-    [method, JSON.stringify(options ?? {})],
-  );
-
-  useEffect(() => {
-    if (!url) return;
-
-    const controller = new AbortController();
-
-    setIsLoading(true);
-    setError(null);
-
-    callWithAuth<T>(url, { ...stableOptions, signal: controller.signal })
-      .then((result) => {
-        setData(result);
-        onSuccessRef.current?.(result);
-      })
-      .catch((e) => {
-        if (e?.kind !== 'aborted') {
-          setData(null);
-          setError(e);
-        }
-      })
-      .finally(() => setIsLoading(false));
-
-    return () => controller.abort();
-  }, [url, stableOptions, callWithAuth]);
-
-  return { data, isLoading, error };
+  return useMutation<TReturn, AppError, TVars>({
+    mutationKey: ['api', method, url] as const,
+    mutationFn: async (vars: TVars) => {
+      // If the caller already set a body, we won't override it.
+      // Otherwise, we JSON-encode vars by default.
+      const hasBody = !!options?.body;
+      const init: RequestInit = {
+        method,
+        ...options,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(options?.headers as HeadersInit),
+        },
+        body: hasBody
+          ? options!.body
+          : vars === null
+            ? undefined
+            : JSON.stringify(vars),
+      };
+      return callApiWithAuth<TReturn>(url, init);
+    },
+    ...mutationOptions,
+  });
 }

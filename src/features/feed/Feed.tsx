@@ -1,18 +1,22 @@
 import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router';
-import { useArticles } from '../../api/useArticles';
+import { useAuth } from '../../api/useAuth';
 import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
-import type { FeedOption } from '../../shared/types/articles.types';
+import { useFeed } from '../../api/useFeed';
+import type { FeedOption } from '../../shared/types/feed.types';
 import ArticleCard from './article-card/ArticleCard';
 import styles from './Feed.module.scss';
-import { useAuth } from '../../api/useAuth';
 
 export default function Feed({ options }: { options: FeedOption[] }) {
   const { isLoggedIn } = useAuth();
   const { user } = useAuthenticatedUser();
   const { username } = useParams();
-  const { isLoading, filteredArticles, feedSelections, setFeedSelections } =
-    useArticles();
+  const {
+    isPending: isLoading,
+    filteredItems: filteredArticles,
+    feedSelections,
+    setFeedSelections,
+  } = useFeed();
 
   useEffect(() => {
     setFeedSelections((prev) => ({ ...prev, feed: options[0].id }));

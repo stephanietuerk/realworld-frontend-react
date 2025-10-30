@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 import { useState, type MouseEventHandler } from 'react';
 import { useAuth } from '../../api/useAuth';
-import { useFollowActions } from '../../api/useFollow';
-import type { Profile } from '../../shared/types/articles.types';
+import { useFollow } from '../../api/useFollow';
+import type { Profile } from '../../shared/types/feed.types';
+import Button, { type ButtonSize, type ButtonVariant } from '../button/Button';
 import AddAddedIcon from '../icons/AddAddedIcon';
 import styles from './FollowButton.module.scss';
-import Button, { type ButtonSize, type ButtonVariant } from '../button/Button';
 
 interface FollowButtonProps {
   profile: Profile;
@@ -22,31 +22,19 @@ export default function FollowButton({
   buttonSize = 'sm',
   className,
   iconSize = 24,
-  syncWithApi,
   variant = 'secondary',
   selectedClassName,
 }: FollowButtonProps) {
   const { isLoggedIn } = useAuth();
-  const { followUser, unfollowUser } = useFollowActions();
-  const [localFollowing, setLocalFollowing] = useState<boolean>(
-    profile.following,
-  );
+  const follow = useFollow(profile.username);
+  const isFollowing = profile.following;
   const [hovering, setHovering] = useState<boolean>(false);
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
 
     if (isLoggedIn) {
-      const isUnfollowing = localFollowing;
-
-      setLocalFollowing(!localFollowing);
-
-      try {
-        const action = isUnfollowing ? unfollowUser : followUser;
-        await action(profile.username).then(() => syncWithApi());
-      } catch (error) {
-        setLocalFollowing(isUnfollowing);
-      }
+      follow.mutate(isFollowing ? 'remove' : 'add');
     }
   };
 
@@ -55,7 +43,7 @@ export default function FollowButton({
       size={buttonSize}
       className={clsx(
         styles.followButton,
-        localFollowing && selectedClassName,
+        isFollowing && selectedClassName,
         className,
       )}
       onClick={handleClick}
@@ -65,12 +53,12 @@ export default function FollowButton({
     >
       <AddAddedIcon
         size={iconSize}
-        variant={!localFollowing ? 'plus' : hovering ? 'minus' : 'check'}
+        variant={!isFollowing ? 'plus' : hovering ? 'minus' : 'check'}
         svgClassName={styles.iconSvg}
         pathClassName={styles.iconPath}
       ></AddAddedIcon>
       <span className={styles.text}>
-        {!localFollowing ? 'Follow' : hovering ? 'Unfollow' : 'Following'}{' '}
+        {!isFollowing ? 'Follow' : hovering ? 'Unfollow' : 'Following'}{' '}
         {profile.username}
       </span>
     </Button>

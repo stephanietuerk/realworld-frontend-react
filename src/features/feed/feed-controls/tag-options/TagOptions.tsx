@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import styles from './TagOptions.module.scss';
 import Button from '../../../../components/button/Button';
+import styles from './TagOptions.module.scss';
 
 export const NONE_TAG = 'everything';
 

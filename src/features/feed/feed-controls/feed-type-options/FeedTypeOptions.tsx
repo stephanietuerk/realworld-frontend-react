@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { useArticles } from '../../../../api/useArticles';
-import type { FeedOption } from '../../../../shared/types/articles.types';
+import { useFeed } from '../../../../api/useFeed';
+import type { FeedOption } from '../../../../shared/types/feed.types';
 import styles from './FeedTypeOptions.module.scss';
 
 export default function FeedTypeOptions({
@@ -8,7 +8,7 @@ export default function FeedTypeOptions({
 }: {
   options: FeedOption[];
 }) {
-  const { feedSelections, setFeedSelections } = useArticles();
+  const { feedSelections, setFeedSelections } = useFeed();
   return (
     <ul className={styles.options}>
       {options.map((option) => (

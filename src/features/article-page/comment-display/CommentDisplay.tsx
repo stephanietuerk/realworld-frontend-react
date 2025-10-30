@@ -1,17 +1,26 @@
-import { useState } from 'react';
-import type { Comment } from '../../../api/useComments';
+import { useCallback, useState } from 'react';
 import { useAuthenticatedUser } from '../../../api/useAuthenticatedUser';
-import styles from './CommentDisplay.module.scss';
-import Button from '../../../components/button/Button';
+import type { Comment } from '../../../api/useComments';
+import { useDeleteComment } from '../../../api/useDeleteComment';
+import { usePostComment } from '../../../api/usePostComment';
 import AuthorDate from '../../../components/author-date/AuthorDate';
+import Button from '../../../components/button/Button';
+import styles from './CommentDisplay.module.scss';
 
 interface CommentDisplayProps {
   comment: Comment;
-  handleDelete: (comment: Comment) => void;
+  slug: string;
 }
 
-export function CommentDisplay({ comment, handleDelete }: CommentDisplayProps) {
+export function CommentDisplay({ comment, slug }: CommentDisplayProps) {
   const { user: loggedInUser } = useAuthenticatedUser();
+  const deleteComment = useDeleteComment(slug);
+
+  const handleDelete = (comment: Comment) => {
+    if (!comment) return;
+    deleteComment.mutate(comment.id);
+  };
+
   return (
     <div className={styles.comment}>
       <div
@@ -35,26 +44,25 @@ export function CommentDisplay({ comment, handleDelete }: CommentDisplayProps) {
   );
 }
 
-interface LeaveCommentProps {
-  handlePost: (body: string) => void;
-}
-
-export function LeaveComment({ handlePost }: LeaveCommentProps) {
+export function LeaveComment({ slug }: { slug: string }) {
   // parent component ensures user is defined
   const { user } = useAuthenticatedUser();
   const [body, setBody] = useState('');
+  const postComment = usePostComment(slug);
+
+  const post = useCallback(() => {
+    const trimmed = body.trim();
+    if (!trimmed) return;
+    postComment.mutate(body);
+    setBody('');
+  }, [body, slug]);
 
   if (!user) {
     return null;
   }
 
-  const localHandlePost = () => {
-    handlePost(body);
-    setBody('');
-  };
-
   return (
-    <form className={styles.leaveComment}>
+    <div className={styles.leaveComment}>
       <div className={styles.comment}>
         <textarea
           className={styles.textarea}
@@ -70,12 +78,13 @@ export function LeaveComment({ handlePost }: LeaveCommentProps) {
             className={styles.postButton}
             variant='primary'
             size='md'
-            onClick={localHandlePost}
+            type='button'
+            onClick={post}
           >
             Post comment
           </Button>
         </div>
       </div>
-    </form>
+    </div>
   );
 }

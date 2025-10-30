@@ -1,7 +1,11 @@
+import type { UseQueryResult } from '@tanstack/react-query';
+import { useMemo } from 'react';
 import { API_ROOT } from '../shared/constants/api';
-import type { Profile } from '../shared/types/articles.types';
+import type { AppError } from '../shared/types/errors.types';
+import type { Profile } from '../shared/types/feed.types';
 import { dateifyResponse } from './dateify';
-import { useApiGet, type ApiGetState } from './useApiGet';
+import { queryKeys } from './queryKeys';
+import { useApiGet } from './useApiGet';
 
 export interface Comment {
   id: number;
@@ -16,15 +20,19 @@ interface RawComment extends Omit<Comment, 'createdAt' | 'updatedAt'> {
   updatedAt: string;
 }
 
-interface ApiCommentsState extends Omit<ApiGetState<Comment[]>, 'data'> {
-  comments: Comment[] | null;
+interface CommentsState
+  extends Pick<
+    UseQueryResult<Comment[], AppError>,
+    'isPending' | 'isError' | 'error' | 'refetch'
+  > {
+  comments?: Comment[];
 }
 
 function transformAndSortComments(
   comments: RawComment[] | undefined,
-): Comment[] | null {
+): Comment[] {
   if (!comments) {
-    return null;
+    return [];
   }
   return comments
     .map((c) => dateifyResponse<RawComment, Comment>(c))
@@ -32,17 +40,26 @@ function transformAndSortComments(
     .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
 }
 
-export function useComments(slug: string): ApiCommentsState {
-  const { data, isLoading, error, refetch } = useApiGet<{
-    comments: RawComment[];
-  }>({
-    url: !!slug ? `${API_ROOT}articles/${slug}/comments` : null,
+export function useComments(slug: string): CommentsState {
+  const { data, isPending, isError, error, refetch } = useApiGet<
+    { comments: RawComment[] },
+    Comment[]
+  >({
+    queryKey: queryKeys.comments(slug),
+    url: !!slug ? `${API_ROOT}/articles/${slug}/comments` : undefined,
+    queryOptions: {
+      select: ({ comments }) => transformAndSortComments(comments),
+    },
   });
 
-  return {
-    comments: transformAndSortComments(data?.comments),
-    isLoading,
-    error,
-    refetch,
-  };
+  return useMemo(
+    () => ({
+      comments: data,
+      isPending,
+      isError,
+      error,
+      refetch,
+    }),
+    [data, isPending, isError, error, refetch],
+  );
 }
