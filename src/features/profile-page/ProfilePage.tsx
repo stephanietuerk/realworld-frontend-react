@@ -9,8 +9,9 @@ import Avatar from '../../components/icons/Avatar';
 import MainLayout from '../../components/main-layout/MainLayout';
 import SidebarLayout from '../../components/sidebar-layout/SidebarLayout';
 import { FeedProvider } from '../../context/FeedProvider';
+import { FEED_OPTIONS } from '../../shared/constants/feed';
 import { ROUTE } from '../../shared/constants/routing';
-import type { FeedOption, FeedSelections } from '../../shared/types/feed.types';
+import type { FeedSelections } from '../../shared/types/feed.types';
 import { ErrorBoundary } from '../../shared/utilities/error-boundary';
 import Feed from '../feed/Feed';
 import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOptions';
@@ -18,23 +19,8 @@ import FeedControls from '../feed/feed-controls/FeedControls';
 import { NONE_TAG } from '../feed/feed-controls/tag-options/TagOptions';
 import styles from './ProfilePage.module.scss';
 
-export const PROFILE_FEED_OPTIONS: FeedOption[] = [
-  {
-    display: 'Own articles',
-    id: 'author',
-    noArticlesString: (username = 'this user') =>
-      `It looks like ${username} may not have written anything yet. There are no articles to show.`,
-  },
-  {
-    display: 'Favorites',
-    id: 'favorited',
-    noArticlesString: (username = 'this user') =>
-      `Hmmm. It looks like ${username} may not have favorited anything yet.`,
-  },
-];
-
 const FEED_CONTROLS_DEFAULTS: FeedSelections = {
-  feed: 'author',
+  feed: FEED_OPTIONS.profile[0]?.id!,
   tags: [NONE_TAG],
 };
 
@@ -111,12 +97,12 @@ export default function ProfilePage() {
                     {isLoggedInUser ? 'Show my' : "Show this user's"}
                   </p>
                   <FeedTypeOptions
-                    options={PROFILE_FEED_OPTIONS}
+                    options={FEED_OPTIONS.profile}
                   ></FeedTypeOptions>
                 </div>
               </FeedControls>
             </SidebarLayout>
-            <Feed options={PROFILE_FEED_OPTIONS}></Feed>
+            <Feed options={FEED_OPTIONS.profile}></Feed>
           </BodyLayout>
         </FeedProvider>
       </MainLayout>

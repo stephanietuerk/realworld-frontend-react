@@ -55,23 +55,38 @@ export default function AccountMenu({ className }: { className?: string }) {
           align='end'
         >
           <DropdownMenu.Item
-            className={clsx(styles.menuItem, isProfilePage && styles.active)}
+            className={clsx(
+              styles.menuItemContainer,
+              isProfilePage && styles.active,
+            )}
             onSelect={navigateToProfile}
           >
-            <p className={styles.itemLabel}>Profile</p>
-            <p className={styles.itemContext}>
-              Your articles, favorites, and user profile
-            </p>
+            <div className={styles.menuItem}>
+              <p className={styles.itemLabel}>Profile</p>
+              <p className={styles.itemContext}>
+                Your articles, favorites, and user profile
+              </p>
+            </div>
           </DropdownMenu.Item>
           <DropdownMenu.Item
-            className={clsx(styles.menuItem, isSettingsPage && styles.active)}
+            className={clsx(
+              styles.menuItemContainer,
+              isSettingsPage && styles.active,
+            )}
             onSelect={navigateToSettings}
           >
-            <p className={styles.itemLabel}>Settings</p>
-            <p className={styles.itemContext}>Account name and password</p>
+            <div className={styles.menuItem}>
+              <p className={styles.itemLabel}>Settings</p>
+              <p className={styles.itemContext}>Account name and password</p>
+            </div>
           </DropdownMenu.Item>
-          <DropdownMenu.Item className={styles.menuItem} onSelect={logout}>
-            <p className={styles.itemLabel}>Sign Out</p>
+          <DropdownMenu.Item
+            className={styles.menuItemContainer}
+            onSelect={logout}
+          >
+            <div className={styles.menuItem}>
+              <p className={styles.itemLabel}>Sign Out</p>
+            </div>
           </DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>

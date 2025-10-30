@@ -5,30 +5,16 @@ import MainLayout from '../../components/main-layout/MainLayout';
 import SidebarLayout from '../../components/sidebar-layout/SidebarLayout';
 import { FeedProvider } from '../../context/FeedProvider';
 import { APP_NAME } from '../../shared/constants/app';
-import type { FeedOption, FeedSelections } from '../../shared/types/feed.types';
+import { FEED_OPTIONS } from '../../shared/constants/feed';
+import type { FeedSelections } from '../../shared/types/feed.types';
 import Feed from '../feed/Feed';
 import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOptions';
 import FeedControls from '../feed/feed-controls/FeedControls';
 import { NONE_TAG } from '../feed/feed-controls/tag-options/TagOptions';
 import styles from './HomePage.module.scss';
 
-export const HOME_FEED_OPTIONS: FeedOption[] = [
-  {
-    display: 'Conduit community',
-    id: 'community',
-    noArticlesString: () =>
-      "It looks like the Conduit community may be on a writers' strike. There are no articles to show.",
-  },
-  {
-    display: 'Accounts I follow',
-    id: 'following',
-    noArticlesString: () =>
-      'Hmmm. It looks like you may not have followed any accounts yet.',
-  },
-];
-
 const FEED_CONTROLS_DEFAULTS: FeedSelections = {
-  feed: 'community',
+  feed: FEED_OPTIONS.home[0]?.id!,
   tags: [NONE_TAG],
 };
 
@@ -52,13 +38,13 @@ export default function HomePage() {
                 <div>
                   <p className={styles.feedTypeTitle}>Show articles from</p>
                   <FeedTypeOptions
-                    options={HOME_FEED_OPTIONS}
+                    options={FEED_OPTIONS.home}
                   ></FeedTypeOptions>
                 </div>
               )}
             </FeedControls>{' '}
           </SidebarLayout>
-          <Feed options={HOME_FEED_OPTIONS}></Feed>
+          <Feed options={FEED_OPTIONS.home}></Feed>
         </BodyLayout>
       </FeedProvider>
     </MainLayout>
