@@ -25,7 +25,6 @@ export async function callApiWithAuth<T>(
   const wantsAuth = auth !== 'none';
   const haveToken = !!token;
 
-  // If auth is required but no token, fail fast with a consistent error
   if (auth === 'required' && !haveToken) {
     const err: AppError = {
       message: 'Please sign in to continue.',
@@ -47,7 +46,6 @@ export async function callApiWithAuth<T>(
     throw normalizeToAppError(e);
   }
 
-  // If server says 401 while we *thought* we were authenticated, purge token once
   if (res.status === 401 && wantsAuth) {
     if (headers.has('Authorization')) {
       localStorage.removeItem('token');
@@ -67,7 +65,6 @@ export async function callApiWithAuth<T>(
 
   const ct = res.headers.get('content-type') ?? '';
   if (ct.includes('application/json')) {
-    // Handle empty JSON bodies gracefully
     const text = await res.text();
     return (text ? JSON.parse(text) : null) as T;
   }
