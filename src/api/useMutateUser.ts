@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { API_ROOT } from '../shared/constants/api';
-import type { ApiError } from '../shared/types/errors.types';
+import type { AppError } from '../shared/types/errors.types';
 import type { AuthenticatedUser, UserUpdate } from '../shared/types/user.types';
 import { callApiWithAuth } from './callApiWithAuth';
 import { queryKeys } from './queryKeys';
@@ -8,7 +8,7 @@ import { queryKeys } from './queryKeys';
 export function useMutateUser(username: string) {
   const qc = useQueryClient();
 
-  return useMutation<{ user: AuthenticatedUser }, ApiError, UserUpdate>({
+  return useMutation<{ user: AuthenticatedUser }, AppError, UserUpdate>({
     mutationKey: ['user', 'edit', username],
     mutationFn: (user) =>
       callApiWithAuth(`${API_ROOT}/user`, {

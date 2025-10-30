@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { API_ROOT } from '../shared/constants/api';
-import type { ApiError } from '../shared/types/errors.types';
+import type { AppError } from '../shared/types/errors.types';
 import type { Profile } from '../shared/types/feed.types';
 import { callApiWithAuth } from './callApiWithAuth';
 import { queryKeys } from './queryKeys';
@@ -8,7 +8,7 @@ import { queryKeys } from './queryKeys';
 export function useFollow(username: string) {
   const qc = useQueryClient();
 
-  return useMutation<{ profile: Profile }, ApiError, 'add' | 'remove'>({
+  return useMutation<{ profile: Profile }, AppError, 'add' | 'remove'>({
     mutationKey: ['profile', 'follow', username],
     mutationFn: (action) =>
       callApiWithAuth(`${API_ROOT}/profiles/${username}/follow`, {

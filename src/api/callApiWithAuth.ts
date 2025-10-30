@@ -1,10 +1,14 @@
 import { useCallback } from 'react';
-import type { ApiError, ApiErrorBody } from '../shared/types/errors.types';
+import type { AppError } from '../shared/types/errors.types';
+import {
+  normalizeToAppError,
+  parseErrorBody,
+} from '../shared/utilities/errors';
 import { useAuth } from './useAuth';
 
 export interface ApiCallState {
   isLoading: boolean;
-  error: ApiError | null;
+  error: AppError | null;
 }
 
 type AuthMode = 'auto' | 'required' | 'none';
@@ -18,7 +22,20 @@ export async function callApiWithAuth<T>(
   const token = localStorage.getItem('token');
 
   const headers = new Headers(options.headers as HeadersInit);
-  if (auth !== 'none' && token && !headers.has('Authorization')) {
+  const wantsAuth = auth !== 'none';
+  const haveToken = !!token;
+
+  // If auth is required but no token, fail fast with a consistent error
+  if (auth === 'required' && !haveToken) {
+    const err: AppError = {
+      message: 'Please sign in to continue.',
+      status: 401,
+    };
+    onUnauthorized?.();
+    throw err;
+  }
+
+  if (wantsAuth && haveToken && !headers.has('Authorization')) {
     headers.set('Authorization', `Token ${token}`);
   }
   if (!headers.has('Accept')) headers.set('Accept', 'application/json');
@@ -26,43 +43,22 @@ export async function callApiWithAuth<T>(
   let res: Response;
   try {
     res = await fetch(endpoint, { ...options, headers });
-  } catch (e: any) {
-    if (e?.name === 'AbortError') {
-      throw { kind: 'aborted' } as const;
+  } catch (e) {
+    throw normalizeToAppError(e);
+  }
+
+  // If server says 401 while we *thought* we were authenticated, purge token once
+  if (res.status === 401 && wantsAuth) {
+    if (headers.has('Authorization')) {
+      localStorage.removeItem('token');
     }
-    throw { kind: 'network', message: e?.message ?? 'Network error' } as const;
-  }
-
-  const sentAuth = headers.has('Authorization');
-  if (res.status === 401 && sentAuth && auth !== 'none') {
-    localStorage.removeItem('token');
-    onUnauthorized?.();
-  }
-
-  if (res.status === 401) {
-    localStorage.removeItem('token');
     onUnauthorized?.();
   }
 
   if (!res.ok) {
-    let body: ApiErrorBody | undefined;
-    try {
-      const text = await res.text();
-      if (text) {
-        try {
-          body = JSON.parse(text);
-        } catch {
-          body = { message: text.slice(0, 2000) };
-        }
-      }
-    } catch {}
-
-    throw {
-      kind: 'http',
-      status: res.status,
-      statusText: res.statusText,
-      body,
-    } satisfies ApiError;
+    const body = await parseErrorBody(res).catch(() => undefined);
+    // Throw a plain object that normalizeToAppError understands as HTTP
+    throw { status: res.status, statusText: res.statusText, body };
   }
 
   if (res.status === 204 || res.status === 205) {
@@ -70,9 +66,10 @@ export async function callApiWithAuth<T>(
   }
 
   const ct = res.headers.get('content-type') ?? '';
-
   if (ct.includes('application/json')) {
-    return (await res.json()) as T;
+    // Handle empty JSON bodies gracefully
+    const text = await res.text();
+    return (text ? JSON.parse(text) : null) as T;
   }
 
   return (await res.text()) as unknown as T;

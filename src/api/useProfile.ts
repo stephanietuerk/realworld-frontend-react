@@ -1,13 +1,13 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import { API_ROOT } from '../shared/constants/api';
-import type { ApiError } from '../shared/types/errors.types';
+import type { AppError } from '../shared/types/errors.types';
 import type { Profile } from '../shared/types/feed.types';
 import { queryKeys } from './queryKeys';
 import { useApiGet } from './useApiGet';
 
 interface ProfileState
   extends Pick<
-    UseQueryResult<Profile, ApiError>,
+    UseQueryResult<Profile, AppError>,
     'isPending' | 'isError' | 'error' | 'refetch'
   > {
   profile?: Profile;

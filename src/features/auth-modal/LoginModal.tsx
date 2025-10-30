@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../api/useAuth';
-import { useLoginUser } from '../../api/useLogin';
+import { useLogin } from '../../api/useLogin';
 import { ROUTE } from '../../shared/constants/routing';
-import { useUiError } from '../../shared/utilities/useUiError';
 import { EmailField, PasswordField } from './AuthFields';
 import AuthModal from './AuthModal';
 import { useCloseModal } from './useCloseModal';
@@ -10,8 +9,7 @@ import { useCloseModal } from './useCloseModal';
 export default function LoginModal() {
   const { setToken } = useAuth();
   const closeModal = useCloseModal();
-  const login = useLoginUser(setToken);
-  const uiError = useUiError(login.error);
+  const login = useLogin(setToken);
   const [formValidity] = useState<boolean>(false);
 
   useEffect(() => {
@@ -40,7 +38,7 @@ export default function LoginModal() {
       handleSubmit={handleSubmit}
       formValidity={formValidity}
       isSubmitting={login.isPending}
-      submitError={uiError?.message || null}
+      submitError={login.error}
       key='Login'
     >
       <EmailField />

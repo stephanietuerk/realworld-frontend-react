@@ -1,6 +1,6 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import type { Dispatch, SetStateAction } from 'react';
-import type { ApiError } from './errors.types';
+import type { AppError } from './errors.types';
 
 export interface Profile {
   username: string;
@@ -56,14 +56,13 @@ export interface FeedContextType {
   feedSelections: FeedSelections;
   filteredItems: FeedItem[];
   isPending: boolean;
-  refetch: UseQueryResult<FeedItem[], ApiError>['refetch'];
+  refetch: UseQueryResult<FeedItem[], AppError>['refetch'];
   setFeedSelections: Dispatch<SetStateAction<FeedSelections>>;
 }
 
 export interface ArticleContextType {
   article: Article;
   isLoading: boolean;
-  refetchArticle: () => void;
 }
 
 export interface BaseArticleMutation {

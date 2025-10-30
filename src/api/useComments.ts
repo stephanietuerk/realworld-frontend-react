@@ -1,7 +1,7 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { API_ROOT } from '../shared/constants/api';
-import type { ApiError } from '../shared/types/errors.types';
+import type { AppError } from '../shared/types/errors.types';
 import type { Profile } from '../shared/types/feed.types';
 import { dateifyResponse } from './dateify';
 import { queryKeys } from './queryKeys';
@@ -22,7 +22,7 @@ interface RawComment extends Omit<Comment, 'createdAt' | 'updatedAt'> {
 
 interface CommentsState
   extends Pick<
-    UseQueryResult<Comment[], ApiError>,
+    UseQueryResult<Comment[], AppError>,
     'isPending' | 'isError' | 'error' | 'refetch'
   > {
   comments?: Comment[];

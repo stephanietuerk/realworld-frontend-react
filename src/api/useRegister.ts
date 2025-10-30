@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useCloseModal } from '../features/auth-modal/useCloseModal';
 import { API_ROOT } from '../shared/constants/api';
-import type { ApiError } from '../shared/types/errors.types';
+import type { AppError } from '../shared/types/errors.types';
 import type {
   AuthenticatedUser,
   UserRegistration,
@@ -15,7 +15,7 @@ export function useRegisterUser(setToken: (token: string | null) => void) {
     {
       user: AuthenticatedUser;
     },
-    ApiError,
+    AppError,
     UserRegistration
   >({
     mutationKey: ['register'],

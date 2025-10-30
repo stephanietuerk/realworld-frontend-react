@@ -41,6 +41,7 @@ export default function FavoriteButton({
   const { isLoggedIn } = useAuth();
   const favorite = useFavorite(slug);
   const [hovering, setHovering] = useState<boolean>(false);
+  console.log('FavoriteButton', favorited);
 
   const handleClick: PointerEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();

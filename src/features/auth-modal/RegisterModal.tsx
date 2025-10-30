@@ -36,7 +36,7 @@ export default function RegisterModal() {
       handleSubmit={handleSubmit}
       formValidity={formValidity}
       isSubmitting={register.isPending}
-      submitError={register.error ? 'error' : null}
+      submitError={register.error}
       key='Register'
     >
       <UsernameField />

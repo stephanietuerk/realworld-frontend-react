@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { API_ROOT } from '../shared/constants/api';
-import type { ApiError } from '../shared/types/errors.types';
+import type { AppError } from '../shared/types/errors.types';
 import type { AuthenticatedUser } from '../shared/types/user.types';
 import { callApiWithAuth } from './callApiWithAuth';
 import { queryKeys } from './queryKeys';
@@ -10,7 +10,7 @@ export function usePostComment(slug: string) {
   const qc = useQueryClient();
   const commentsKey = queryKeys.comments(slug);
 
-  return useMutation<{ comment: Comment }, ApiError, string>({
+  return useMutation<{ comment: Comment }, AppError, string>({
     mutationKey: ['comments', 'create', slug] as const,
     mutationFn: (body) =>
       callApiWithAuth(`${API_ROOT}/articles/${slug}/comments`, {

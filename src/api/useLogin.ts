@@ -1,18 +1,18 @@
 import { useMutation } from '@tanstack/react-query';
 import { useCloseModal } from '../features/auth-modal/useCloseModal';
 import { API_ROOT } from '../shared/constants/api';
-import type { ApiError } from '../shared/types/errors.types';
+import type { AppError } from '../shared/types/errors.types';
 import type { AuthenticatedUser, UserLogin } from '../shared/types/user.types';
 import { callApiWithAuth } from './callApiWithAuth';
 
-export function useLoginUser(setToken: (token: string | null) => void) {
+export function useLogin(setToken: (token: string | null) => void) {
   const closeModal = useCloseModal();
 
   return useMutation<
     {
       user: AuthenticatedUser;
     },
-    ApiError,
+    AppError,
     UserLogin
   >({
     mutationKey: ['login'],

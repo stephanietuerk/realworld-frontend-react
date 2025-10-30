@@ -27,7 +27,7 @@ export default function FollowButton({
 }: FollowButtonProps) {
   const { isLoggedIn } = useAuth();
   const follow = useFollow(profile.username);
-  const isFollowing = follow.data?.profile.following;
+  const isFollowing = profile.following;
   const [hovering, setHovering] = useState<boolean>(false);
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {
@@ -43,7 +43,7 @@ export default function FollowButton({
       size={buttonSize}
       className={clsx(
         styles.followButton,
-        follow.data?.profile.following && selectedClassName,
+        isFollowing && selectedClassName,
         className,
       )}
       onClick={handleClick}

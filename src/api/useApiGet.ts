@@ -3,7 +3,7 @@ import {
   type UseQueryOptions,
   type UseQueryResult,
 } from '@tanstack/react-query';
-import type { ApiError } from '../shared/types/errors.types';
+import type { AppError } from '../shared/types/errors.types';
 import { useApiWithAuth } from './callApiWithAuth';
 
 interface ApiGetParams<TRawData, TData = TRawData> {
@@ -12,7 +12,7 @@ interface ApiGetParams<TRawData, TData = TRawData> {
   options?: RequestInit;
   enabled?: boolean;
   queryOptions?: Omit<
-    UseQueryOptions<TRawData, ApiError, TData>,
+    UseQueryOptions<TRawData, AppError, TData>,
     'queryKey' | 'queryFn' | 'enabled'
   >;
 }
@@ -23,10 +23,10 @@ export function useApiGet<TRawData, TData = TRawData>({
   options,
   enabled = true,
   queryOptions,
-}: ApiGetParams<TRawData, TData>): UseQueryResult<TData, ApiError> {
+}: ApiGetParams<TRawData, TData>): UseQueryResult<TData, AppError> {
   const callWithAuth = useApiWithAuth();
 
-  return useQuery<TRawData, ApiError, TData>({
+  return useQuery<TRawData, AppError, TData>({
     queryKey,
     enabled: Boolean(url) && enabled,
     queryFn: ({ signal }) => {

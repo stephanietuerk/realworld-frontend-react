@@ -20,42 +20,34 @@ export const ArticleContext = createContext<ArticleContextType | undefined>(
 );
 
 export function ArticleProvider({ slug, children }: ArticleProviderProps) {
-  const [article, setArticle] = useState<Article>({} as Article);
-
-  const { data, isLoading, refetch } = useApiGet<
+  const { data: article, isLoading } = useApiGet<
     { article: RawArticle },
     Article
   >({
     queryKey: queryKeys.article(slug),
     url: slug ? `${API_ROOT}/articles/${slug}` : undefined,
-    queryOptions: {
-      select: ({ article }) => dateifyResponse(article),
-    },
+    queryOptions: { select: ({ article }) => dateifyResponse(article) },
   });
 
+  const [html, setHtml] = useState<string>();
   useEffect(() => {
-    if (!data) return;
+    let cancelled = false;
+    if (!article?.body) return;
+    mdToHtml(article.body).then((b) => !cancelled && setHtml(b));
+    return () => {
+      cancelled = true;
+    };
+  }, [article?.body]);
 
-    mdToHtml(data.body)
-      .then((body) =>
-        setArticle({
-          ...data,
-          body: body,
-          bodyMarkdown: data.body,
-        }),
-      )
-      .catch((err) => {
-        console.error('Failed to convert article body:', err);
-        setArticle({} as Article);
-      });
-  }, [data?.slug, data?.body]);
+  const value = article
+    ? { ...article, body: html ?? article.body, bodyMarkdown: article.body }
+    : ({} as Article);
 
   return (
     <ArticleContext.Provider
       value={{
-        article,
+        article: value,
         isLoading,
-        refetchArticle: refetch,
       }}
     >
       {children}
