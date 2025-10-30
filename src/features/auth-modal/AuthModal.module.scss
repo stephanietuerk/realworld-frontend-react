@@ -60,6 +60,21 @@
   margin-bottom: grid(3);
 }
 
+.otherAuthLink {
+  color: var(--color-link-primary);
+  opacity: 1;
+}
+
+.otherAuthLink:hover {
+  color: var(--color-primary-light);
+}
+
+.apiWarning {
+  @include body-2xs;
+  color: var(--color-blue-20);
+  margin-bottom: grid(3);
+}
+
 .formRoot {
   width: 100%;
   margin-top: grid(4);

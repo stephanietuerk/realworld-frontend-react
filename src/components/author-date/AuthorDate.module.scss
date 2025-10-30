@@ -21,6 +21,7 @@
 .isHovered {
   background: var(--author-date-hover-background, none);
   border-color: var(--author-date-hover-border-color, none);
+  box-shadow: var(--shadow-xs);
 
   .author {
     text-decoration: underline;

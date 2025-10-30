@@ -25,20 +25,39 @@
   align-items: center;
   justify-content: center;
   border-radius: grid(1);
-  background-color: var(--black-a2);
-  box-shadow: 0 0 0 1px var(--black-a6);
+  border: none;
+  background-color: var(--color-neutral-95);
+  box-shadow: 0 0 0 1px var(--black-a2);
 }
 
-.input:hover {
+.input:hover:not(:focus) {
   box-shadow: 0 0 0 1px black;
 }
 
 .input:focus {
-  box-shadow: 0 0 0 2px black;
+  // box-shadow: 0 0 0 2px black;
 }
 
-.input::selection {
+.input:-webkit-autofill {
   background-color: var(--black-a6);
+}
+
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
+.input:-webkit-autofill:active {
+  /* This creates an inner shadow that acts as a background color, effectively overriding the browser's default autofill background */
+  -webkit-box-shadow:
+    0 0 0px 1000px var(--color-blue-95) inset,
+    0 0 0 1px var(--black-a2) !important;
+
+  /* This ensures the text color remains readable against your new background */
+  -webkit-text-fill-color: var(
+    --color-text
+  ) !important; /* Change #000000 to your desired text color */
+
+  /* Optional: Prevents a default transition delay on autofill background */
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .input {

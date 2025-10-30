@@ -88,7 +88,7 @@ export default function AuthModal({
                 : undefined
             }
           >
-            {otherAuthLabel}
+            <span className={styles.otherAuthLink}>{otherAuthLabel}</span>
           </Link>
           {submitError && (
             <div className={styles.formMessage}>{submitError.message}</div>

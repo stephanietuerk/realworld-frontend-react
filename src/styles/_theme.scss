@@ -21,16 +21,15 @@ $color-accent-whisper: color.adjust($color-accent, $lightness: 10%);
   --color-surface-accent: #ffffff;
   --color-surface-accent-rgb: 255, 255, 255;
   --color-warn-light: #fdebeb;
-  --color-success-600: hsl(
-    156 62% 36%
-  ); /* main success (filled icons, badges) */
-  --color-success-700: hsl(156 62% 30%); /* pressed/darker */
-  --color-success-500: hsl(156 62% 42%); /* hover/lighter */
+  --color-warn-medium: #f28b82;
+  --color-warn-dark: #d93025;
   --color-success-100: color-mix(in oklab, var(--success-600) 14%, white);
   --color-success-200: color-mix(in oklab, var(--success-600) 22%, white);
-  --color-on-success: #fff;
+  --color-success-500: hsl(156 62% 42%);
+  --color-success-600: hsl(156 62% 36%);
+  --color-success-700: hsl(156 62% 30%);
   --color-link-primary: var(--color-primary);
-  --color-link-hover: var(--color-primary);
+  --color-link-hover: var(--color-primary-light);
   --color-text: var(--color-blue-10);
   --color-text-rgb: 4, 20, 48;
   --color-inert: rgba(var(--color-text-rgb), 0.7);

@@ -9,6 +9,7 @@
 .options {
   border: 1px solid var(--color-primary);
   border-radius: grid(1);
+  box-shadow: var(--shadow-xs);
 }
 
 .option {
@@ -30,6 +31,7 @@
   padding: grid(3) grid(4);
   margin: 0;
   color: var(--color-primary);
+  background-color: var(--color-surface-accent);
 
   &:hover:not(.active) {
     color: var(--color-primary);
