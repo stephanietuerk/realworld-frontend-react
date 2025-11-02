@@ -49,16 +49,15 @@ export interface FeedOption {
   display: string;
   id: HomeFeed | ProfileFeed;
   emptyState: {
-    title: string;
-    body: (options: {
-      username?: string;
-      isLoggedInUser?: boolean;
-    }) => (string | undefined)[];
-    action?: {
-      text: string;
-      route: string;
-    };
+    loggedIn: (isLoggedInUser?: boolean) => FeedEmptyState;
+    notLoggedIn?: () => FeedEmptyState;
   };
+}
+
+export interface FeedEmptyState {
+  title: string;
+  body: (string | undefined)[];
+  action?: { text: string; route: string };
 }
 
 export interface FeedContextType {

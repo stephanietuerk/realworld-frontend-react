@@ -1,4 +1,6 @@
+import { Newspaper, Pencil } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ROUTE } from '../../../shared/constants/routing';
 import styles from './NoArticles.module.scss';
 
 export default function NoArticles({
@@ -16,20 +18,24 @@ export default function NoArticles({
       {body.map((line, index) =>
         line ? (
           <p key={index} className={styles.text}>
-            {line.includes('__ACTION__') && action ? (
-              <>
-                {line.split('__ACTION__')[0]}
-                <Link to={action.route} className={styles.actionLink}>
-                  {action.text}
-                </Link>
-                {line.split('__ACTION__')[1]}
-              </>
-            ) : (
-              line
-            )}
+            {line}
           </p>
         ) : null,
       )}
+      {action ? (
+        <Link to={action.route} className={styles.action}>
+          <>
+            <span className={styles.actionIcon}>
+              {action.route === ROUTE.explore ? (
+                <Newspaper size={20}></Newspaper>
+              ) : (
+                <Pencil size={20}></Pencil>
+              )}
+            </span>
+            <span className={styles.actionText}>{action.text}</span>
+          </>
+        </Link>
+      ) : null}
     </section>
   );
 }

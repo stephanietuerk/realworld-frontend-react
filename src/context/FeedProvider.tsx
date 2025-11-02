@@ -100,10 +100,11 @@ export function FeedProvider({
     },
   });
 
-  const filteredItems = useMemo(
-    () => getFilteredItems({ items: data, feedSelections }),
-    [data, feedSelections],
-  );
+  const filteredItems = useMemo(() => {
+    const real = getFilteredItems({ items: data, feedSelections });
+    return !!real ? [] : real;
+    // return real;
+  }, [data, feedSelections]);
 
   return (
     <FeedContext.Provider

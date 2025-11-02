@@ -10,8 +10,8 @@ import NoArticles from './no-articles/NoArticles';
 
 export default function Feed({ options }: { options: FeedOption[] }) {
   const { isLoggedIn } = useAuth();
-  const { user } = useAuthenticatedUser();
-  const { username } = useParams();
+  const { user: loggedInUser } = useAuthenticatedUser();
+  const { username: profileUsername } = useParams<{ username: string }>();
   const {
     isPending: isLoading,
     filteredItems: filteredArticles,
@@ -21,10 +21,7 @@ export default function Feed({ options }: { options: FeedOption[] }) {
 
   useEffect(() => {
     setFeedSelections((prev) => ({ ...prev, feed: options[0].id }));
-  }, [username]);
-
-  const displayUserName =
-    isLoggedIn && user && user.username === username ? 'you' : username;
+  }, [options]);
 
   const option = useMemo(() => {
     const foundOption = options.find((o) => o.id === feedSelections.feed);
@@ -34,14 +31,14 @@ export default function Feed({ options }: { options: FeedOption[] }) {
     return foundOption;
   }, [feedSelections, options]);
 
-  const noArticlesText = useMemo(() => {
-    return username
-      ? option.emptyState.body({
-          username: displayUserName,
-          isLoggedInUser: isLoggedIn && user?.username === username,
-        })
-      : option.emptyState.body({});
-  }, [user, username, option]);
+  const emptyState = useMemo(() => {
+    const accessor = isLoggedIn ? 'loggedIn' : 'notLoggedIn';
+    const emptyState = option.emptyState[accessor];
+    if (!emptyState) {
+      throw new Error('No empty state defined for this feed option');
+    }
+    return emptyState(isLoggedIn && loggedInUser?.username === profileUsername);
+  }, [isLoggedIn, loggedInUser, profileUsername, option]);
 
   return (
     <div className={styles.feed}>
@@ -51,9 +48,9 @@ export default function Feed({ options }: { options: FeedOption[] }) {
 
       {!isLoading && filteredArticles.length === 0 ? (
         <NoArticles
-          title='No articles found'
-          body={noArticlesText}
-          action={option.emptyState.action}
+          title={emptyState.title}
+          body={emptyState.body}
+          action={emptyState.action}
         />
       ) : (
         filteredArticles.map((a) => <ArticleCard article={a} key={a.slug} />)
