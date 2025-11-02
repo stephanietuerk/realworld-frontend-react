@@ -48,7 +48,17 @@ export interface FeedSelections {
 export interface FeedOption {
   display: string;
   id: HomeFeed | ProfileFeed;
-  noArticlesString: (username?: string) => string;
+  emptyState: {
+    title: string;
+    body: (options: {
+      username?: string;
+      isLoggedInUser?: boolean;
+    }) => (string | undefined)[];
+    action?: {
+      text: string;
+      route: string;
+    };
+  };
 }
 
 export interface FeedContextType {
