@@ -49,6 +49,7 @@ $sidebar-gap: grid(6);
   border: none;
   background: none;
   margin-bottom: grid(4);
+  --color-field-label: var(--color-neutral-60);
 }
 
 .inputTitle {
@@ -65,24 +66,35 @@ $sidebar-gap: grid(6);
 
 .lowerEditContainer {
   width: 100%;
+  --color-field-label: var(--color-neutral-60);
 }
 
-.saveIcon,
-.closeCircle,
-.revertIcon {
+.saveIcon {
+  margin-right: grid(2);
+}
+
+.closeIcon {
   margin-right: grid(1);
+}
+
+.revertIcon,
+.deleteIcon {
+  margin-right: grid(1.5);
 }
 
 .saveButton {
   width: 100%;
   justify-content: center;
-  margin-bottom: grid(4);
+  margin-bottom: grid(1);
 }
 
 .canRevert {
   margin-bottom: 0;
+  box-shadow: var(--shadow-xs);
 }
 
 .revertButton {
-  margin-top: grid(2);
+  margin-top: grid(1);
+  padding: grid(1) grid(2);
+  @include label-xs;
 }

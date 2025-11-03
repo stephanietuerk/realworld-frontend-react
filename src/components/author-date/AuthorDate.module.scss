@@ -31,6 +31,10 @@
   }
 }
 
+.hasBackgroundOnHover.isHovered {
+  box-shadow: var(--shadow-xs);
+}
+
 .authorDate {
   display: flex;
   margin-left: grid(2);
@@ -79,4 +83,8 @@
   position: relative;
   top: 1px;
   color: var(--author-date-color-date, var(--color-neutral-50));
+}
+
+.avatarFallback {
+  stroke: var(--author-date-color-date, var(--color-neutral-60));
 }

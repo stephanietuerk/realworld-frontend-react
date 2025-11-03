@@ -48,7 +48,16 @@ export interface FeedSelections {
 export interface FeedOption {
   display: string;
   id: HomeFeed | ProfileFeed;
-  noArticlesString: (username?: string) => string;
+  emptyState: {
+    loggedIn: (isLoggedInUser?: boolean) => FeedEmptyState;
+    notLoggedIn?: () => FeedEmptyState;
+  };
+}
+
+export interface FeedEmptyState {
+  title: string;
+  body: string[];
+  action?: { text: string; route: string };
 }
 
 export interface FeedContextType {
@@ -56,8 +65,18 @@ export interface FeedContextType {
   feedSelections: FeedSelections;
   filteredItems: FeedItem[];
   isPending: boolean;
-  refetch: UseQueryResult<FeedItem[], AppError>['refetch'];
+  refetch: UseQueryResult<
+    { items: FeedItem[]; total: number },
+    AppError
+  >['refetch'];
   setFeedSelections: Dispatch<SetStateAction<FeedSelections>>;
+  canNext: boolean;
+  canPrev: boolean;
+  page: number;
+  pageSize: number;
+  setPage: Dispatch<SetStateAction<number>>;
+  totalCount: number;
+  totalPages: number;
 }
 
 export interface ArticleContextType {

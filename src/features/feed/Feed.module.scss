@@ -8,7 +8,71 @@
 
 .noArticles {
   @include label-large;
-  background: var(--color-warn-light);
+  background: var(--color-warn-300);
   padding: grid(4) grid(6) grid(4) grid(6);
   border-radius: grid(1);
+  margin-top: grid(5);
+}
+
+@keyframes pulse-background {
+  0%,
+  100% {
+    background: var(--color-accent-whisper);
+  }
+  50% {
+    background: var(--color-neutral-90);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    color: var(--color-text);
+  }
+  50% {
+    color: var(--color-neutral-70);
+  }
+}
+
+.skeletonCard {
+  display: block;
+  height: 217px;
+  border: 1px solid var(--color-neutral-90);
+  margin-bottom: grid(2);
+  border-radius: grid(2);
+  background: var(--color-neutral-90);
+  animation: none;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.loadingContainer {
+  // position: relative;
+}
+
+.loadingModal {
+  position: absolute;
+  top: 300px;
+  display: flex;
+  align-items: center;
+  // grid-template-columns: repeat(6, 1fr);
+  width: 100%;
+  margin-bottom: grid(4);
+}
+
+.loadingMessage {
+  @include label-small;
+  // grid-column-start: 2;
+  white-space: nowrap;
+  background: var(--color-surface-accent);
+  margin-bottom: grid(4);
+  padding: grid(4) grid(6);
+  border-radius: grid(2);
+  border: 1px solid var(--color-neutral-90);
+  z-index: 1000;
+  animation:
+    pulse-background 2s cubic-bezier(0.4, 0, 0.6, 1) infinite,
+    pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

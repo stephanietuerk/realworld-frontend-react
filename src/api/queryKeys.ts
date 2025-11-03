@@ -7,11 +7,15 @@ export const queryKeys = {
     endpointType,
     feed,
     username,
+    page,
+    tag,
   }: {
     endpointType: FeedEndpoint;
     feed: HomeFeed | ProfileFeed;
     username?: string;
-  }) => ['feed', endpointType, feed, username],
+    page: number;
+    tag?: string;
+  }) => ['feed', endpointType, feed, username, page, tag],
   feedAll: () => ['feed'],
   article: (slug: string) => ['article', slug],
   loggedInUser: () => ['loggedInUser'],

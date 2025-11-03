@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { RotateCcw, Save, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useArticle } from '../../api/useArticle';
@@ -7,9 +8,6 @@ import { useEditArticle } from '../../api/useEditArticle';
 import Banner from '../../components/banner/Banner';
 import BodyLayout from '../../components/body-layout/BodyLayout';
 import Button from '../../components/button/Button';
-import CloseIcon from '../../components/icons/CloseIcon';
-import RevertIcon from '../../components/icons/RevertIcon';
-import SaveIcon from '../../components/icons/SaveIcon';
 import MainLayout from '../../components/main-layout/MainLayout';
 import { ROUTE } from '../../shared/constants/routing';
 import type { Article } from '../../shared/types/feed.types';
@@ -22,6 +20,7 @@ import {
   TitleField,
 } from '../create-article-page/article-fields/ArticleFields';
 import type { FormArticle } from '../create-article-page/CreateArticlePage';
+import DeleteArticle from './delete-article/DeleteArticle';
 import styles from './EditArticlePage.module.scss';
 
 interface ArticleEditItem {
@@ -90,9 +89,6 @@ export default function EditArticlePage() {
   const [edits, setEdits] = useState<ArticleEdits>(() =>
     initArticleEdits(article),
   );
-  // const [validArticle, setValidArticle] = useState<
-  //   ValidArticleMutation | undefined
-  // >(undefined);
   const [everEdited, setEverEdited] = useState(false);
   const editArticle = useEditArticle(slug!);
 
@@ -172,10 +168,11 @@ export default function EditArticlePage() {
                     onClick={navigateToArticle}
                     className={styles.exitButton}
                   >
-                    <CloseIcon
+                    <X
                       size={16}
-                      svgClassName={styles.closeCircle}
-                    ></CloseIcon>
+                      className={styles.closeIcon}
+                      strokeWidth={3}
+                    ></X>
                     Exit editing
                   </Button>
                 </div>
@@ -223,7 +220,7 @@ export default function EditArticlePage() {
                     type='submit'
                     busy={editArticle.isPending}
                   >
-                    <SaveIcon size={20} className={styles.saveIcon}></SaveIcon>
+                    <Save size={16} className={styles.saveIcon} />
                     Save changes
                   </Button>
                   {(everEdited || dirty) && (
@@ -233,13 +230,14 @@ export default function EditArticlePage() {
                       disabled={!dirty || editArticle.isPending}
                       onClick={revertChanges}
                     >
-                      <RevertIcon
-                        size={20}
-                        className={styles.revertIcon}
-                      ></RevertIcon>
+                      <RotateCcw size={18} className={styles.revertIcon} />
                       Revert changes
                     </Button>
                   )}
+                  <DeleteArticle
+                    article={article}
+                    disabled={dirty || editArticle.isPending}
+                  />
                 </>
               </ArticleSidebar>
             </BodyLayout>

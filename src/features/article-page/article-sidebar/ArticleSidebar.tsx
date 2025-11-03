@@ -37,6 +37,8 @@ export default function ArticleSidebar({ children }: React.PropsWithChildren) {
                   displayIcon={true}
                   displayText={true}
                   selectedClassName={styles.selectedButton}
+                  plusIconSize={18}
+                  buttonVariant='secondary'
                 ></FavoriteButton>
               ) : (
                 <FavoriteReadout
@@ -45,17 +47,6 @@ export default function ArticleSidebar({ children }: React.PropsWithChildren) {
                   expandedContext={true}
                 ></FavoriteReadout>
               )}
-              {loggedInUser &&
-                authorProfile &&
-                article?.author?.username !== loggedInUser?.username && (
-                  <FollowButton
-                    profile={authorProfile}
-                    className={styles.followButton}
-                    selectedClassName={styles.selectedButton}
-                    variant='secondary'
-                    syncWithApi={refetchProfile}
-                  ></FollowButton>
-                )}
             </>
           )}
         </div>
@@ -64,7 +55,20 @@ export default function ArticleSidebar({ children }: React.PropsWithChildren) {
             <p className={styles.articleTitle}>{article.title}</p>
           </div>
           <p className={styles.label}>Written by</p>
-          <AuthorDate author={article.author} showDate={false}></AuthorDate>
+          <AuthorDate author={article.author} showDate={false} />
+          {loggedInUser &&
+            authorProfile &&
+            article?.author?.username !== loggedInUser?.username && (
+              <FollowButton
+                profile={authorProfile}
+                isFollowing={authorProfile.following}
+                className={styles.followButton}
+                selectedClassName={styles.selectedButton}
+                syncWithApi={refetchProfile}
+                iconSize={18}
+                variant='tertiary'
+              ></FollowButton>
+            )}
           <div>
             <p className={clsx(styles.label, styles.date)}>
               {article.updatedAt ? 'Last updated' : 'Published'}

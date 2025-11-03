@@ -12,6 +12,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: grid(2);
+  color: var(--color-field-label, --color-text);
 }
 
 .required,

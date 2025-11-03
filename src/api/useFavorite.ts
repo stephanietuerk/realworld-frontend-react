@@ -17,14 +17,7 @@ export function useFavorite(slug: string) {
     { prevArticle: Article | undefined }
   >({
     mutationKey: key,
-    mutationFn: (action) => {
-      console.log('mutationFn', action);
-      return callApiWithAuth(`${API_ROOT}/articles/${slug}/favorite`, {
-        method: action === 'add' ? 'POST' : 'DELETE',
-      });
-    },
     onMutate: async (action) => {
-      console.log('on mutate', action);
       await qc.cancelQueries({ queryKey: queryKeys.feedAll() });
       await qc.cancelQueries({ queryKey: queryKeys.article(slug) });
 
@@ -59,13 +52,20 @@ export function useFavorite(slug: string) {
 
       return { prevArticle: cachedArticle };
     },
+    mutationFn: (action) => {
+      return callApiWithAuth(`${API_ROOT}/articles/${slug}/favorite`, {
+        method: action === 'add' ? 'POST' : 'DELETE',
+      });
+    },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.feedAll() });
       qc.invalidateQueries({ queryKey: queryKeys.article(slug) });
     },
-    onError: (_error, _variables, _context) => {
+    onError: (_error, _variables, context) => {
       console.warn('useFavorite mutation failed');
-      // qc.setQueryData<Article>(queryKeys.article(slug), context?.prevArticle);
+      if (context?.prevArticle) {
+        qc.setQueryData(queryKeys.article(slug), context.prevArticle);
+      }
     },
   });
 }

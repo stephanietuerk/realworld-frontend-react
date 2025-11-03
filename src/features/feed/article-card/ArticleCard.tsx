@@ -25,9 +25,13 @@ function handleNonCardHover(
 
 interface ArticleCardProps {
   article: FeedItem;
+  isLoggedInUsersProfile?: boolean;
 }
 
-export default function ArticleCard({ article }: ArticleCardProps) {
+export default function ArticleCard({
+  article,
+  isLoggedInUsersProfile,
+}: ArticleCardProps) {
   const { isLoggedIn } = useAuth();
   const [favoriteIsHovered, setFavoriteIsHovered] = useState(false);
   const [authorIsHovered, setAuthorIsHovered] = useState(false);
@@ -60,12 +64,13 @@ export default function ArticleCard({ article }: ArticleCardProps) {
           author={article.author}
           updatedAt={article.updatedAt}
           handleHover={handleAuthorHover}
+          disabled={isLoggedInUsersProfile}
         ></AuthorDate>
       </div>
       <p className={styles.title}>{article.title}</p>
       <p className={styles.description}>{article.description}</p>
       <div className={styles.bottomRow}>
-        <Tags article={article} className={styles.tags}></Tags>
+  <Tags article={article} containerClassName={styles.tags} />
         {isLoggedIn ? (
           <FavoriteButton
             className={styles.favoriteButton}
@@ -76,7 +81,10 @@ export default function ArticleCard({ article }: ArticleCardProps) {
             handlePointerLeave={(e) => handleFavoriteHover(e, false)}
           ></FavoriteButton>
         ) : (
-          <FavoriteReadout count={article.favoritesCount}></FavoriteReadout>
+          <FavoriteReadout
+            count={article.favoritesCount}
+            className={styles.favoriteReadout}
+          ></FavoriteReadout>
         )}
       </div>
     </Link>

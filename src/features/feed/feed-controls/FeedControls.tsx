@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
+import { useParams } from 'react-router-dom';
 import { useFeed } from '../../../api/useFeed';
+import { useTags } from '../../../api/useTags';
 import styles from './FeedControls.module.scss';
 import TagOptions, { NONE_TAG } from './tag-options/TagOptions';
 
@@ -34,18 +36,17 @@ export default function FeedControls({
   tagsTitle,
   children,
 }: FeedControlsProps) {
-  const { allItems, feedSelections, setFeedSelections } = useFeed();
-  // does not include NONE_TAG
-  const tagOptions = !!allItems
-    ? [...new Set(allItems.flatMap((a) => a.tagList))]
-    : [];
+  const { feedSelections, setFeedSelections, setPage, totalCount } = useFeed();
+  const { username: profileUsername } = useParams<{ username: string }>();
+  const { tags, isPending } = useTags({ limit: 20, username: profileUsername });
 
   const toggleTag = (clickedTag: string) => {
+    setPage(1);
     // Selections include NONE_TAG
     setFeedSelections((prev) => {
       const newTagSelections = getNewTagSelections(
         prev.tags,
-        tagOptions,
+        tags || [],
         clickedTag,
       );
       return {
@@ -55,18 +56,21 @@ export default function FeedControls({
     });
   };
 
-  const showTags = !allItems ? false : allItems.length > SHOW_TAGS_IF_NUM_ITEMS;
+  const showTags = !tags
+    ? false
+    : totalCount > SHOW_TAGS_IF_NUM_ITEMS || !profileUsername;
 
   return (
     <div className={styles.feedControls}>
       {children}
-      {tagOptions && tagOptions.length > 1 && showTags && (
+      {tags && tags.length > 1 && showTags && (
         <div>
           <p className={styles.tagsTitle}>{tagsTitle}</p>
           <TagOptions
-            tags={tagOptions}
+            tags={tags}
             selected={feedSelections.tags}
             toggleTag={toggleTag}
+            isLoading={isPending}
           ></TagOptions>
         </div>
       )}

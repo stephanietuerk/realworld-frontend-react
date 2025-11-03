@@ -1,0 +1,54 @@
+@use 'functions' as *;
+@use 'typography' as *;
+
+$size: 40px;
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: grid(6);
+}
+
+.pageButton {
+  background: var(--color-surface-accent);
+  border: 1px solid var(--color-neutral-90);
+  padding: grid(2) grid(3);
+  margin: 0 grid(1);
+  border-radius: grid(1);
+  cursor: pointer;
+  @include body-small;
+  color: var(--color-neutral-40);
+  min-width: $size;
+  height: $size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-xs);
+}
+
+.active {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background-color: var(--color-accent-whisper);
+  cursor: default;
+}
+
+.directionButton {
+  padding: grid(2);
+  border-radius: grid(1);
+  cursor: pointer;
+  min-width: $size;
+  height: $size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.directionIcon {
+  stroke: var(--color-primary);
+}
+
+.directionIconDisabled {
+  stroke: var(--color-neutral-80);
+}

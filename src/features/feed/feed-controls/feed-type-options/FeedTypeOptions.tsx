@@ -8,7 +8,7 @@ export default function FeedTypeOptions({
 }: {
   options: FeedOption[];
 }) {
-  const { feedSelections, setFeedSelections } = useFeed();
+  const { feedSelections, setFeedSelections, setPage } = useFeed();
   return (
     <ul className={styles.options}>
       {options.map((option) => (
@@ -18,9 +18,10 @@ export default function FeedTypeOptions({
               styles.button,
               feedSelections.feed === option.id && styles.active,
             )}
-            onClick={() =>
-              setFeedSelections((prev) => ({ ...prev, feed: option.id }))
-            }
+            onClick={() => {
+              setPage(1);
+              setFeedSelections((prev) => ({ ...prev, feed: option.id }));
+            }}
             aria-pressed={feedSelections.feed === option.id}
           >
             {option.display}

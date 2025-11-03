@@ -1,0 +1,13 @@
+@use 'functions' as *;
+@use 'typography' as *;
+
+.contextLabel {
+  @include label-2xs;
+  margin-bottom: grid(2);
+  color: var(--color-neutral-60);
+}
+
+.fieldLabel label {
+  // hacky but...this is not a learning app
+  margin-bottom: grid(1);
+}

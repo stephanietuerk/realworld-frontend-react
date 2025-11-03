@@ -8,6 +8,7 @@
   margin-bottom: grid(2);
   border-radius: grid(2);
   background: var(--color-surface-accent);
+  box-shadow: var(--shadow-xs);
   transition: all 0.2s ease-in-out;
 
   &:last-of-type {
@@ -114,6 +115,7 @@
 
 .favoriteButton:hover:not(:disabled) {
   background-color: var(--color-accent-faint);
+  box-shadow: var(--shadow-xs);
 }
 
 .favoritePathOutline {
@@ -126,4 +128,8 @@
 
 .favoriteCount {
   margin-left: grid(1);
+}
+
+.favoriteReadout {
+  padding: grid(2);
 }

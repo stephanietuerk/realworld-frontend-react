@@ -28,13 +28,15 @@ export default function FavoriteReadout({
   const location = useLocation();
 
   return (
-    <div>
+    <>
       <div className={clsx(styles.container, className)}>
         <FavoriteIcon
-          size={20}
+          size={18}
           isOutline={isOutline}
-          svgClassName={styles.favoriteSvg}
-          pathClassName={styles.favoritePathFill}
+          className={clsx(
+            styles.favoriteSvg,
+            isOutline && styles.favoriteSvgOutline,
+          )}
         ></FavoriteIcon>
         <span className={styles.favoriteCount}>
           {count} {expandedContext && 'favorited'}
@@ -60,6 +62,6 @@ export default function FavoriteReadout({
           <p>&nbsp;to favorite</p>
         </div>
       )}
-    </div>
+    </>
   );
 }

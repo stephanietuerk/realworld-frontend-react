@@ -9,10 +9,14 @@
 }
 
 .bannerContent {
+  align-items: center;
+  justify-content: center;
   height: 100%;
 }
 
 .titleRow {
+  align-items: center;
+  justify-content: center;
   align-self: center;
 }
 
@@ -21,6 +25,11 @@
   color: var(--color-primary);
   margin-bottom: grid(1);
   margin-top: grid(12);
+}
+
+.description {
+  @include body-medium;
+  color: var(--color-blue-30);
 }
 
 .form {
@@ -54,6 +63,30 @@
   @include label-xs;
 }
 
-.button {
-  align-self: flex-end;
+.revertIcon {
+  margin-right: grid(1.5);
+}
+
+.bottomRow {
+  display: flex;
+  flex-direction: column;
+  gap: grid(2);
+  align-items: flex-end;
+}
+
+.buttonRow {
+  display: flex;
+  align-items: center;
+  gap: grid(3);
+  justify-content: flex-end;
+}
+
+.responseMessage {
+  @include label-small;
+  margin-top: grid(1);
+  color: var(--color-success-700);
+}
+
+.error {
+  color: var(--color-warn-700);
 }

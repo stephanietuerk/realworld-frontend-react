@@ -10,14 +10,12 @@
 
 .favoriteSvg {
   flex-shrink: 0;
-}
-
-.favoritePathOutline {
-  fill: var(--favorite-readout-heart-outline, var(--color-inert-light));
-}
-
-.favoritePathFill {
+  stroke: none;
   fill: var(--favorite-readout-heart-fill, var(--color-inert-light));
+}
+
+.favoriteSvgOutline {
+  stroke: var(--favorite-readout-heart-fill, var(--color-inert-light));
 }
 
 .favoriteCount {
@@ -25,6 +23,8 @@
   flex-shrink: 0;
   margin-left: grid(1);
   color: var(--favorite-readout-heart-fill, var(--color-inert-light));
+  position: relative;
+  top: 1px;
 }
 
 .loginText {

@@ -23,7 +23,7 @@ export default function Banner({
       <div className={clsx(styles.contentContainer, contentClassName)}>
         {breadcrumbs && (
           <div className={styles.breadcrumbs}>
-            <Breadcrumbs segments={breadcrumbs}></Breadcrumbs>
+            <Breadcrumbs segments={breadcrumbs} />
           </div>
         )}
         {children}

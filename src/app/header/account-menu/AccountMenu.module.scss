@@ -27,6 +27,10 @@
   border: 1px solid var(--color-neutral-90);
 }
 
+.menuItemContainer:not(:last-child) {
+  border-bottom: 1px solid var(--color-neutral-95);
+}
+
 .menuItem {
   @include body-small;
   color: var(--color-neutral-40);
@@ -41,10 +45,6 @@
 
 .menuItem:hover .itemLabel {
   color: var(--color-primary);
-}
-
-.menuItem:not(:last-child) {
-  border-bottom: 1px solid var(--color-neutral-95);
 }
 
 .menuItem.active {
