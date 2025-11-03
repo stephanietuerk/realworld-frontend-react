@@ -13,7 +13,6 @@ import { FeedProvider } from '../../context/FeedProvider';
 import { FEED_OPTIONS } from '../../shared/constants/feed';
 import { ROUTE } from '../../shared/constants/routing';
 import type { FeedSelections } from '../../shared/types/feed.types';
-import { ErrorBoundary } from '../../shared/utilities/error-boundary';
 import Feed from '../feed/Feed';
 import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOptions';
 import FeedControls from '../feed/feed-controls/FeedControls';
@@ -58,10 +57,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <ErrorBoundary
-      fallback={<p>Oops, error</p>}
-      onError={(error, info) => console.log(error, info)}
-    >
+    <>
       <Banner
         outerContainerClassName={styles.bannerOuter}
         surface='dark'
@@ -112,6 +108,6 @@ export default function ProfilePage() {
           </BodyLayout>
         </FeedProvider>
       </MainLayout>
-    </ErrorBoundary>
+    </>
   );
 }

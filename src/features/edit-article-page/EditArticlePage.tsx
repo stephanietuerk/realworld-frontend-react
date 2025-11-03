@@ -11,7 +11,6 @@ import Button from '../../components/button/Button';
 import MainLayout from '../../components/main-layout/MainLayout';
 import { ROUTE } from '../../shared/constants/routing';
 import type { Article } from '../../shared/types/feed.types';
-import { ErrorBoundary } from '../../shared/utilities/error-boundary';
 import ArticleSidebar from '../article-page/article-sidebar/ArticleSidebar';
 import {
   BodyField,
@@ -142,10 +141,7 @@ export default function EditArticlePage() {
   if (!slug || !article.body) return null;
 
   return (
-    <ErrorBoundary
-      fallback={<p>Oops, error</p>}
-      onError={(error, info) => console.log(error, info)}
-    >
+    <>
       {article && user && (
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <Banner
@@ -244,6 +240,6 @@ export default function EditArticlePage() {
           </MainLayout>
         </form>
       )}
-    </ErrorBoundary>
+    </>
   );
 }

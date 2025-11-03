@@ -16,7 +16,6 @@ export function useFollow(username: string) {
   >({
     mutationKey: ['profile', 'follow', username],
     onMutate: async (action) => {
-      console.log('mutate follow', action);
       await qc.cancelQueries({ queryKey: queryKeys.profile(username) });
       const cachedProfile = qc.getQueryData<Profile>(
         queryKeys.profile(username),

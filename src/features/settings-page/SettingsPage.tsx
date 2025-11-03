@@ -12,7 +12,6 @@ import type {
   AuthenticatedUser,
   UserUpdate,
 } from '../../shared/types/user.types';
-import { ErrorBoundary } from '../../shared/utilities/error-boundary';
 import {
   BioField,
   EmailField,
@@ -157,10 +156,7 @@ export default function SettingsPage() {
   if (!user) return null;
 
   return (
-    <ErrorBoundary
-      fallback={<p>Oops, error</p>}
-      onError={(error, info) => console.log(error, info)}
-    >
+    <>
       <Banner
         outerContainerClassName={styles.bannerOuter}
         contentClassName={styles.bannerContent}
@@ -238,6 +234,6 @@ export default function SettingsPage() {
           </div>
         </form>
       </MainLayout>
-    </ErrorBoundary>
+    </>
   );
 }
