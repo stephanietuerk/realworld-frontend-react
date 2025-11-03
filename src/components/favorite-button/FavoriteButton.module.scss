@@ -23,14 +23,14 @@
 
 .iconLabelRow {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .instructions {
   margin-left: grid(1);
 }
 
-.instructionsWithIcon {
+.instructionsWhenIcon {
   margin-right: grid(3);
 }
 
@@ -60,4 +60,9 @@
   transform: translateY(1px);
   display: flex;
   align-items: center;
+}
+
+.countWithText {
+  position: relative;
+  top: -1px;
 }

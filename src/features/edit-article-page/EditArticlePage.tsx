@@ -89,9 +89,6 @@ export default function EditArticlePage() {
   const [edits, setEdits] = useState<ArticleEdits>(() =>
     initArticleEdits(article),
   );
-  // const [validArticle, setValidArticle] = useState<
-  //   ValidArticleMutation | undefined
-  // >(undefined);
   const [everEdited, setEverEdited] = useState(false);
   const editArticle = useEditArticle(slug!);
 
@@ -171,7 +168,11 @@ export default function EditArticlePage() {
                     onClick={navigateToArticle}
                     className={styles.exitButton}
                   >
-                    <X size={16} className={styles.closeIcon}></X>
+                    <X
+                      size={16}
+                      className={styles.closeIcon}
+                      strokeWidth={3}
+                    ></X>
                     Exit editing
                   </Button>
                 </div>

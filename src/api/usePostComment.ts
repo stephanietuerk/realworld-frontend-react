@@ -38,7 +38,6 @@ export function usePostComment(slug: string) {
       return { previous: prevComments };
     },
     mutationFn: (body) => {
-      console.log('🚀 mutationFn called with', body);
       return callApiWithAuth(`${API_ROOT}/articles/${slug}/comments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

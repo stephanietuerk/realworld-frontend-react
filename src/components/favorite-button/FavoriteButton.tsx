@@ -43,7 +43,6 @@ export default function FavoriteButton({
   const { isLoggedIn } = useAuth();
   const favorite = useFavorite(slug);
   const [hovering, setHovering] = useState<boolean>(false);
-  console.log('FavoriteButton', favorited);
 
   const handleClick: PointerEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
@@ -85,7 +84,7 @@ export default function FavoriteButton({
           <span
             className={clsx(
               styles.instructions,
-              displayIcon && styles.instructionsWithIcon,
+              displayIcon && styles.instructionsWhenIcon,
             )}
           >
             {!favorited
@@ -97,7 +96,12 @@ export default function FavoriteButton({
         </div>
       )}
       {displayIcon && (
-        <div className={styles.countIcon}>
+        <div
+          className={clsx(
+            styles.countIcon,
+            displayText && styles.countWithText,
+          )}
+        >
           <FavoriteIcon
             size={displayText ? 16 : 18}
             isOutline={!favorited}

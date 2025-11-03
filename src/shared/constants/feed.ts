@@ -3,7 +3,7 @@ import { ROUTE } from './routing';
 
 export type FeedType = 'home' | 'profile';
 
-export const NO_ARTICLES_ACTION_MARKER = '__ACTION__';
+export const FEED_PAGE_SIZE = 5;
 
 export const exploreCTA = {
   text: 'Explore the Conduit community',

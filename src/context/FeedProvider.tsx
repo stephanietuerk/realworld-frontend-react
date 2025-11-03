@@ -5,6 +5,7 @@ import { queryKeys } from '../api/queryKeys';
 import { useApiGet } from '../api/useApiGet';
 import { NONE_TAG } from '../features/feed/feed-controls/tag-options/TagOptions';
 import { API_ROOT } from '../shared/constants/api';
+import { FEED_PAGE_SIZE } from '../shared/constants/feed';
 import type {
   FeedContextType,
   FeedItem,
@@ -26,8 +27,6 @@ interface FeedProviderProps {
 }
 
 export type FeedEndpoint = 'global' | 'loggedInUser';
-
-const FEED_PAGE_SIZE = 2;
 
 export const FeedContext = createContext<FeedContextType | undefined>(
   undefined,

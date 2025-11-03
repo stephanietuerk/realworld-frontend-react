@@ -3,11 +3,13 @@
 
 .followButton {
   @include label-small;
+  display: flex;
+  align-items: center;
+}
 
-  &:hover {
-    .iconPath {
-      fill: var(--color-primary);
-    }
+.followButton:hover {
+  .iconPath {
+    fill: var(--color-primary);
   }
 }
 

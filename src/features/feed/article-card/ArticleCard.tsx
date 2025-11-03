@@ -81,7 +81,10 @@ export default function ArticleCard({
             handlePointerLeave={(e) => handleFavoriteHover(e, false)}
           ></FavoriteButton>
         ) : (
-          <FavoriteReadout count={article.favoritesCount}></FavoriteReadout>
+          <FavoriteReadout
+            count={article.favoritesCount}
+            className={styles.favoriteReadout}
+          ></FavoriteReadout>
         )}
       </div>
     </Link>

@@ -73,7 +73,10 @@ $sidebar-gap: grid(6);
   margin-right: grid(2);
 }
 
-.closeIcon,
+.closeIcon {
+  margin-right: grid(1);
+}
+
 .revertIcon,
 .deleteIcon {
   margin-right: grid(1.5);

@@ -2,6 +2,8 @@ import { clsx } from 'clsx';
 import { Tabs } from 'radix-ui';
 import { useLayoutEffect, useRef, useState } from 'react';
 import Field from '../../../components/field/Field';
+import fieldStyles from '../../../shared/styles/FieldInputs.module.scss';
+import type { FieldInputProps } from '../../../shared/types/input.types';
 import { mdToHtml } from '../../../shared/utilities/markdown-to-html';
 import styles from './ArticleFields.module.scss';
 
@@ -11,13 +13,7 @@ export function TitleField({
   onChange,
   fieldClassName,
   formControlClassName,
-}: {
-  id: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  fieldClassName?: string;
-  formControlClassName?: string;
-}) {
+}: FieldInputProps<HTMLInputElement>) {
   return (
     <Field
       id={id}
@@ -32,7 +28,11 @@ export function TitleField({
         value={value}
         required
         autoComplete='off'
-        className={clsx(styles.input, styles.inputTitle, formControlClassName)}
+        className={clsx(
+          fieldStyles.input,
+          styles.inputTitle,
+          formControlClassName,
+        )}
         placeholder='Article Title'
         onChange={onChange}
       />
@@ -46,13 +46,7 @@ export function DescriptionField({
   onChange,
   fieldClassName,
   formControlClassName,
-}: {
-  id: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  fieldClassName?: string;
-  formControlClassName?: string;
-}) {
+}: FieldInputProps<HTMLInputElement>) {
   return (
     <Field
       id={id}
@@ -68,7 +62,7 @@ export function DescriptionField({
         required
         autoComplete='off'
         className={clsx(
-          styles.input,
+          fieldStyles.input,
           styles.inputDescription,
           formControlClassName,
         )}
@@ -85,13 +79,7 @@ export function TagsField({
   onChange,
   fieldClassName,
   formControlClassName,
-}: {
-  id: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  fieldClassName?: string;
-  formControlClassName?: string;
-}) {
+}: FieldInputProps<HTMLInputElement>) {
   return (
     <Field
       id={id}
@@ -106,7 +94,11 @@ export function TagsField({
         type='text'
         value={value}
         autoComplete='off'
-        className={clsx(styles.input, styles.inputTags, formControlClassName)}
+        className={clsx(
+          fieldStyles.input,
+          styles.inputTags,
+          formControlClassName,
+        )}
         placeholder='Enter tags (comma separated)'
         onChange={onChange}
       />
@@ -136,14 +128,7 @@ export function BodyField({
   fieldClassName,
   formControlClassName,
   previewClassName,
-}: {
-  id: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  fieldClassName?: string;
-  formControlClassName?: string;
-  previewClassName?: string;
-}) {
+}: FieldInputProps<HTMLTextAreaElement> & { previewClassName?: string }) {
   const [activeTab, setActiveTab] = useState<'write' | 'preview'>('write');
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [preview, setPreview] = useState<string>('');
@@ -210,7 +195,7 @@ export function BodyField({
             autoComplete='off'
             required
             className={clsx(
-              styles.textarea,
+              fieldStyles.textarea,
               styles.inputBody,
               formControlClassName,
             )}

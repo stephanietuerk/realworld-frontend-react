@@ -75,8 +75,8 @@ $sidebar-gap: grid(6);
 }
 
 .followButton {
-  width: 100%;
   margin: grid(1) 0 0 0;
+  padding-right: grid(2);
   @include label-xs;
 }
 
