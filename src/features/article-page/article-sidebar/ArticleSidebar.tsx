@@ -61,11 +61,12 @@ export default function ArticleSidebar({ children }: React.PropsWithChildren) {
             article?.author?.username !== loggedInUser?.username && (
               <FollowButton
                 profile={authorProfile}
+                isFollowing={authorProfile.following}
                 className={styles.followButton}
                 selectedClassName={styles.selectedButton}
                 syncWithApi={refetchProfile}
                 iconSize={18}
-                variant='secondary'
+                variant='tertiary'
               ></FollowButton>
             )}
           <div>

@@ -75,19 +75,14 @@ $sidebar-gap: grid(6);
 }
 
 .followButton {
-  border: 1px solid transparent;
   width: 100%;
   margin: grid(1) 0 0 0;
   @include label-xs;
 }
 
-.followButton:hover:not(:disabled) {
-  border: 1px solid var(--color-primary);
-  background-color: var(--color-accent-whisper);
-}
-
-.favoriteButton.selectedButton:not(:disabled),
-.followButton.selectedButton:not(:disabled) {
+.favoriteButton.selectedButton:not(:disabled)
+// .followButton.selectedButton:not(:disabled)
+{
   background: var(--color-accent-whisper);
   // box-shadow: var(--shadow-md);
 }

@@ -17,6 +17,7 @@ interface AuthorDateProps {
   ) => void;
   showDate?: boolean;
   updatedAt?: Date;
+  disabled?: boolean;
 }
 
 export default function AuthorDate({
@@ -26,6 +27,7 @@ export default function AuthorDate({
   handleHover,
   showDate = true,
   updatedAt,
+  disabled = false,
 }: AuthorDateProps) {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -34,6 +36,7 @@ export default function AuthorDate({
     e: React.PointerEvent<HTMLButtonElement>,
     isEnter: boolean,
   ) => void = (e, isEnter) => {
+    if (disabled) return;
     setIsHovered(isEnter);
     if (handleHover) {
       handleHover(e, isEnter);
@@ -60,7 +63,12 @@ export default function AuthorDate({
       <div className={clsx(styles.authorDate, styles[layout])}>
         <button
           role='link'
-          className={clsx(styles.author, styles[layout])}
+          disabled={disabled}
+          className={clsx(
+            styles.author,
+            styles[layout],
+            disabled && styles.authorInert,
+          )}
           onPointerEnter={(e) => handleHoverLocal(e, true)}
           onPointerLeave={(e) => handleHoverLocal(e, false)}
           onClick={(e) => {

@@ -47,7 +47,7 @@ export function useTags({
     TagsResponse,
     string[]
   >({
-    queryKey: ['tags'],
+    queryKey: ['tags', username, limit],
     url: url,
     queryOptions: {
       select: ({ tags }) => {

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams } from 'react-router';
 import { useAuth } from '../../api/useAuth';
 import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
@@ -17,6 +18,7 @@ import Feed from '../feed/Feed';
 import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOptions';
 import FeedControls from '../feed/feed-controls/FeedControls';
 import { NONE_TAG } from '../feed/feed-controls/tag-options/TagOptions';
+import { useDelayedLoading } from '../feed/useDelayedLoading';
 import styles from './ProfilePage.module.scss';
 
 const FEED_CONTROLS_DEFAULTS: FeedSelections = {
@@ -39,6 +41,8 @@ export default function ProfilePage() {
   const { username } = useParams();
   const { user: loggedInUser } = useAuthenticatedUser();
   const { profile, error, refetch } = useProfile(username);
+  const [isLoading, setIsLoading] = useState(false);
+  const showSpinner = useDelayedLoading(isLoading, 500);
 
   const isLoggedInUser = isLoggedIn && username === loggedInUser?.username;
   const showFollowUserButton =
@@ -81,6 +85,7 @@ export default function ProfilePage() {
             {showFollowUserButton && (
               <FollowButton
                 profile={profile}
+                isFollowing={profile.following}
                 className={styles.followButton}
                 syncWithApi={refetch}
               ></FollowButton>
@@ -90,7 +95,7 @@ export default function ProfilePage() {
       </Banner>
       <MainLayout>
         <FeedProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
-          <BodyLayout>
+          <BodyLayout showLoadingSpinner={showSpinner}>
             <SidebarLayout>
               <FeedControls tagsTitle='Show articles about'>
                 <div>
@@ -103,7 +108,7 @@ export default function ProfilePage() {
                 </div>
               </FeedControls>
             </SidebarLayout>
-            <Feed options={FEED_OPTIONS.profile}></Feed>
+            <Feed options={FEED_OPTIONS.profile} setIsLoading={setIsLoading} />
           </BodyLayout>
         </FeedProvider>
       </MainLayout>

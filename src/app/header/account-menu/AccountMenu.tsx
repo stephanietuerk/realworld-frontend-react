@@ -64,7 +64,7 @@ export default function AccountMenu({ className }: { className?: string }) {
             <div className={styles.menuItem}>
               <p className={styles.itemLabel}>Profile</p>
               <p className={styles.itemContext}>
-                Your articles, favorites, and user profile
+                View and edit your articles and favorites
               </p>
             </div>
           </DropdownMenu.Item>
@@ -77,7 +77,9 @@ export default function AccountMenu({ className }: { className?: string }) {
           >
             <div className={styles.menuItem}>
               <p className={styles.itemLabel}>Settings</p>
-              <p className={styles.itemContext}>Account name and password</p>
+              <p className={styles.itemContext}>
+                Modify your account information
+              </p>
             </div>
           </DropdownMenu.Item>
           <DropdownMenu.Item

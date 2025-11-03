@@ -27,7 +27,7 @@ interface FeedProviderProps {
 
 export type FeedEndpoint = 'global' | 'loggedInUser';
 
-const FEED_PAGE_SIZE = 10;
+const FEED_PAGE_SIZE = 2;
 
 export const FeedContext = createContext<FeedContextType | undefined>(
   undefined,
@@ -62,7 +62,7 @@ export function FeedProvider({
       endpointType,
       feed: feedSelections.feed,
       username,
-      tag: feedSelections.tags?.find((t) => t !== NONE_TAG), // your UI may allow one active tag
+      tags: feedSelections.tags.filter((t) => t !== NONE_TAG),
       page,
       pageSize: FEED_PAGE_SIZE,
     });

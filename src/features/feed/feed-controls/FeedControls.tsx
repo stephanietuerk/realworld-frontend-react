@@ -36,9 +36,9 @@ export default function FeedControls({
   tagsTitle,
   children,
 }: FeedControlsProps) {
-  const { allItems, feedSelections, setFeedSelections, setPage } = useFeed();
+  const { feedSelections, setFeedSelections, setPage, totalCount } = useFeed();
   const { username: profileUsername } = useParams<{ username: string }>();
-  const { tags } = useTags({ limit: 20, username: profileUsername });
+  const { tags, isPending } = useTags({ limit: 20, username: profileUsername });
 
   const toggleTag = (clickedTag: string) => {
     setPage(1);
@@ -56,8 +56,9 @@ export default function FeedControls({
     });
   };
 
-  const showTags =
-    !tags || !allItems ? false : allItems?.length > SHOW_TAGS_IF_NUM_ITEMS;
+  const showTags = !tags
+    ? false
+    : totalCount > SHOW_TAGS_IF_NUM_ITEMS || !profileUsername;
 
   return (
     <div className={styles.feedControls}>
@@ -69,6 +70,7 @@ export default function FeedControls({
             tags={tags}
             selected={feedSelections.tags}
             toggleTag={toggleTag}
+            isLoading={isPending}
           ></TagOptions>
         </div>
       )}

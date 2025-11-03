@@ -5,7 +5,7 @@ export function buildArticlesUrl({
   endpointType, // 'global' | 'loggedInUser'
   feed, // 'global' | 'following' | 'author' | 'favorited'
   username, // profile username (if viewing a profile)
-  tag, // currently selected tag (string | undefined)
+  tags, // currently selected tags (string[] | undefined)
   page, // 1-based page index
   pageSize = 10, // default page size
 }: {
@@ -13,7 +13,7 @@ export function buildArticlesUrl({
   endpointType: 'global' | 'loggedInUser';
   feed: HomeFeed | ProfileFeed;
   username?: string;
-  tag?: string;
+  tags?: string[];
   page: number;
   pageSize?: number;
 }) {
@@ -29,8 +29,7 @@ export function buildArticlesUrl({
   if (feed === 'author' && username) params.set('author', username);
   if (feed === 'favorited' && username) params.set('favorited', username);
 
-  // Tag filter (only makes sense on global/community)
-  if (tag && tag !== 'NONE') params.set('tag', tag);
+  if (tags && tags.length > 0) params.set('tags', tags.join(','));
 
   return `${apiRoot}/${path}?${params.toString()}`;
 }

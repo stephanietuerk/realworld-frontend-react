@@ -1,0 +1,31 @@
+@use 'functions' as *;
+@use 'typography' as *;
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.skeletonCard {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-neutral-90); // fallback
+  background-image: linear-gradient(
+    to right,
+    var(--color-neutral-90) 0%,
+    #eaecf0 20%,
+    var(--color-neutral-90) 40%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+
+  display: block;
+  height: 217px;
+  border: 1px solid var(--color-neutral-90);
+  margin-bottom: grid(2);
+  border-radius: grid(2);
+}

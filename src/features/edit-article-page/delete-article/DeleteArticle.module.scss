@@ -1,0 +1,74 @@
+@use 'functions' as *;
+@use 'typography' as *;
+
+.alertDialogOverlay {
+  background-color: var(--black-a9);
+  position: fixed;
+  inset: 0;
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.deleteButton {
+  @include label-xs;
+  color: var(--color-warn-700);
+  display: flex;
+  align-items: center;
+  margin-top: grid(1);
+  padding: grid(1) grid(2);
+  margin-bottom: grid(2);
+}
+
+.deleteIcon {
+  margin-right: grid(1.5);
+}
+
+.deleteButton:hover:not(:disabled) {
+  background: var(--color-warn-100);
+  color: var(--color-warn-700);
+  border-color: var(--color-warn-400);
+}
+
+.deleteButton:disabled {
+  color: var(--color-warn-400);
+  cursor: not-allowed;
+}
+
+.deleteLabel {
+  position: relative;
+  top: 1px;
+}
+
+.alertDialogContent {
+  background-color: var(--color-surface-accent);
+  border-radius: grid(2);
+  box-shadow: var(--shadow-md);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 500px;
+  max-height: 85vh;
+  padding: grid(6);
+  animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modalButtonRow {
+  display: flex;
+  gap: grid(4);
+  justify-content: flex-end;
+}
+
+.alertDialogContent:focus {
+  outline: none;
+}
+
+.alertDialogTitle {
+  margin-bottom: grid(3);
+  @include title-medium;
+}
+
+.alertDialogDescription {
+  margin-bottom: grid(5);
+  @include body-xs;
+}

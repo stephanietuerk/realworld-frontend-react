@@ -8,27 +8,40 @@ export default function TagOptions({
   tags,
   selected,
   toggleTag,
+  isLoading,
 }: {
   tags: string[];
   selected: string[];
   toggleTag: (tag: string) => void;
+  isLoading: boolean;
 }) {
   const sortedTags = [NONE_TAG, ...tags.slice().sort()];
 
   return (
     <>
-      {sortedTags.map((tag) => (
-        <Button
-          key={tag}
-          animateOnClick={false}
-          variant='secondary'
-          pressed={selected.includes(tag)}
-          className={clsx(styles.tag, selected.includes(tag) && styles.active)}
-          onClick={() => toggleTag(tag)}
-        >
-          {tag}
-        </Button>
-      ))}
+      {isLoading && (
+        <div className={styles.loading}>
+          <div className={styles.skeletonRow}></div>
+          <div className={styles.skeletonRow}></div>
+          <div className={styles.skeletonRow}></div>
+        </div>
+      )}
+      {!isLoading &&
+        sortedTags.map((tag) => (
+          <Button
+            key={tag}
+            animateOnClick={false}
+            variant='secondary'
+            pressed={selected.includes(tag)}
+            className={clsx(
+              styles.tag,
+              selected.includes(tag) && styles.active,
+            )}
+            onClick={() => toggleTag(tag)}
+          >
+            {tag}
+          </Button>
+        ))}
     </>
   );
 }

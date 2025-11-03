@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAuth } from '../../api/useAuth';
 import Banner from '../../components/banner/Banner';
 import BodyLayout from '../../components/body-layout/BodyLayout';
@@ -11,6 +12,7 @@ import Feed from '../feed/Feed';
 import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOptions';
 import FeedControls from '../feed/feed-controls/FeedControls';
 import { NONE_TAG } from '../feed/feed-controls/tag-options/TagOptions';
+import { useDelayedLoading } from '../feed/useDelayedLoading';
 import styles from './HomePage.module.scss';
 
 const FEED_CONTROLS_DEFAULTS: FeedSelections = {
@@ -20,6 +22,8 @@ const FEED_CONTROLS_DEFAULTS: FeedSelections = {
 
 export default function HomePage() {
   const { isLoggedIn } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const showSpinner = useDelayedLoading(isLoading, 500);
 
   return (
     <MainLayout>
@@ -31,7 +35,7 @@ export default function HomePage() {
         <p className={styles.description}>A place to share your knowledge</p>
       </Banner>
       <FeedProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
-        <BodyLayout>
+        <BodyLayout showLoadingSpinner={showSpinner}>
           <SidebarLayout>
             <FeedControls tagsTitle='Show articles about'>
               {isLoggedIn && (
@@ -44,7 +48,7 @@ export default function HomePage() {
               )}
             </FeedControls>{' '}
           </SidebarLayout>
-          <Feed options={FEED_OPTIONS.home}></Feed>
+          <Feed options={FEED_OPTIONS.home} setIsLoading={setIsLoading} />
         </BodyLayout>
       </FeedProvider>
     </MainLayout>

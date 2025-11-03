@@ -12,12 +12,6 @@ export function usePostComment(slug: string) {
 
   return useMutation<{ comment: Comment }, AppError, string>({
     mutationKey: ['comments', 'create', slug] as const,
-    mutationFn: (body) =>
-      callApiWithAuth(`${API_ROOT}/articles/${slug}/comments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ comment: { body } }),
-      }),
     onMutate: async (body) => {
       await qc.cancelQueries({ queryKey: commentsKey });
 
@@ -38,10 +32,18 @@ export function usePostComment(slug: string) {
       } as Comment;
 
       qc.setQueryData<Comment[]>(commentsKey, (old) =>
-        old ? [optimisticComment, ...old] : [optimisticComment],
+        Array.isArray(old) ? [optimisticComment, ...old] : [optimisticComment],
       );
 
       return { previous: prevComments };
+    },
+    mutationFn: (body) => {
+      console.log('🚀 mutationFn called with', body);
+      return callApiWithAuth(`${API_ROOT}/articles/${slug}/comments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ comment: { body } }),
+      });
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: commentsKey });

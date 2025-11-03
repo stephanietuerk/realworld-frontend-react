@@ -9,6 +9,7 @@ import styles from './FollowButton.module.scss';
 
 interface FollowButtonProps {
   profile: Profile;
+  isFollowing: boolean;
   syncWithApi: () => void;
   buttonSize?: ButtonSize;
   className?: string;
@@ -19,6 +20,7 @@ interface FollowButtonProps {
 
 export default function FollowButton({
   profile,
+  isFollowing,
   buttonSize = 'sm',
   className,
   iconSize = 24,
@@ -27,7 +29,6 @@ export default function FollowButton({
 }: FollowButtonProps) {
   const { isLoggedIn } = useAuth();
   const follow = useFollow(profile.username);
-  const isFollowing = profile.following;
   const [hovering, setHovering] = useState<boolean>(false);
 
   const handleClick: MouseEventHandler<HTMLButtonElement> = async (e) => {

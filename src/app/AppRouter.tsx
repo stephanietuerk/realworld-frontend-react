@@ -1,18 +1,32 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { lazy } from 'react';
 import { Route, Routes, useLocation } from 'react-router';
 import { AuthProvider } from '../context/AuthProvider.tsx';
 import { AuthenticatedUserProvider } from '../context/AuthenticatedUserProvider.tsx';
-import ArticlePage from '../features/article-page/ArticlePage.tsx';
 import ArticleProviderLayout from '../features/article-page/ArticleProviderLayout.tsx';
-import LoginModal from '../features/auth-modal/LoginModal.tsx';
-import RegisterModal from '../features/auth-modal/RegisterModal.tsx';
-import CreateArticlePage from '../features/create-article-page/CreateArticlePage.tsx';
-import EditArticlePage from '../features/edit-article-page/EditArticlePage.tsx';
 import HomePage from '../features/home-page/HomePage.tsx';
-import ProfilePage from '../features/profile-page/ProfilePage.tsx';
-import SettingsPage from '../features/settings-page/SettingsPage.tsx';
 import { ROUTE } from '../shared/constants/routing.ts';
 import App from './App.tsx';
+
+const ArticlePage = lazy(
+  () => import('../features/article-page/ArticlePage.tsx'),
+);
+const LoginModal = lazy(() => import('../features/auth-modal/LoginModal.tsx'));
+const RegisterModal = lazy(
+  () => import('../features/auth-modal/RegisterModal.tsx'),
+);
+const CreateArticlePage = lazy(
+  () => import('../features/create-article-page/CreateArticlePage.tsx'),
+);
+const EditArticlePage = lazy(
+  () => import('../features/edit-article-page/EditArticlePage.tsx'),
+);
+const ProfilePage = lazy(
+  () => import('../features/profile-page/ProfilePage.tsx'),
+);
+const SettingsPage = lazy(
+  () => import('../features/settings-page/SettingsPage.tsx'),
+);
 
 const queryClient = new QueryClient({
   defaultOptions: {

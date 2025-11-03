@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { useCallback, useState } from 'react';
 import { useAuthenticatedUser } from '../../../api/useAuthenticatedUser';
 import type { Comment } from '../../../api/useComments';
@@ -73,7 +74,7 @@ export function LeaveComment({ slug }: { slug: string }) {
           onChange={(e) => setBody(e.target.value)}
           placeholder='Write a comment...'
         ></textarea>
-        <div className={styles.commentAuthor}>
+        <div className={clsx(styles.commentAuthor, styles.leaveCommentAuthor)}>
           <Button
             className={styles.postButton}
             variant='primary'

@@ -1,9 +1,9 @@
+import { Pencil } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useArticle } from '../../api/useArticle';
 import Banner from '../../components/banner/Banner';
 import BodyLayout from '../../components/body-layout/BodyLayout';
 import Button from '../../components/button/Button';
-import EditIcon from '../../components/icons/EditIcon';
 import MainLayout from '../../components/main-layout/MainLayout';
 import Tags from '../../components/tags/Tags';
 import { ROUTE } from '../../shared/constants/routing';
@@ -55,7 +55,7 @@ export default function ArticlePage() {
       <MainLayout>
         <BodyLayout>
           {article && (
-            <div>
+            <div className={styles.articleContent}>
               <div
                 className={styles.articleBody}
                 dangerouslySetInnerHTML={{ __html: article.body }}
@@ -69,7 +69,7 @@ export default function ArticlePage() {
               className={styles.editButton}
               onClick={navigateToEditor}
             >
-              <EditIcon size={20} className={styles.editIcon}></EditIcon>
+              <Pencil size={16} className={styles.editIcon}></Pencil>
               Edit article
             </Button>
           </ArticleSidebar>

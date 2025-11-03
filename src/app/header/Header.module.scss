@@ -43,10 +43,6 @@
   color: var(--color-neutral-30);
 }
 
-.link:hover:not(.linkActive) {
-  color: var(--color-neutral-40);
-}
-
 .link:hover.linkActive {
   color: var(--color-primary);
 }
