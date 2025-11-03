@@ -55,7 +55,7 @@ export default function ArticleSidebar({ children }: React.PropsWithChildren) {
             <p className={styles.articleTitle}>{article.title}</p>
           </div>
           <p className={styles.label}>Written by</p>
-          <AuthorDate author={article.author} showDate={false}></AuthorDate>
+          <AuthorDate author={article.author} showDate={false} />
           {loggedInUser &&
             authorProfile &&
             article?.author?.username !== loggedInUser?.username && (

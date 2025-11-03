@@ -220,7 +220,7 @@ export default function EditArticlePage() {
                     type='submit'
                     busy={editArticle.isPending}
                   >
-                    <Save size={16} className={styles.saveIcon}></Save>
+                    <Save size={16} className={styles.saveIcon} />
                     Save changes
                   </Button>
                   {(everEdited || dirty) && (

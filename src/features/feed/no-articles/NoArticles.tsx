@@ -27,9 +27,9 @@ export default function NoArticles({
           <>
             <span className={styles.actionIcon}>
               {action.route === ROUTE.explore ? (
-                <Newspaper size={20}></Newspaper>
+                <Newspaper size={20} />
               ) : (
-                <Pencil size={20}></Pencil>
+                <Pencil size={20} />
               )}
             </span>
             <span className={styles.actionText}>{action.text}</span>

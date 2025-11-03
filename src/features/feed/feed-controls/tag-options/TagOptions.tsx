@@ -21,9 +21,9 @@ export default function TagOptions({
     <>
       {isLoading && (
         <div className={styles.loading}>
-          <div className={styles.skeletonRow}></div>
-          <div className={styles.skeletonRow}></div>
-          <div className={styles.skeletonRow}></div>
+          <div className={styles.skeletonRow} />
+          <div className={styles.skeletonRow} />
+          <div className={styles.skeletonRow} />
         </div>
       )}
       {!isLoading &&

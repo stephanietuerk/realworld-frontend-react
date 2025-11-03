@@ -96,7 +96,7 @@ export default function Header() {
             }
           })}
           {isLoggedIn && user && (
-            <AccountMenu className={styles.link}></AccountMenu>
+            <AccountMenu className={styles.link} />
           )}
         </div>
       </div>

@@ -15,7 +15,7 @@ export default function Comments({ slug }: CommentsProps) {
   return (
     <div className={styles.comments}>
       <p className={styles.header}>Comments</p>
-      <LeaveComment slug={slug}></LeaveComment>
+  <LeaveComment slug={slug} />
       {(!comments || comments.length < 1) && (
         <p className={styles.noComments}>No comments yet</p>
       )}

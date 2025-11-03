@@ -49,7 +49,7 @@ export default function ArticlePage() {
           <div className={styles.titleRow}>
             <h1 className={styles.articleTitle}>{article.title}</h1>
           </div>
-          <Tags article={article}></Tags>
+          <Tags article={article} />
         </div>
       </Banner>
       <MainLayout>
@@ -60,7 +60,7 @@ export default function ArticlePage() {
                 className={styles.articleBody}
                 dangerouslySetInnerHTML={{ __html: article.body }}
               ></div>
-              <Comments slug={article.slug}></Comments>
+              <Comments slug={article.slug} />
             </div>
           )}
           <ArticleSidebar>
@@ -69,7 +69,7 @@ export default function ArticlePage() {
               className={styles.editButton}
               onClick={navigateToEditor}
             >
-              <Pencil size={16} className={styles.editIcon}></Pencil>
+              <Pencil size={16} className={styles.editIcon} />
               Edit article
             </Button>
           </ArticleSidebar>
