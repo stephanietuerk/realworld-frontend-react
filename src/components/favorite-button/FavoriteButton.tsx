@@ -18,6 +18,7 @@ interface FavoriteButtonProps {
   displayText?: boolean;
   plusIconSize?: number;
   selectedClassName?: string;
+  buttonVariant?: 'primary' | 'secondary' | 'tertiary';
 }
 
 const BUTTON_TEXT = {
@@ -37,6 +38,7 @@ export default function FavoriteButton({
   displayIcon = true,
   plusIconSize = 24,
   selectedClassName,
+  buttonVariant = 'tertiary',
 }: FavoriteButtonProps) {
   const { isLoggedIn } = useAuth();
   const favorite = useFavorite(slug);
@@ -70,14 +72,14 @@ export default function FavoriteButton({
         setHovering(false);
         handlePointerLeave?.(e);
       }}
-      variant={displayText ? 'secondary' : 'tertiary'}
+      variant={buttonVariant}
     >
       {displayText && (
         <div className={styles.iconLabelRow}>
           <AddAddedIcon
             size={plusIconSize}
             variant={!favorited ? 'plus' : hovering ? 'minus' : 'check'}
-            svgClassName={styles.plusIconSvg}
+            className={styles.plusIconSvg}
             pathClassName={styles.plusIconPath}
           ></AddAddedIcon>
           <span
@@ -97,9 +99,9 @@ export default function FavoriteButton({
       {displayIcon && (
         <div className={styles.countIcon}>
           <FavoriteIcon
-            size={displayText ? 16 : 20}
+            size={displayText ? 16 : 18}
             isOutline={!favorited}
-            pathClassName={styles.favoritePathFill}
+            className={favorited ? styles.favoriteFill : styles.favoriteOutline}
           ></FavoriteIcon>
           <span className={styles.favoriteCount}>{count}</span>
         </div>

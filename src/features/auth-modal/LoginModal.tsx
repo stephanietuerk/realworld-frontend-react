@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../api/useAuth';
 import { useLogin } from '../../api/useLogin';
-import { API_BROKEN_DATE } from '../../shared/constants/api';
 import { ROUTE } from '../../shared/constants/routing';
 import { EmailField, PasswordField } from './AuthFields';
 import AuthModal from './AuthModal';
-import styles from './AuthModal.module.scss';
 import { useCloseModal } from './useCloseModal';
 
 export default function LoginModal() {
-  const location = useLocation();
   const { setToken } = useAuth();
   const closeModal = useCloseModal();
   const login = useLogin(setToken);
@@ -45,21 +41,6 @@ export default function LoginModal() {
       submitError={login.error}
       key='Login'
     >
-      <p className={styles.apiWarning}>
-        As of {API_BROKEN_DATE.login.toDateString()}, this functionality in the
-        official Real World backend is not working. Use the{' '}
-        <Link
-          to={ROUTE.register}
-          state={
-            location.state?.backgroundLocation
-              ? { backgroundLocation: location.state.backgroundLocation }
-              : undefined
-          }
-        >
-          <span className={styles.otherAuthLink}>Sign Up</span>
-        </Link>{' '}
-        functionality to enter the site as an authenticated user.
-      </p>
       <EmailField />
       <PasswordField />
     </AuthModal>

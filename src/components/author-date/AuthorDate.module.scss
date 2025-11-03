@@ -21,7 +21,6 @@
 .isHovered {
   background: var(--author-date-hover-background, none);
   border-color: var(--author-date-hover-border-color, none);
-  box-shadow: var(--shadow-xs);
 
   .author {
     text-decoration: underline;
@@ -30,6 +29,10 @@
   .date {
     color: var(--author-date-hover-color-date, var(--color-neutral-50));
   }
+}
+
+.hasBackgroundOnHover.isHovered {
+  box-shadow: var(--shadow-xs);
 }
 
 .authorDate {
@@ -80,4 +83,8 @@
   position: relative;
   top: 1px;
   color: var(--author-date-color-date, var(--color-neutral-50));
+}
+
+.avatarFallback {
+  stroke: var(--author-date-color-date, var(--color-neutral-60));
 }

@@ -65,7 +65,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
       <p className={styles.title}>{article.title}</p>
       <p className={styles.description}>{article.description}</p>
       <div className={styles.bottomRow}>
-        <Tags article={article} className={styles.tags}></Tags>
+        <Tags article={article} containerClassName={styles.tags}></Tags>
         {isLoggedIn ? (
           <FavoriteButton
             className={styles.favoriteButton}

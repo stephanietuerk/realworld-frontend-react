@@ -37,6 +37,8 @@ export default function ArticleSidebar({ children }: React.PropsWithChildren) {
                   displayIcon={true}
                   displayText={true}
                   selectedClassName={styles.selectedButton}
+                  plusIconSize={18}
+                  buttonVariant='secondary'
                 ></FavoriteButton>
               ) : (
                 <FavoriteReadout
@@ -45,17 +47,6 @@ export default function ArticleSidebar({ children }: React.PropsWithChildren) {
                   expandedContext={true}
                 ></FavoriteReadout>
               )}
-              {loggedInUser &&
-                authorProfile &&
-                article?.author?.username !== loggedInUser?.username && (
-                  <FollowButton
-                    profile={authorProfile}
-                    className={styles.followButton}
-                    selectedClassName={styles.selectedButton}
-                    variant='secondary'
-                    syncWithApi={refetchProfile}
-                  ></FollowButton>
-                )}
             </>
           )}
         </div>
@@ -65,6 +56,18 @@ export default function ArticleSidebar({ children }: React.PropsWithChildren) {
           </div>
           <p className={styles.label}>Written by</p>
           <AuthorDate author={article.author} showDate={false}></AuthorDate>
+          {loggedInUser &&
+            authorProfile &&
+            article?.author?.username !== loggedInUser?.username && (
+              <FollowButton
+                profile={authorProfile}
+                className={styles.followButton}
+                selectedClassName={styles.selectedButton}
+                syncWithApi={refetchProfile}
+                iconSize={18}
+                variant='secondary'
+              ></FollowButton>
+            )}
           <div>
             <p className={clsx(styles.label, styles.date)}>
               {article.updatedAt ? 'Last updated' : 'Published'}

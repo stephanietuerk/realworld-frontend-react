@@ -4,14 +4,19 @@ import styles from './Tags.module.scss';
 
 interface TagsProps {
   article: Article | FeedItem;
-  className?: string;
+  containerClassName?: string;
+  tagClassName?: string;
 }
 
-export default function Tags({ article, className }: TagsProps) {
+export default function Tags({
+  article,
+  containerClassName,
+  tagClassName,
+}: TagsProps) {
   return (
-    <div className={clsx(styles.tags, className)}>
+    <div className={clsx(styles.tags, containerClassName)}>
       {article.tagList?.map((tag) => (
-        <div className={styles.tag} key={tag}>
+        <div className={clsx(styles.tag, tagClassName)} key={tag}>
           <p>{tag}</p>
         </div>
       ))}

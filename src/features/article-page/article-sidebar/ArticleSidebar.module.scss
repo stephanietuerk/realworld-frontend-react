@@ -16,7 +16,7 @@ $sidebar-gap: grid(6);
   padding: grid(4);
   border-radius: grid(2);
   background: var(--color-surface-accent);
-  border: 1px solid var(--color-neutral-95);
+  border: 1px solid var(--color-neutral-90);
   position: sticky;
   top: 80px;
 }
@@ -56,6 +56,14 @@ $sidebar-gap: grid(6);
   min-height: 36px;
   width: 100%;
   justify-content: space-between;
+  @include label-xs;
+  margin-bottom: grid(3);
+  box-shadow: var(--shadow-xs);
+}
+
+.favoriteButton:hover:not(:disabled) {
+  border: 1px solid var(--color-primary);
+  background-color: var(--color-accent-whisper);
 }
 
 .favoriteReadout {
@@ -67,15 +75,19 @@ $sidebar-gap: grid(6);
 }
 
 .followButton {
-  --follow-button-padding: #{grid(1)} #{grid(2)} #{grid(1)} #{grid(1)};
-  --follow-button-min-height: 36px;
-
-  /* margin-left: grid(1) * -1; */
+  border: 1px solid transparent;
   width: 100%;
-  margin: grid(3) 0 grid(2) 0;
+  margin: grid(1) 0 0 0;
+  @include label-xs;
+}
+
+.followButton:hover:not(:disabled) {
+  border: 1px solid var(--color-primary);
+  background-color: var(--color-accent-whisper);
 }
 
 .favoriteButton.selectedButton:not(:disabled),
 .followButton.selectedButton:not(:disabled) {
-  background: var(--color-blue-95);
+  background: var(--color-accent-whisper);
+  // box-shadow: var(--shadow-md);
 }

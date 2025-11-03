@@ -55,6 +55,7 @@ export default function AuthorDate({
         src={author.image}
         alt={`Avatar of ${author.username}`}
         size={layout === 'inline' ? 24 : 32}
+        fallbackClass={styles.avatarFallback}
       />
       <div className={clsx(styles.authorDate, styles[layout])}>
         <button

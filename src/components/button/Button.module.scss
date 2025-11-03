@@ -50,7 +50,6 @@
 }
 
 .secondary[aria-pressed='true']:not(:disabled) {
-  @include sans-semibold;
   background: var(--color-primary);
   color: var(--color-surface-accent);
 }

@@ -63,10 +63,11 @@
 .otherAuthLink {
   color: var(--color-link-primary);
   opacity: 1;
+  cursor: pointer;
 }
 
 .otherAuthLink:hover {
-  color: var(--color-primary-light);
+  text-decoration: underline;
 }
 
 .apiWarning {

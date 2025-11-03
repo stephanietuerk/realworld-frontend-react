@@ -32,7 +32,8 @@
 
 .userNameContainer {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  margin: grid(4) 0 grid(2) 0;
 }
 
 .avatar {
@@ -41,10 +42,14 @@
   margin-right: grid(3);
 }
 
+.avatarFallback {
+  stroke: rgba(var(--color-surface-rgb), 0.7);
+}
+
 .bannerUserName {
   @include headline-large;
   color: var(--color-primary-light);
-  margin: grid(4) 0 grid(2) 0;
+  margin-left: grid(2);
   position: relative;
 }
 

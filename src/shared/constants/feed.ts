@@ -23,7 +23,7 @@ export const FEED_OPTIONS: Record<FeedType, FeedOption[]> = {
       emptyState: {
         notLoggedIn: () => ({
           title: 'No articles found',
-          body: ['There are no published articles yet.', 'Check back soon'],
+          body: ['There are no published articles yet.', 'Check back soon.'],
         }),
         loggedIn: () => ({
           title: 'No articles found',

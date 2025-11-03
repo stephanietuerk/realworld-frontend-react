@@ -2,15 +2,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useArticle } from '../../api/useArticle';
 import Banner from '../../components/banner/Banner';
 import BodyLayout from '../../components/body-layout/BodyLayout';
+import Button from '../../components/button/Button';
+import EditIcon from '../../components/icons/EditIcon';
 import MainLayout from '../../components/main-layout/MainLayout';
 import Tags from '../../components/tags/Tags';
 import { ROUTE } from '../../shared/constants/routing';
 import { ErrorBoundary } from '../../shared/utilities/error-boundary';
+import ArticleSidebar from './article-sidebar/ArticleSidebar';
 import styles from './ArticlePage.module.scss';
 import Comments from './comments/Comments';
-import ArticleSidebar from './article-sidebar/ArticleSidebar';
-import Button from '../../components/button/Button';
-import EditIcon from '../../components/icons/EditIcon';
 
 const BREADCRUMBS: (slug: string) => { display: string; route: string }[] = (
   slug,

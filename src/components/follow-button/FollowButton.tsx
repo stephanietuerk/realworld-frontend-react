@@ -54,8 +54,7 @@ export default function FollowButton({
       <AddAddedIcon
         size={iconSize}
         variant={!isFollowing ? 'plus' : hovering ? 'minus' : 'check'}
-        svgClassName={styles.iconSvg}
-        pathClassName={styles.iconPath}
+        className={styles.iconSvg}
       ></AddAddedIcon>
       <span className={styles.text}>
         {!isFollowing ? 'Follow' : hovering ? 'Unfollow' : 'Following'}{' '}

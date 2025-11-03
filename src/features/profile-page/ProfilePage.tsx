@@ -69,6 +69,7 @@ export default function ProfilePage() {
               <div className={styles.userNameContainer}>
                 <Avatar
                   imgClass={styles.avatar}
+                  fallbackClass={styles.avatarFallback}
                   src={profile.image}
                   alt={`avatar for ${profile.username}`}
                   size={40}

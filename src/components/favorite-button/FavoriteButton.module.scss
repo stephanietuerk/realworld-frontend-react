@@ -34,20 +34,21 @@
   margin-right: grid(3);
 }
 
-.favoritePathOutline {
-  fill: var(
-    --favorite-button-heart-outline,
-    rgba(var(--color-primary-rgb), 0.7)
-  );
+.favoriteOutline {
+  stroke: var(--favorite-button-heart-fill, var(--color-primary));
+  fill: none;
 }
 
-.favoritePathFill {
+.favoriteFill {
   fill: var(--favorite-button-heart-fill, var(--color-primary));
 }
 
 .favoriteCount {
   @include label-small;
+  flex-shrink: 0;
   margin-left: grid(1);
+  position: relative;
+  top: 1px;
 }
 
 .plusIconPath {

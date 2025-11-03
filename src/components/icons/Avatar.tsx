@@ -1,5 +1,5 @@
+import { CircleUser } from 'lucide-react';
 import { useState } from 'react';
-
 interface AvatarProps {
   src: string;
   alt: string;
@@ -7,6 +7,7 @@ interface AvatarProps {
   round?: boolean;
   filter?: string;
   imgClass?: string;
+  fallbackClass?: string;
 }
 
 export default function Avatar({
@@ -16,26 +17,34 @@ export default function Avatar({
   round = true,
   filter = 'none',
   imgClass,
+  fallbackClass,
 }: AvatarProps) {
-  const [imgSrc, setImgSrc] = useState(src);
-  const fallback = '/images/fallback-avatar.svg';
+  const [useFallback, setUseFallback] = useState(!!src);
 
   return (
-    <img
-      className={imgClass}
-      src={imgSrc}
-      alt={alt}
-      onError={() => {
-        if (imgSrc !== fallback) {
-          setImgSrc(fallback);
-        }
-      }}
-      width={size}
-      height={size}
-      style={{
-        borderRadius: round ? size : 0,
-        filter: filter,
-      }}
-    />
+    <>
+      {useFallback ? (
+        <CircleUser
+          size={size + 2}
+          strokeWidth={1.25}
+          className={fallbackClass}
+        />
+      ) : (
+        <img
+          className={imgClass}
+          src={src}
+          alt={alt}
+          onError={() => {
+            setUseFallback(true);
+          }}
+          width={size}
+          height={size}
+          style={{
+            borderRadius: round ? size : 0,
+            filter: filter,
+          }}
+        />
+      )}
+    </>
   );
 }
