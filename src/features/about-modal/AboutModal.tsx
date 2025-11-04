@@ -64,7 +64,7 @@ export default function AboutModal() {
             , you'll see that I made quite a few changes to the UI and UX. That
             wasn't my original goal, but the improved UX made the entire app
             easier to reason about, and the additional frontend functionality
-            created some good opportunities for learning as well.
+            created more opportunities for learning.
           </p>
           <p className={styles.description}>
             The frontend was built from scratch with React, Vite, TanStack
