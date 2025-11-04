@@ -56,7 +56,11 @@ export async function callApiWithAuth<T>(
   if (!res.ok) {
     const body = await parseErrorBody(res).catch(() => undefined);
     // Throw a plain object that normalizeToAppError understands as HTTP
-    throw { status: res.status, statusText: res.statusText, body };
+    throw normalizeToAppError({
+      status: res.status,
+      statusText: res.statusText,
+      body,
+    });
   }
 
   if (res.status === 204 || res.status === 205) {

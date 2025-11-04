@@ -43,13 +43,25 @@ export function normalizeToAppError(e: unknown): AppError {
     const fieldErrors =
       entries
         .filter(([k]) => k !== 'body')
-        .flatMap(([field, msgs]) =>
-          (Array.isArray(msgs) ? msgs : [msgs])
-            .map((m) =>
-              sentenceCase(`${humanizeField(field)} ${cleanServerPhrase(m)}`),
-            )
-            .map((message) => ({ field, message }) as AppFieldError),
-        ) || undefined;
+        .flatMap(([field, msgs]) => {
+          const messages = Array.isArray(msgs) ? msgs : [msgs];
+          const normalizedField = field.toLowerCase().trim();
+
+          if (normalizedField === 'email or password') {
+            globalMsgs.push('Invalid email or password.');
+            return [];
+          }
+
+          return messages.map(
+            (m) =>
+              ({
+                field,
+                message: sentenceCase(
+                  `${humanizeField(field)} ${cleanServerPhrase(m)}`,
+                ),
+              }) as AppFieldError,
+          );
+        }) || undefined;
 
     const fallbackByStatus: Record<number, string> = {
       400: 'There’s a problem with what you submitted.',

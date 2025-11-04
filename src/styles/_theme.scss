@@ -23,6 +23,7 @@ $color-accent-whisper: color.adjust($color-accent, $lightness: 10%);
   --color-warn-100: color-mix(in oklab, var(--color-warn-700) 8%, white);
   --color-warn-300: #fdebeb;
   --color-warn-400: #f28b82;
+  --color-warn-600: #ea4335;
   --color-warn-700: #d93025;
   --color-success-100: color-mix(in oklab, var(--success-600) 14%, white);
   --color-success-200: color-mix(in oklab, var(--success-600) 22%, white);

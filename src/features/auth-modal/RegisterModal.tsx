@@ -9,6 +9,12 @@ export default function RegisterModal() {
   const { setToken } = useAuth();
   const register = useRegisterUser(setToken);
   const [formValidity] = useState<boolean>(false);
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
+  const [formValues, setFormValues] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
 
   // const updateValidityFrom = (el: HTMLInputElement) => {
   //   setFormValidity(el.form?.checkValidity() ?? false);
@@ -18,14 +24,34 @@ export default function RegisterModal() {
     e.preventDefault();
     const form = e.currentTarget;
     if (!form.reportValidity()) return;
-    const formData = new FormData(form);
-    const username = String(formData.get('username') ?? '').trim();
-    const email = String(formData.get('email') ?? '')
-      .trim()
-      .toLowerCase();
-    const password = String(formData.get('password') ?? '');
-    register.mutate({ username, email, password });
+    const { username, email, password } = formValues;
+    register.mutate(
+      { username, email, password },
+      {
+        onError: (error) => {
+          console.log('Registration error:', error);
+          const fieldErrors: { [key: string]: string } = {};
+          error.fieldErrors?.forEach((fe) => {
+            fieldErrors[fe.field] = fe.message;
+          });
+          setFieldErrors(fieldErrors);
+        },
+      },
+    );
   };
+
+  const handleFieldChange =
+    (field: keyof typeof formValues) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setFormValues((prev) => ({ ...prev, [field]: value }));
+
+      // Clear error for that field
+      setFieldErrors((prev) => {
+        const { [field]: _, ...rest } = prev;
+        return rest;
+      });
+    };
 
   return (
     <AuthModal
@@ -36,12 +62,24 @@ export default function RegisterModal() {
       handleSubmit={handleSubmit}
       formValidity={formValidity}
       isSubmitting={register.isPending}
-      submitError={register.error}
+      submitError={fieldErrors ? null : register.error}
       key='Register'
     >
-      <UsernameField />
-      <EmailField />
-      <PasswordField />
+      <UsernameField
+        value={formValues.username}
+        onChange={handleFieldChange('username')}
+        error={fieldErrors.username}
+      />
+      <EmailField
+        value={formValues.email}
+        onChange={handleFieldChange('email')}
+        error={fieldErrors.email}
+      />
+      <PasswordField
+        value={formValues.password}
+        onChange={handleFieldChange('password')}
+        error={fieldErrors.password}
+      />
     </AuthModal>
   );
 }
