@@ -81,12 +81,26 @@ a:hover {
   color: var(--color-link-hover);
 }
 
+a:focus {
+  outline: none;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
 button {
   background: none;
 }
 
+button:focus {
+  outline: none;
+}
+
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 2px auto var(--color-focus-ring);
+  outline-offset: 2px;
 }
 
 :where(
