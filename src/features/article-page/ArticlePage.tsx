@@ -7,7 +7,6 @@ import Button from '../../components/button/Button';
 import MainLayout from '../../components/main-layout/MainLayout';
 import Tags from '../../components/tags/Tags';
 import { ROUTE } from '../../shared/constants/routing';
-import { ErrorBoundary } from '../../shared/utilities/error-boundary';
 import ArticleSidebar from './article-sidebar/ArticleSidebar';
 import styles from './ArticlePage.module.scss';
 import Comments from './comments/Comments';
@@ -36,10 +35,7 @@ export default function ArticlePage() {
   if (!slug || !article.body) return null;
 
   return (
-    <ErrorBoundary
-      fallback={<p>Oops, error</p>}
-      onError={(error, info) => console.log(error, info)}
-    >
+    <>
       <Banner
         outerContainerClassName={styles.bannerOuter}
         contentClassName={styles.bannerContent}
@@ -75,6 +71,6 @@ export default function ArticlePage() {
           </ArticleSidebar>
         </BodyLayout>
       </MainLayout>
-    </ErrorBoundary>
+    </>
   );
 }

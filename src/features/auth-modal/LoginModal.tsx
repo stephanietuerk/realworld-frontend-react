@@ -11,6 +11,11 @@ export default function LoginModal() {
   const closeModal = useCloseModal();
   const login = useLogin(setToken);
   const [formValidity] = useState<boolean>(false);
+  const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
+  const [formValues, setFormValues] = useState({
+    email: '',
+    password: '',
+  });
 
   useEffect(() => {
     if (!login.data) return;
@@ -21,13 +26,34 @@ export default function LoginModal() {
     e.preventDefault();
     const form = e.currentTarget;
     if (!form.reportValidity()) return;
-    const formData = new FormData(form);
-    const email = String(formData.get('email') ?? '')
-      .trim()
-      .toLowerCase();
-    const password = String(formData.get('password') ?? '');
-    login.mutate({ email, password });
+    const { email, password } = formValues;
+    login.mutate(
+      { email, password },
+      {
+        onError: (error) => {
+          console.log('Registration error:', error);
+          const fieldErrors: { [key: string]: string } = {};
+          error.fieldErrors?.forEach((fe) => {
+            fieldErrors[fe.field] = fe.message;
+          });
+          setFieldErrors(fieldErrors);
+        },
+      },
+    );
   };
+
+  const handleFieldChange =
+    (field: keyof typeof formValues) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setFormValues((prev) => ({ ...prev, [field]: value }));
+
+      // Clear error for that field
+      setFieldErrors((prev) => {
+        const { [field]: _, ...rest } = prev;
+        return rest;
+      });
+    };
 
   return (
     <AuthModal
@@ -41,8 +67,16 @@ export default function LoginModal() {
       submitError={login.error}
       key='Login'
     >
-      <EmailField />
-      <PasswordField />
+      <EmailField
+        value={formValues.email}
+        onChange={handleFieldChange('email')}
+        error={fieldErrors.email}
+      />
+      <PasswordField
+        value={formValues.password}
+        onChange={handleFieldChange('password')}
+        error={fieldErrors.password}
+      />
     </AuthModal>
   );
 }

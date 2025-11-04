@@ -4,7 +4,6 @@ import Banner from '../../components/banner/Banner';
 import Button from '../../components/button/Button';
 import MainLayout from '../../components/main-layout/MainLayout';
 import type { BaseArticleMutation } from '../../shared/types/feed.types';
-import { ErrorBoundary } from '../../shared/utilities/error-boundary';
 import {
   BodyField,
   DescriptionField,
@@ -43,10 +42,7 @@ export default function CreateArticlePage() {
   );
 
   return (
-    <ErrorBoundary
-      fallback={<p>Oops, error</p>}
-      onError={(error, info) => console.log(error, info)}
-    >
+    <>
       <Banner
         outerContainerClassName={styles.bannerOuter}
         contentClassName={styles.bannerContent}
@@ -99,6 +95,6 @@ export default function CreateArticlePage() {
           </>
         </form>
       </MainLayout>
-    </ErrorBoundary>
+    </>
   );
 }

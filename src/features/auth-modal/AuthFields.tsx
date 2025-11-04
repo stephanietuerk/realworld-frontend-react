@@ -1,11 +1,22 @@
 import styles from './AuthFields.module.scss';
 
-export function EmailField() {
+export function EmailField({
+  value,
+  onChange,
+  error,
+}: {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
+}) {
   return (
     <div className={styles.formField}>
-      <label className={styles.formLabel} htmlFor='email'>
-        Email
-      </label>
+      <div className={styles.labelContainer}>
+        <label className={styles.formLabel} htmlFor='email'>
+          Email
+        </label>
+        {error && <p className={styles.error}>{error}</p>}
+      </div>
       <input
         className={styles.input}
         id='email'
@@ -13,17 +24,30 @@ export function EmailField() {
         type='email'
         required
         autoComplete='email'
+        value={value}
+        onChange={onChange}
       />
     </div>
   );
 }
 
-export function PasswordField() {
+export function PasswordField({
+  value,
+  onChange,
+  error,
+}: {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
+}) {
   return (
     <div className={styles.formField}>
-      <label className={styles.formLabel} htmlFor='password'>
-        Password
-      </label>
+      <div className={styles.labelContainer}>
+        <label className={styles.formLabel} htmlFor='password'>
+          Password
+        </label>
+        {error && <p className={styles.error}>{error}</p>}
+      </div>
       <input
         className={styles.input}
         id='password'
@@ -31,17 +55,30 @@ export function PasswordField() {
         name='password'
         required
         autoComplete='current-password'
+        value={value}
+        onChange={onChange}
       />
     </div>
   );
 }
 
-export function UsernameField() {
+export function UsernameField({
+  value,
+  onChange,
+  error,
+}: {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
+}) {
   return (
     <div className={styles.formField}>
-      <label className={styles.formLabel} htmlFor='username'>
-        Username
-      </label>
+      <div className={styles.labelContainer}>
+        <label className={styles.formLabel} htmlFor='username'>
+          Username
+        </label>
+        {error && <p className={styles.error}>{error}</p>}
+      </div>
       <input
         className={styles.input}
         id='username'
@@ -49,6 +86,8 @@ export function UsernameField() {
         name='username'
         autoComplete='username'
         required
+        value={value}
+        onChange={onChange}
       />
     </div>
   );
