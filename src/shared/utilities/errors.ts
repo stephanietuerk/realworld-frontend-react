@@ -49,7 +49,7 @@ export function normalizeToAppError(e: unknown): AppError {
 
           if (normalizedField === 'email or password') {
             globalMsgs.push('Invalid email or password.');
-            return [];
+            return []; // Handled as global message
           }
 
           return messages.map(

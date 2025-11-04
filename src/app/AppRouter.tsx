@@ -3,6 +3,7 @@ import { lazy } from 'react';
 import { Route, Routes, useLocation } from 'react-router';
 import { AuthProvider } from '../context/AuthProvider.tsx';
 import { AuthenticatedUserProvider } from '../context/AuthenticatedUserProvider.tsx';
+import AboutModal from '../features/about-modal/AboutModal.tsx';
 import ArticleProviderLayout from '../features/article-page/ArticleProviderLayout.tsx';
 import HomePage from '../features/home-page/HomePage.tsx';
 import { ROUTE } from '../shared/constants/routing.ts';
@@ -75,6 +76,8 @@ export default function AppRouter() {
               <Route path={ROUTE.register} element={<RegisterModal />} />
             </Routes>
           )}
+
+          <AboutModal />
         </AuthenticatedUserProvider>
       </AuthProvider>
     </QueryClientProvider>

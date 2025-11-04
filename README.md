@@ -1,31 +1,12 @@
-# Building the Real World app in React, from scratch
+# RealWorld Demo — React + Node
 
-After 6+ years of working professionally in Angular, I'm working on some React skills by rebuilding the [Real World](https://github.com/gothinkster/realworld) demo app. I'm building from scratch (not cloning the starter repo, Copilot turned off) to maximize learning :).
+This is a frontend repo for a full-stack implementation of the [RealWorld app](https://github.com/gothinkster/realworld) that I built for learning and demonstration purposes. The [deployed site]() is fully functional, so feel free to create an account, write an article, edit it, leave comments, and otherwise poke around.
 
-Current status of app: In progress.
+If you compare my implementation to the [official demo](https://demo.realworld.io), you'll see that I made quite a few changes to the UI and UX. That wasn't my original goal, but the improved UX made the entire app easier to reason about, and the additional frontend functionality created more opportunities for learning.
 
-## Tech Stack decisions
+The frontend was built from scratch with React, Vite, TanStack Query, a few unstyled Radix components, and Lucide icons. (I don't currently use React professionally, but wanted to make sure that I could use it if the need arose.) I intentionally tried to minimize the number of packages I brought in so that I could focus on low-level work directly with React.
 
-My approach is to try to keep libraries rather low-level, to focus on learning fundamentals. At the same time, I'm not using this project to work on skills outside of React (for example, building accessible UI components), so I'm happy to use libraries for those types of functionalities.
+The [backend](https://github.com/stephanietuerk/realworld-backend-node) is a fork of the official Node/Express/Prisma RealWorld API, modified to fix known issues, update packages, and deploy. It conforms to the official endpoints spec.
 
-- Vite + Typescript - scaffolded from the [Vite React + TypeScript template](https://vite.dev/guide/#scaffolding-your-first-vite-project).
-- React Router in declarative mode to facilitate overlay modals with their own routes. In a different situation I'd use TanStack Query for a million reasons but I'm trying to engage with React fundamentals here and not using TanStack Query highlights all of the reasons it's super helpful -- part of learning is learning something's limitations.
-- CSS Modules and Sass for styling. (I actually like writing CSS).
-
-## UX/Design Modifications
-
-The Real World app has a lot of "back of frontend" features to implement, but the user experience [is a bit clunky](https://demo.realworld.build/#/). I'm making some UX and design changes to make it more usable and create better information hierarchy.
-
-### UX
-
-- Sign in and Sign up are now in modal overlays, not separate pages.
-- Make it clear what "popular tags" actually do -- clarify that they are interactive with visual cues and a better label ("Show articles about"). Tags are also now multi-select.
-- "Show articles about" (fka "popular tags") filters results in place -- no need for a new "feed".
-- Logged in user's profile can be almost the same as any other profile -- more consistent UX.
-- Add breadcrumbs because some pages (profile, read article) are not represented in the navbar and user has no sense of where they are otherwise.
-
-### Visual Design
-
-- Green color isn't accessible, let's change it to something more accessible.
-- Blue color = branding / you can interact with this
-- Mint green accent = selected / hovered / active / you can interact (as a background)
+You can view the deployed site [here](https://your-app.netlify.app)  
+If you're curious to learn more about me, check out [my personal site](https://stephanietuerk.net/main)
