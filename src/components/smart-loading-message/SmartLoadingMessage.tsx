@@ -6,11 +6,11 @@ export function SmartLoadingMessage({ className }: { className?: string }) {
   useEffect(() => {
     const timers = [
       setTimeout(() => setLoadingPhase(1), 3000),
-      setTimeout(() => setLoadingPhase(2), 10000),
-      setTimeout(() => setLoadingPhase(3), 15000),
-      setTimeout(() => setLoadingPhase(4), 20000),
-      setTimeout(() => setLoadingPhase(5), 30000),
-      setTimeout(() => setLoadingPhase(6), 45000),
+      setTimeout(() => setLoadingPhase(2), 12000),
+      setTimeout(() => setLoadingPhase(3), 20000),
+      setTimeout(() => setLoadingPhase(4), 30000),
+      setTimeout(() => setLoadingPhase(5), 40000),
+      setTimeout(() => setLoadingPhase(6), 50000),
     ];
 
     return () => timers.forEach(clearTimeout);
@@ -18,11 +18,11 @@ export function SmartLoadingMessage({ className }: { className?: string }) {
 
   const messages = [
     'Loading articles...',
-    'Still loading... (the database may need to warm up on first load)',
+    'Still loading... (the free-tier database needs to warm up)',
     'Gathering firewood...',
     'Arranging wood into a perfect pyramid...',
     'Lighting the fire...',
-    'Cooking marshmallows...',
+    'Roasting marshmallows...',
     'Feeling the warmth...almost there!',
   ];
 
