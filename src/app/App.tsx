@@ -9,8 +9,8 @@ export default function App() {
       <Header />
       <main className={styles.main}>
         <Outlet />
+        <Footer />
       </main>
-      <Footer />
     </>
   );
 }

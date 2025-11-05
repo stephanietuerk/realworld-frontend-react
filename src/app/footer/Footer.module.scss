@@ -4,7 +4,7 @@
 $color-accent: var(--color-surface-accent);
 $color-base: rgba(255, 255, 255, 0.7);
 
-.container {
+.footer {
   background: var(--color-primary);
   display: flex;
   justify-content: center;
@@ -13,6 +13,7 @@ $color-base: rgba(255, 255, 255, 0.7);
   padding: grid(4) var(--page-margin-side);
   @include body-2xs;
   color: $color-base;
+  flex-shrink: 0;
 }
 
 .widthContainer {

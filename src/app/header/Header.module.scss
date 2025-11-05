@@ -1,7 +1,7 @@
 @use 'typography' as *;
 @use 'functions' as *;
 
-.container {
+.nav {
   display: flex;
   justify-content: center;
   padding: grid(3) var(--page-margin-side);
@@ -9,6 +9,7 @@
   background: var(--color-surface-accent);
   position: sticky;
   top: 0;
+  flex-shrink: 0;
 }
 
 .widthContainer {
