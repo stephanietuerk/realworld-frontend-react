@@ -57,7 +57,7 @@ export default function Header() {
   const routes = isLoggedIn ? NAVBAR_ROUTES_AUTH : NAVBAR_ROUTES_NO_AUTH;
 
   return (
-    <nav className={styles.container}>
+    <nav className={styles.nav}>
       <div className={styles.widthContainer}>
         <Link to={ROUTE.explore}>
           <h1 className={styles.name}>{APP_NAME}</h1>
@@ -95,9 +95,7 @@ export default function Header() {
               );
             }
           })}
-          {isLoggedIn && user && (
-            <AccountMenu className={styles.link} />
-          )}
+          {isLoggedIn && user && <AccountMenu className={styles.link} />}
         </div>
       </div>
     </nav>
