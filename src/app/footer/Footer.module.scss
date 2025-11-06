@@ -19,8 +19,8 @@ $color-base: rgba(255, 255, 255, 0.7);
 .widthContainer {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-end;
   width: var(--page-max-width);
-  vertical-align: baseline;
   gap: grid(1);
 }
 
