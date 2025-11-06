@@ -7,7 +7,7 @@ import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
 import { useEditSettings } from '../../api/useEditSettings';
 import Banner from '../../components/banner/Banner';
 import Button from '../../components/button/Button';
-import MainLayout from '../../components/main-layout/MainLayout';
+import { ContentSidePaddingLayout } from '../../components/layout/Layout';
 import type {
   AuthenticatedUser,
   UserUpdate,
@@ -166,7 +166,7 @@ export default function SettingsPage() {
           Modify your profile information
         </p>
       </Banner>
-      <MainLayout>
+      <ContentSidePaddingLayout>
         <form
           className={styles.form}
           onSubmit={handleSubmit}
@@ -233,7 +233,7 @@ export default function SettingsPage() {
             </p>
           </div>
         </form>
-      </MainLayout>
+      </ContentSidePaddingLayout>
     </>
   );
 }

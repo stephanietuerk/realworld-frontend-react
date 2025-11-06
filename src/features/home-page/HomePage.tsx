@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { useAuth } from '../../api/useAuth';
 import Banner from '../../components/banner/Banner';
-import BodyLayout from '../../components/body-layout/BodyLayout';
-import MainLayout from '../../components/main-layout/MainLayout';
-import SidebarLayout from '../../components/sidebar-layout/SidebarLayout';
+import {
+  ArticleContentLayout,
+  ContentMaxWidthLayout,
+  ContentSidePaddingLayout,
+  SidebarLayout,
+} from '../../components/layout/Layout';
 import { FeedProvider } from '../../context/FeedProvider';
 import { APP_NAME } from '../../shared/constants/app';
 import { FEED_OPTIONS } from '../../shared/constants/feed';
@@ -26,7 +29,7 @@ export default function HomePage() {
   const showSpinner = useDelayedLoading(isLoading, 500);
 
   return (
-    <MainLayout>
+    <ContentSidePaddingLayout>
       <Banner
         outerContainerClassName={styles.bannerOuter}
         contentClassName={styles.bannerContent}
@@ -35,7 +38,7 @@ export default function HomePage() {
         <p className={styles.description}>A place to share your knowledge</p>
       </Banner>
       <FeedProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
-        <BodyLayout showLoadingSpinner={showSpinner}>
+        <ContentMaxWidthLayout showLoadingSpinner={showSpinner}>
           <SidebarLayout>
             <FeedControls tagsTitle='Show articles about'>
               {isLoggedIn && (
@@ -48,9 +51,11 @@ export default function HomePage() {
               )}
             </FeedControls>{' '}
           </SidebarLayout>
-          <Feed options={FEED_OPTIONS.home} setIsLoading={setIsLoading} />
-        </BodyLayout>
+          <ArticleContentLayout>
+            <Feed options={FEED_OPTIONS.home} setIsLoading={setIsLoading} />
+          </ArticleContentLayout>
+        </ContentMaxWidthLayout>
       </FeedProvider>
-    </MainLayout>
+    </ContentSidePaddingLayout>
   );
 }

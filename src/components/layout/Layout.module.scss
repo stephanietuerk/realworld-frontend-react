@@ -1,6 +1,13 @@
 @use 'functions' as *;
 @use 'typography' as *;
 
+.mainLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 var(--page-margin-side);
+}
+
 .bodyLayout {
   display: flex;
   justify-content: space-between;
@@ -51,4 +58,14 @@
   50% {
     color: var(--color-primary);
   }
+}
+
+.sidebarLayout {
+  flex: 1 1 25%;
+  min-width: var(--sidebar-min-width);
+}
+
+.contentLayout {
+  flex: 3 1 75%;
+  min-width: var(--content-min-width);
 }

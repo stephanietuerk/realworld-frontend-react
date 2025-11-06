@@ -2,9 +2,13 @@ import { Pencil } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useArticle } from '../../api/useArticle';
 import Banner from '../../components/banner/Banner';
-import BodyLayout from '../../components/body-layout/BodyLayout';
 import Button from '../../components/button/Button';
-import MainLayout from '../../components/main-layout/MainLayout';
+import {
+  ArticleContentLayout,
+  ContentMaxWidthLayout,
+  ContentSidePaddingLayout,
+  SidebarLayout,
+} from '../../components/layout/Layout';
 import Tags from '../../components/tags/Tags';
 import { ROUTE } from '../../shared/constants/routing';
 import ArticleSidebar from './article-sidebar/ArticleSidebar';
@@ -48,29 +52,33 @@ export default function ArticlePage() {
           <Tags article={article} />
         </div>
       </Banner>
-      <MainLayout>
-        <BodyLayout>
-          {article && (
-            <div className={styles.articleContent}>
-              <div
-                className={styles.articleBody}
-                dangerouslySetInnerHTML={{ __html: article.body }}
-              ></div>
-              <Comments slug={article.slug} />
-            </div>
-          )}
-          <ArticleSidebar>
-            <Button
-              variant='secondary'
-              className={styles.editButton}
-              onClick={navigateToEditor}
-            >
-              <Pencil size={16} className={styles.editIcon} />
-              Edit article
-            </Button>
-          </ArticleSidebar>
-        </BodyLayout>
-      </MainLayout>
+      <ContentSidePaddingLayout>
+        <ContentMaxWidthLayout>
+          <ArticleContentLayout>
+            {article && (
+              <div className={styles.articleContent}>
+                <div
+                  className={styles.articleBody}
+                  dangerouslySetInnerHTML={{ __html: article.body }}
+                ></div>
+                <Comments slug={article.slug} />
+              </div>
+            )}
+          </ArticleContentLayout>
+          <SidebarLayout>
+            <ArticleSidebar>
+              <Button
+                variant='secondary'
+                className={styles.editButton}
+                onClick={navigateToEditor}
+              >
+                <Pencil size={16} className={styles.editIcon} />
+                Edit article
+              </Button>
+            </ArticleSidebar>
+          </SidebarLayout>
+        </ContentMaxWidthLayout>
+      </ContentSidePaddingLayout>
     </>
   );
 }

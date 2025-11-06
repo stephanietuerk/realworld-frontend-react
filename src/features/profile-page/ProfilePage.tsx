@@ -4,11 +4,14 @@ import { useAuth } from '../../api/useAuth';
 import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
 import { useProfile } from '../../api/useProfile';
 import Banner from '../../components/banner/Banner';
-import BodyLayout from '../../components/body-layout/BodyLayout';
 import FollowButton from '../../components/follow-button/FollowButton';
 import Avatar from '../../components/icons/Avatar';
-import MainLayout from '../../components/main-layout/MainLayout';
-import SidebarLayout from '../../components/sidebar-layout/SidebarLayout';
+import {
+  ArticleContentLayout,
+  ContentMaxWidthLayout,
+  ContentSidePaddingLayout,
+  SidebarLayout,
+} from '../../components/layout/Layout';
 import { FeedProvider } from '../../context/FeedProvider';
 import { FEED_OPTIONS } from '../../shared/constants/feed';
 import { ROUTE } from '../../shared/constants/routing';
@@ -89,9 +92,9 @@ export default function ProfilePage() {
           </div>
         )}
       </Banner>
-      <MainLayout>
+      <ContentSidePaddingLayout>
         <FeedProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
-          <BodyLayout showLoadingSpinner={showSpinner}>
+          <ContentMaxWidthLayout showLoadingSpinner={showSpinner}>
             <SidebarLayout>
               <FeedControls tagsTitle='Show articles about'>
                 <div>
@@ -104,10 +107,15 @@ export default function ProfilePage() {
                 </div>
               </FeedControls>
             </SidebarLayout>
-            <Feed options={FEED_OPTIONS.profile} setIsLoading={setIsLoading} />
-          </BodyLayout>
+            <ArticleContentLayout>
+              <Feed
+                options={FEED_OPTIONS.profile}
+                setIsLoading={setIsLoading}
+              />
+            </ArticleContentLayout>
+          </ContentMaxWidthLayout>
         </FeedProvider>
-      </MainLayout>
+      </ContentSidePaddingLayout>
     </>
   );
 }
