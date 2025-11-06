@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useAuth } from '../../api/useAuth';
 import Banner from '../../components/banner/Banner';
 import {
@@ -11,11 +10,11 @@ import { FeedProvider } from '../../context/FeedProvider';
 import { APP_NAME } from '../../shared/constants/app';
 import { FEED_OPTIONS } from '../../shared/constants/feed';
 import type { FeedSelections } from '../../shared/types/feed.types';
+import { useModalAwareLoading } from '../about-modal/useModalAwareLoading';
 import Feed from '../feed/Feed';
 import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOptions';
 import FeedControls from '../feed/feed-controls/FeedControls';
 import { NONE_TAG } from '../feed/feed-controls/tag-options/TagOptions';
-import { useDelayedLoading } from '../feed/useDelayedLoading';
 import styles from './HomePage.module.scss';
 
 const FEED_CONTROLS_DEFAULTS: FeedSelections = {
@@ -25,8 +24,7 @@ const FEED_CONTROLS_DEFAULTS: FeedSelections = {
 
 export default function HomePage() {
   const { isLoggedIn } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
-  const showSpinner = useDelayedLoading(isLoading, 500);
+  const { setIsLoading, showSpinner } = useModalAwareLoading();
 
   return (
     <ContentSidePaddingLayout>

@@ -10,16 +10,17 @@ export default function TagOptions({
   toggleTag,
   isLoading,
 }: {
-  tags: string[];
+  tags?: string[];
   selected: string[];
   toggleTag: (tag: string) => void;
   isLoading: boolean;
 }) {
-  const sortedTags = [NONE_TAG, ...tags.slice().sort()];
+  // const { showSpinner: showSkeleton } = useModalAwareLoading(0);
+  const sortedTags = [NONE_TAG, ...(tags || []).slice().sort()];
 
   return (
     <>
-      {isLoading && (
+      {sortedTags.length < 2 && (
         <div className={styles.loading}>
           <div className={styles.skeletonRow} />
           <div className={styles.skeletonRow} />
@@ -27,6 +28,7 @@ export default function TagOptions({
         </div>
       )}
       {!isLoading &&
+        sortedTags.length > 1 &&
         sortedTags.map((tag) => (
           <Button
             key={tag}

@@ -26,17 +26,10 @@
   }
 }
 
-.previewContainer {
-  margin-top: grid(1);
-  border-radius: 0.5rem;
-  box-shadow:
-    inset 2px 2px 5px rgba(0, 0, 0, 0.1),
-    inset -2px -2px 5px rgba(255, 255, 255, 0.6);
-}
-
 .preview {
   @include markdown-content;
   resize: initial;
+  margin-top: grid(1);
   padding-top: grid(1);
   min-height: var(--preview-min-height);
   margin-bottom: grid(12);

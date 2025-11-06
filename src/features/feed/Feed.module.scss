@@ -1,11 +1,6 @@
 @use 'functions' as *;
 @use 'typography' as *;
 
-.feed {
-  flex-grow: 1;
-  flex-shrink: 1;
-}
-
 .noArticles {
   @include label-large;
   background: var(--color-warn-300);

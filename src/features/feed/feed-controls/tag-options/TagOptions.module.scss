@@ -21,23 +21,33 @@
   border: 1px solid var(--color-primary);
 }
 
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
   }
-  50% {
-    opacity: 0.3;
+  100% {
+    background-position: -100% 0;
   }
 }
 
 .skeletonRow {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-neutral-90); // fallback
+  background-image: linear-gradient(
+    to right,
+    var(--color-neutral-90) 0%,
+    var(--color-neutral-95) 20%,
+    var(--color-neutral-90) 40%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+
   display: block;
   height: 32px;
   border-radius: grid(2);
   background: var(--color-neutral-90);
   margin-bottom: grid(2);
-  // animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .skeletonRow:last-of-type {

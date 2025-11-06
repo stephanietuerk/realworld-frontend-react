@@ -1,23 +1,20 @@
 @use 'typography' as *;
 @use 'functions' as *;
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .modal {
   background: white;
   border-radius: 12px;
-  max-width: 600px;
+  width: clamp(300px, 600px, 90vw);
+  max-height: 80vh;
+  height: fit-content;
+  overflow-y: auto;
   padding: 2rem;
-  box-shadow: 0 2px 40px rgba(0, 0, 0, 0.25);
   text-align: center;
+  margin-top: 10vh;
+}
+
+.modal:focus {
+  outline: none;
 }
 
 .title {
@@ -51,4 +48,10 @@
   position: relative;
   top: 2px;
   margin-left: grid(1);
+}
+
+.instructions {
+  @include body-2xs;
+  color: var(--color-neutral-50);
+  margin-top: grid(2);
 }

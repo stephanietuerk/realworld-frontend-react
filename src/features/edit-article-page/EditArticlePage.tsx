@@ -16,6 +16,7 @@ import {
 } from '../../components/layout/Layout';
 import { ROUTE } from '../../shared/constants/routing';
 import type { Article } from '../../shared/types/feed.types';
+import { useModalAwareLoading } from '../about-modal/useModalAwareLoading';
 import ArticleSidebar from '../article-page/article-sidebar/ArticleSidebar';
 import {
   BodyField,
@@ -95,6 +96,7 @@ export default function EditArticlePage() {
   );
   const [everEdited, setEverEdited] = useState(false);
   const editArticle = useEditArticle(slug!);
+  const { setIsLoading, showSpinner } = useModalAwareLoading();
 
   const dirty = Boolean(
     article &&
@@ -111,6 +113,7 @@ export default function EditArticlePage() {
   useEffect(() => {
     if (!article) return;
     setEdits(initArticleEdits(article));
+    setIsLoading(false);
   }, [article?.slug]);
 
   const updateEdits = (key: keyof FormArticle, content: string) => {
@@ -183,7 +186,7 @@ export default function EditArticlePage() {
             </fieldset>
           </Banner>
           <ContentSidePaddingLayout>
-            <ContentMaxWidthLayout>
+            <ContentMaxWidthLayout showLoadingSpinner={showSpinner}>
               <ArticleContentLayout>
                 {article && (
                   <ArticleTextLayout className={styles.lowerEditContainer}>

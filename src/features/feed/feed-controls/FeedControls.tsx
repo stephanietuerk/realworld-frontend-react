@@ -56,14 +56,14 @@ export default function FeedControls({
     });
   };
 
-  const showTags = !tags
-    ? false
-    : totalCount > SHOW_TAGS_IF_NUM_ITEMS || !profileUsername;
+  const showTags = !profileUsername
+    ? true
+    : !!tags && totalCount > SHOW_TAGS_IF_NUM_ITEMS;
 
   return (
     <div className={styles.feedControls}>
       {children}
-      {tags && tags.length > 1 && showTags && (
+      {showTags && (
         <div>
           <p className={styles.tagsTitle}>{tagsTitle}</p>
           <TagOptions
