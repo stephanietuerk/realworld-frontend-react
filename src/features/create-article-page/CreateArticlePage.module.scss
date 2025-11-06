@@ -23,10 +23,18 @@
   margin-top: grid(12);
 }
 
+.contentMaxWidth {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
 .form {
   width: 100%;
   display: flex;
   flex-direction: column;
+  max-width: var(--article-max-width);
 }
 
 .instructions {

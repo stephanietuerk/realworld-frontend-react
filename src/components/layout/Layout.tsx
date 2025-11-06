@@ -5,7 +5,7 @@ import styles from './Layout.module.scss';
 
 // Main layout container underneath banner, provides side padding
 export function ContentSidePaddingLayout({ children }: PropsWithChildren<{}>) {
-  return <div className={styles.mainLayout}>{children}</div>;
+  return <div className={styles.contentSidePaddingLayout}>{children}</div>;
 }
 
 // Layout with max width for content area
@@ -18,7 +18,7 @@ export function ContentMaxWidthLayout({
   showLoadingSpinner?: boolean;
 }>) {
   return (
-    <div className={clsx(styles.bodyLayout, className)}>
+    <div className={clsx(styles.contentMaxWidthLayout, className)}>
       {children}
       {showLoadingSpinner && (
         <div className={styles.loadingSpinnerContainer}>

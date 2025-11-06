@@ -55,7 +55,7 @@ export default function CreateArticlePage() {
         </div>
       </Banner>
       <ContentSidePaddingLayout>
-        <ContentMaxWidthLayout>
+        <ContentMaxWidthLayout className={styles.contentMaxWidth}>
           <form className={styles.form} onSubmit={handleSubmit} noValidate>
             <p className={styles.instructions}>
               All fields required except Tags
