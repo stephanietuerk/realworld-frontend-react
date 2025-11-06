@@ -7,7 +7,10 @@ import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
 import { useEditSettings } from '../../api/useEditSettings';
 import Banner from '../../components/banner/Banner';
 import Button from '../../components/button/Button';
-import MainLayout from '../../components/main-layout/MainLayout';
+import {
+  ContentMaxWidthLayout,
+  ContentSidePaddingLayout,
+} from '../../components/layout/Layout';
 import type {
   AuthenticatedUser,
   UserUpdate,
@@ -166,74 +169,76 @@ export default function SettingsPage() {
           Modify your profile information
         </p>
       </Banner>
-      <MainLayout>
-        <form
-          className={styles.form}
-          onSubmit={handleSubmit}
-          key={formVersion}
-          noValidate
-        >
-          <fieldset className={styles.fieldset}>
-            <ProfileImageField
-              id='field-title'
-              value={updates.image.value}
-              onChange={(e) => updateSettings('image', e.target.value)}
-            />
-            <UsernameField
-              id='field-username'
-              value={updates.username.value}
-              onChange={(e) => updateSettings('username', e.target.value)}
-            />
-            <BioField
-              id='field-bio'
-              value={updates.bio.value}
-              onChange={(e) => updateSettings('bio', e.target.value)}
-            />
-            <EmailField
-              id='field-email'
-              value={updates.email.value}
-              onChange={(e) => updateSettings('email', e.target.value)}
-            />
-            <PasswordField
-              id='field-password'
-              value={updates.password.value}
-              onChange={(e) => updateSettings('password', e.target.value)}
-            />
-          </fieldset>
-          <div className={styles.bottomRow}>
-            <div className={styles.buttonRow}>
-              {(everUpdated || dirty) && (
+      <ContentSidePaddingLayout>
+        <ContentMaxWidthLayout className={styles.contentMaxWidth}>
+          <form
+            className={styles.form}
+            onSubmit={handleSubmit}
+            key={formVersion}
+            noValidate
+          >
+            <fieldset className={styles.fieldset}>
+              <ProfileImageField
+                id='field-title'
+                value={updates.image.value}
+                onChange={(e) => updateSettings('image', e.target.value)}
+              />
+              <UsernameField
+                id='field-username'
+                value={updates.username.value}
+                onChange={(e) => updateSettings('username', e.target.value)}
+              />
+              <BioField
+                id='field-bio'
+                value={updates.bio.value}
+                onChange={(e) => updateSettings('bio', e.target.value)}
+              />
+              <EmailField
+                id='field-email'
+                value={updates.email.value}
+                onChange={(e) => updateSettings('email', e.target.value)}
+              />
+              <PasswordField
+                id='field-password'
+                value={updates.password.value}
+                onChange={(e) => updateSettings('password', e.target.value)}
+              />
+            </fieldset>
+            <div className={styles.bottomRow}>
+              <div className={styles.buttonRow}>
+                {(everUpdated || dirty) && (
+                  <Button
+                    variant='tertiary'
+                    className={styles.revertButton}
+                    disabled={!dirty || editSettings.isPending}
+                    onClick={revertChanges}
+                  >
+                    <RotateCcw size={18} className={styles.revertIcon} />
+                    Revert all changes
+                  </Button>
+                )}
                 <Button
-                  variant='tertiary'
-                  className={styles.revertButton}
+                  className={styles.button}
+                  variant='primary'
+                  type='submit'
                   disabled={!dirty || editSettings.isPending}
-                  onClick={revertChanges}
+                  busy={editSettings.isPending}
                 >
-                  <RotateCcw size={18} className={styles.revertIcon} />
-                  Revert all changes
+                  Update settings
                 </Button>
-              )}
-              <Button
-                className={styles.button}
-                variant='primary'
-                type='submit'
-                disabled={!dirty || editSettings.isPending}
-                busy={editSettings.isPending}
+              </div>
+              <p
+                className={clsx(
+                  styles.responseMessage,
+                  responseMessage?.type === 'error' && styles.error,
+                )}
               >
-                Update settings
-              </Button>
+                {responseMessage?.text}
+              </p>
             </div>
-            <p
-              className={clsx(
-                styles.responseMessage,
-                responseMessage?.type === 'error' && styles.error,
-              )}
-            >
-              {responseMessage?.text}
-            </p>
-          </div>
-        </form>
-      </MainLayout>
+          </form>
+        </ContentMaxWidthLayout>
+      </ContentSidePaddingLayout>
     </>
   );
 }

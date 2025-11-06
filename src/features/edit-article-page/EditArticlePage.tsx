@@ -6,9 +6,14 @@ import { useArticle } from '../../api/useArticle';
 import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
 import { useEditArticle } from '../../api/useEditArticle';
 import Banner from '../../components/banner/Banner';
-import BodyLayout from '../../components/body-layout/BodyLayout';
 import Button from '../../components/button/Button';
-import MainLayout from '../../components/main-layout/MainLayout';
+import {
+  ArticleContentLayout,
+  ArticleTextLayout,
+  ContentMaxWidthLayout,
+  ContentSidePaddingLayout,
+  SidebarLayout,
+} from '../../components/layout/Layout';
 import { ROUTE } from '../../shared/constants/routing';
 import type { Article } from '../../shared/types/feed.types';
 import ArticleSidebar from '../article-page/article-sidebar/ArticleSidebar';
@@ -151,13 +156,15 @@ export default function EditArticlePage() {
           >
             <fieldset className={styles.fieldset}>
               <div className={styles.titleRow}>
-                <TitleField
-                  id='field-title'
-                  fieldClassName={styles.titleField}
-                  formControlClassName={styles.inputTitle}
-                  value={edits.title.value}
-                  onChange={(e) => updateEdits('title', e.target.value)}
-                ></TitleField>
+                <ArticleTextLayout>
+                  <TitleField
+                    id='field-title'
+                    fieldClassName={styles.titleField}
+                    formControlClassName={styles.inputTitle}
+                    value={edits.title.value}
+                    onChange={(e) => updateEdits('title', e.target.value)}
+                  ></TitleField>
+                </ArticleTextLayout>
                 <div className={styles.exitButtonContainer}>
                   <Button
                     variant='tertiary'
@@ -175,69 +182,75 @@ export default function EditArticlePage() {
               </div>
             </fieldset>
           </Banner>
-          <MainLayout>
-            <BodyLayout>
-              {article && (
-                <div className={styles.lowerEditContainer}>
-                  <TagsField
-                    id='field-tags'
-                    value={edits.tagList.value}
-                    onChange={(e) => updateEdits('tagList', e.target.value)}
-                  ></TagsField>
-                  <DescriptionField
-                    id='field-description'
-                    value={edits.description.value}
-                    onChange={(e) => updateEdits('description', e.target.value)}
-                  ></DescriptionField>
-                  <div>
-                    <BodyField
-                      id='field-body'
-                      value={edits.body.value}
-                      formControlClassName={styles.textareaBody}
-                      onChange={(e) => updateEdits('body', e.target.value)}
-                    ></BodyField>
-                  </div>
-                </div>
-              )}
-              <ArticleSidebar>
-                <>
-                  {editArticle.error && (
-                    <p className={styles.error}>
-                      Saving was not successful. Please try again.
-                    </p>
-                  )}
-                  <Button
-                    variant='primary'
-                    className={clsx(
-                      styles.saveButton,
-                      (everEdited || dirty) && styles.canRevert,
+          <ContentSidePaddingLayout>
+            <ContentMaxWidthLayout>
+              <ArticleContentLayout>
+                {article && (
+                  <ArticleTextLayout className={styles.lowerEditContainer}>
+                    <TagsField
+                      id='field-tags'
+                      value={edits.tagList.value}
+                      onChange={(e) => updateEdits('tagList', e.target.value)}
+                    ></TagsField>
+                    <DescriptionField
+                      id='field-description'
+                      value={edits.description.value}
+                      onChange={(e) =>
+                        updateEdits('description', e.target.value)
+                      }
+                    ></DescriptionField>
+                    <div>
+                      <BodyField
+                        id='field-body'
+                        value={edits.body.value}
+                        formControlClassName={styles.textareaBody}
+                        onChange={(e) => updateEdits('body', e.target.value)}
+                      ></BodyField>
+                    </div>
+                  </ArticleTextLayout>
+                )}
+              </ArticleContentLayout>
+              <SidebarLayout>
+                <ArticleSidebar>
+                  <>
+                    {editArticle.error && (
+                      <p className={styles.error}>
+                        Saving was not successful. Please try again.
+                      </p>
                     )}
-                    disabled={!dirty || editArticle.isPending}
-                    type='submit'
-                    busy={editArticle.isPending}
-                  >
-                    <Save size={16} className={styles.saveIcon} />
-                    Save changes
-                  </Button>
-                  {(everEdited || dirty) && (
                     <Button
-                      variant='tertiary'
-                      className={styles.revertButton}
+                      variant='primary'
+                      className={clsx(
+                        styles.saveButton,
+                        (everEdited || dirty) && styles.canRevert,
+                      )}
                       disabled={!dirty || editArticle.isPending}
-                      onClick={revertChanges}
+                      type='submit'
+                      busy={editArticle.isPending}
                     >
-                      <RotateCcw size={18} className={styles.revertIcon} />
-                      Revert changes
+                      <Save size={16} className={styles.saveIcon} />
+                      Save changes
                     </Button>
-                  )}
-                  <DeleteArticle
-                    article={article}
-                    disabled={dirty || editArticle.isPending}
-                  />
-                </>
-              </ArticleSidebar>
-            </BodyLayout>
-          </MainLayout>
+                    {(everEdited || dirty) && (
+                      <Button
+                        variant='tertiary'
+                        className={styles.revertButton}
+                        disabled={!dirty || editArticle.isPending}
+                        onClick={revertChanges}
+                      >
+                        <RotateCcw size={18} className={styles.revertIcon} />
+                        Revert changes
+                      </Button>
+                    )}
+                    <DeleteArticle
+                      article={article}
+                      disabled={dirty || editArticle.isPending}
+                    />
+                  </>
+                </ArticleSidebar>
+              </SidebarLayout>
+            </ContentMaxWidthLayout>
+          </ContentSidePaddingLayout>
         </form>
       )}
     </>

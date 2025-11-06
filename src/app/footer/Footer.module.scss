@@ -14,6 +14,7 @@ $color-base: rgba(255, 255, 255, 0.7);
   @include body-2xs;
   color: $color-base;
   flex-shrink: 0;
+  height: var(--footer-height);
 }
 
 .widthContainer {

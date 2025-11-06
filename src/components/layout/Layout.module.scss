@@ -1,7 +1,14 @@
 @use 'functions' as *;
 @use 'typography' as *;
 
-.bodyLayout {
+.contentSidePaddingLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 var(--page-margin-side);
+}
+
+.contentMaxWidthLayout {
   display: flex;
   justify-content: space-between;
   max-width: var(--page-max-width);
@@ -51,4 +58,19 @@
   50% {
     color: var(--color-primary);
   }
+}
+
+.sidebarLayout {
+  flex: 1 1 25%;
+  min-width: var(--sidebar-min-width); // triggers horizontal scroll
+}
+
+.contentLayout {
+  flex: 3 1 75%;
+  min-width: var(--content-min-width); // triggers horizontal scroll
+}
+
+.textLayout {
+  max-width: var(--article-max-width);
+  width: 100%;
 }
