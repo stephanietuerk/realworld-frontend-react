@@ -19,7 +19,7 @@ export function SmartLoadingMessage({ className }: { className?: string }) {
   const messages = [
     'Loading articles...',
     'Still loading... (the free-tier database needs to warm up)',
-    'Gathering firewood...',
+    "Gathering firewood...(we'll only have to do this once)",
     'Arranging wood into a perfect pyramid...',
     'Lighting the fire...',
     'Roasting marshmallows...',
