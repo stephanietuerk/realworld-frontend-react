@@ -7,7 +7,6 @@ $color-base: rgba(255, 255, 255, 0.7);
 .footer {
   background: var(--color-primary);
   display: flex;
-  justify-content: center;
   align-items: center;
   width: 100%;
   padding: grid(4) var(--page-margin-side);
@@ -19,8 +18,10 @@ $color-base: rgba(255, 255, 255, 0.7);
 
 .widthContainer {
   display: flex;
+  flex-wrap: wrap;
   width: var(--page-max-width);
   vertical-align: baseline;
+  gap: grid(1);
 }
 
 .name {
@@ -36,4 +37,8 @@ $color-base: rgba(255, 255, 255, 0.7);
     color: $color-accent;
     text-decoration: underline;
   }
+}
+
+.text {
+  line-height: 1;
 }
