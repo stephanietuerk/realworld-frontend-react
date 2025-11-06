@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams } from 'react-router';
 import { useAuth } from '../../api/useAuth';
 import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
@@ -16,11 +15,11 @@ import { FeedProvider } from '../../context/FeedProvider';
 import { FEED_OPTIONS } from '../../shared/constants/feed';
 import { ROUTE } from '../../shared/constants/routing';
 import type { FeedSelections } from '../../shared/types/feed.types';
+import { useModalAwareLoading } from '../about-modal/useModalAwareLoading';
 import Feed from '../feed/Feed';
 import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOptions';
 import FeedControls from '../feed/feed-controls/FeedControls';
 import { NONE_TAG } from '../feed/feed-controls/tag-options/TagOptions';
-import { useDelayedLoading } from '../feed/useDelayedLoading';
 import styles from './ProfilePage.module.scss';
 
 const FEED_CONTROLS_DEFAULTS: FeedSelections = {
@@ -43,8 +42,7 @@ export default function ProfilePage() {
   const { username } = useParams();
   const { user: loggedInUser } = useAuthenticatedUser();
   const { profile, error, refetch } = useProfile(username);
-  const [isLoading, setIsLoading] = useState(false);
-  const showSpinner = useDelayedLoading(isLoading, 500);
+  const { setIsLoading, showSpinner } = useModalAwareLoading();
 
   const isLoggedInUser = isLoggedIn && username === loggedInUser?.username;
   const showFollowUserButton =
@@ -53,10 +51,6 @@ export default function ProfilePage() {
   if (error) {
     console.log(error);
     return <div>Could not load profile.</div>;
-  }
-
-  if (!profile) {
-    return <div>User not found.</div>;
   }
 
   return (

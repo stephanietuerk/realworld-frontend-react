@@ -29,7 +29,7 @@ export function useApiGet<TRawData, TData = TRawData>({
   return useQuery<TRawData, AppError, TData>({
     queryKey,
     enabled: Boolean(url) && enabled,
-    queryFn: ({ signal }) => {
+    queryFn: async ({ signal }) => {
       if (!url) throw new Error('Missing URL');
       return callWithAuth<TRawData>(url, { ...options, method: 'GET', signal });
     },

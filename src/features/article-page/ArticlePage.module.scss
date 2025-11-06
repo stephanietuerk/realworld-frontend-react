@@ -50,7 +50,6 @@ $sidebar-gap: grid(6);
 
 .articleBody {
   @include markdown-content;
-  flex-grow: 1;
   margin-bottom: grid(12);
 
   :first-child {

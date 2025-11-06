@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { lazy } from 'react';
 import { Route, Routes, useLocation } from 'react-router';
+import { AboutModalProvider } from '../context/AboutModalProvider.tsx';
 import { AuthProvider } from '../context/AuthProvider.tsx';
 import { AuthenticatedUserProvider } from '../context/AuthenticatedUserProvider.tsx';
 import AboutModal from '../features/about-modal/AboutModal.tsx';
@@ -51,33 +52,35 @@ export default function AppRouter() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <AuthenticatedUserProvider>
-          <Routes location={state?.backgroundLocation || location}>
-            <Route path='/' element={<App />}>
-              <Route index element={<HomePage />} />
-              <Route path={'/settings'} element={<SettingsPage />} />
-              <Route path={'/profile/:username'} element={<ProfilePage />} />
-              <Route element={<ArticleProviderLayout />}>
-                <Route path={'/article/:slug'} element={<ArticlePage />} />
+          <AboutModalProvider>
+            <Routes location={state?.backgroundLocation || location}>
+              <Route path='/' element={<App />}>
+                <Route index element={<HomePage />} />
+                <Route path={'/settings'} element={<SettingsPage />} />
+                <Route path={'/profile/:username'} element={<ProfilePage />} />
+                <Route element={<ArticleProviderLayout />}>
+                  <Route path={'/article/:slug'} element={<ArticlePage />} />
+                  <Route
+                    path={'/article/:slug/edit'}
+                    element={<EditArticlePage />}
+                  ></Route>
+                </Route>
                 <Route
-                  path={'/article/:slug/edit'}
-                  element={<EditArticlePage />}
+                  path={'/article/new'}
+                  element={<CreateArticlePage />}
                 ></Route>
               </Route>
-              <Route
-                path={'/article/new'}
-                element={<CreateArticlePage />}
-              ></Route>
-            </Route>
-          </Routes>
-
-          {state?.backgroundLocation && (
-            <Routes>
-              <Route path={ROUTE.login} element={<LoginModal />} />
-              <Route path={ROUTE.register} element={<RegisterModal />} />
             </Routes>
-          )}
 
-          <AboutModal />
+            {state?.backgroundLocation && (
+              <Routes>
+                <Route path={ROUTE.login} element={<LoginModal />} />
+                <Route path={ROUTE.register} element={<RegisterModal />} />
+              </Routes>
+            )}
+
+            <AboutModal />
+          </AboutModalProvider>
         </AuthenticatedUserProvider>
       </AuthProvider>
     </QueryClientProvider>
