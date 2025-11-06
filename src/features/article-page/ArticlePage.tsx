@@ -5,6 +5,7 @@ import Banner from '../../components/banner/Banner';
 import Button from '../../components/button/Button';
 import {
   ArticleContentLayout,
+  ArticleTextLayout,
   ContentMaxWidthLayout,
   ContentSidePaddingLayout,
   SidebarLayout,
@@ -56,13 +57,13 @@ export default function ArticlePage() {
         <ContentMaxWidthLayout>
           <ArticleContentLayout>
             {article && (
-              <div className={styles.articleContent}>
+              <ArticleTextLayout className={styles.articleContent}>
                 <div
                   className={styles.articleBody}
                   dangerouslySetInnerHTML={{ __html: article.body }}
                 ></div>
                 <Comments slug={article.slug} />
-              </div>
+              </ArticleTextLayout>
             )}
           </ArticleContentLayout>
           <SidebarLayout>

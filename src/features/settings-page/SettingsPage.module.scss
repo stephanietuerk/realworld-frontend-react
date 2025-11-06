@@ -27,6 +27,13 @@
   margin-top: grid(12);
 }
 
+.contentMaxWidth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .description {
   @include body-medium;
   color: var(--color-blue-30);

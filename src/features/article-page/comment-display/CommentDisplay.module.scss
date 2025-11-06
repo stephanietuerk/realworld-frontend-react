@@ -4,10 +4,6 @@
 
 $border: 1px solid var(--color-neutral-90);
 
-.leaveComment {
-  display: flex;
-}
-
 .comment {
   border: $border;
   margin-bottom: grid(4);

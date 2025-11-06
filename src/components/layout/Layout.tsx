@@ -48,3 +48,11 @@ export function ArticleContentLayout({
     <div className={clsx(styles.contentLayout, className)}>{children}</div>
   );
 }
+
+// Layout for text content within an article body
+export function ArticleTextLayout({
+  className,
+  children,
+}: PropsWithChildren<{ className?: string }>) {
+  return <div className={clsx(styles.textLayout, className)}>{children}</div>;
+}

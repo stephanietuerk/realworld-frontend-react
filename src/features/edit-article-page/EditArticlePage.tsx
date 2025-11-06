@@ -9,6 +9,7 @@ import Banner from '../../components/banner/Banner';
 import Button from '../../components/button/Button';
 import {
   ArticleContentLayout,
+  ArticleTextLayout,
   ContentMaxWidthLayout,
   ContentSidePaddingLayout,
   SidebarLayout,
@@ -155,13 +156,15 @@ export default function EditArticlePage() {
           >
             <fieldset className={styles.fieldset}>
               <div className={styles.titleRow}>
-                <TitleField
-                  id='field-title'
-                  fieldClassName={styles.titleField}
-                  formControlClassName={styles.inputTitle}
-                  value={edits.title.value}
-                  onChange={(e) => updateEdits('title', e.target.value)}
-                ></TitleField>
+                <ArticleTextLayout>
+                  <TitleField
+                    id='field-title'
+                    fieldClassName={styles.titleField}
+                    formControlClassName={styles.inputTitle}
+                    value={edits.title.value}
+                    onChange={(e) => updateEdits('title', e.target.value)}
+                  ></TitleField>
+                </ArticleTextLayout>
                 <div className={styles.exitButtonContainer}>
                   <Button
                     variant='tertiary'
@@ -183,7 +186,7 @@ export default function EditArticlePage() {
             <ContentMaxWidthLayout>
               <ArticleContentLayout>
                 {article && (
-                  <div className={styles.lowerEditContainer}>
+                  <ArticleTextLayout className={styles.lowerEditContainer}>
                     <TagsField
                       id='field-tags'
                       value={edits.tagList.value}
@@ -204,7 +207,7 @@ export default function EditArticlePage() {
                         onChange={(e) => updateEdits('body', e.target.value)}
                       ></BodyField>
                     </div>
-                  </div>
+                  </ArticleTextLayout>
                 )}
               </ArticleContentLayout>
               <SidebarLayout>

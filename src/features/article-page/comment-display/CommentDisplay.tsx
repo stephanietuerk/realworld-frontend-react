@@ -63,28 +63,26 @@ export function LeaveComment({ slug }: { slug: string }) {
   }
 
   return (
-    <div className={styles.leaveComment}>
-      <div className={styles.comment}>
-        <textarea
-          className={styles.textarea}
-          id='leave-comment'
-          autoComplete='off'
-          aria-label='Write a comment'
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-          placeholder='Write a comment...'
-        ></textarea>
-        <div className={clsx(styles.commentAuthor, styles.leaveCommentAuthor)}>
-          <Button
-            className={styles.postButton}
-            variant='primary'
-            size='md'
-            type='button'
-            onClick={post}
-          >
-            Post comment
-          </Button>
-        </div>
+    <div className={styles.comment}>
+      <textarea
+        className={styles.textarea}
+        id='leave-comment'
+        autoComplete='off'
+        aria-label='Write a comment'
+        value={body}
+        onChange={(e) => setBody(e.target.value)}
+        placeholder='Write a comment...'
+      ></textarea>
+      <div className={clsx(styles.commentAuthor, styles.leaveCommentAuthor)}>
+        <Button
+          className={styles.postButton}
+          variant='primary'
+          size='md'
+          type='button'
+          onClick={post}
+        >
+          Post comment
+        </Button>
       </div>
     </div>
   );
