@@ -1,6 +1,10 @@
 @use 'functions' as *;
 @use 'typography' as *;
 
+.heightContainer {
+  flex: 1;
+}
+
 .bannerOuter {
   --banner-color-background: var(--color-primary-dark);
   // linear-gradient(

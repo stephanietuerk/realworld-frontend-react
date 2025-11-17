@@ -42,7 +42,7 @@ export default function CreateArticlePage() {
   );
 
   return (
-    <>
+    <div className={styles.heightContainer}>
       <Banner
         outerContainerClassName={styles.bannerOuter}
         contentClassName={styles.bannerContent}
@@ -95,6 +95,6 @@ export default function CreateArticlePage() {
           </>
         </form>
       </MainLayout>
-    </>
+    </div>
   );
 }

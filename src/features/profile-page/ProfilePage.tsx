@@ -57,7 +57,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <>
+    <div className={styles.heightContainer}>
       <Banner
         outerContainerClassName={styles.bannerOuter}
         surface='dark'
@@ -108,6 +108,6 @@ export default function ProfilePage() {
           </BodyLayout>
         </FeedProvider>
       </MainLayout>
-    </>
+    </div>
   );
 }

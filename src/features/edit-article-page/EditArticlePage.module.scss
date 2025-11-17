@@ -4,6 +4,10 @@
 
 $sidebar-gap: grid(6);
 
+.heightContainer {
+  flex: 1;
+}
+
 .bannerOuter {
   --banner-color-background: var(--color-surface);
   --breadcrumbs-color-text: rgba(var(--color-primary-rgb), 0.7);

@@ -35,7 +35,7 @@ export default function ArticlePage() {
   if (!slug || !article.body) return null;
 
   return (
-    <>
+    <div className={styles.heightContainer}>
       <Banner
         outerContainerClassName={styles.bannerOuter}
         contentClassName={styles.bannerContent}
@@ -71,6 +71,6 @@ export default function ArticlePage() {
           </ArticleSidebar>
         </BodyLayout>
       </MainLayout>
-    </>
+    </div>
   );
 }

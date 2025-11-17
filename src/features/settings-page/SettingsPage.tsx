@@ -156,7 +156,7 @@ export default function SettingsPage() {
   if (!user) return null;
 
   return (
-    <>
+    <div className={styles.heightContainer}>
       <Banner
         outerContainerClassName={styles.bannerOuter}
         contentClassName={styles.bannerContent}
@@ -234,6 +234,6 @@ export default function SettingsPage() {
           </div>
         </form>
       </MainLayout>
-    </>
+    </div>
   );
 }

@@ -3,4 +3,6 @@
   background: var(--color-surface);
   overflow-y: auto;
   scrollbar-gutter: stable;
+  display: flex;
+  flex-direction: column;
 }

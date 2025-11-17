@@ -27,30 +27,32 @@ export default function HomePage() {
 
   return (
     <MainLayout>
-      <Banner
-        outerContainerClassName={styles.bannerOuter}
-        contentClassName={styles.bannerContent}
-      >
-        <p className={styles.name}>{APP_NAME}</p>
-        <p className={styles.description}>A place to share your knowledge</p>
-      </Banner>
-      <FeedProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
-        <BodyLayout showLoadingSpinner={showSpinner}>
-          <SidebarLayout>
-            <FeedControls tagsTitle='Show articles about'>
-              {isLoggedIn && (
-                <div>
-                  <p className={styles.feedTypeTitle}>Show articles from</p>
-                  <FeedTypeOptions
-                    options={FEED_OPTIONS.home}
-                  ></FeedTypeOptions>
-                </div>
-              )}
-            </FeedControls>{' '}
-          </SidebarLayout>
-          <Feed options={FEED_OPTIONS.home} setIsLoading={setIsLoading} />
-        </BodyLayout>
-      </FeedProvider>
+      <div className={styles.heightContainer}>
+        <Banner
+          outerContainerClassName={styles.bannerOuter}
+          contentClassName={styles.bannerContent}
+        >
+          <p className={styles.name}>{APP_NAME}</p>
+          <p className={styles.description}>A place to share your knowledge</p>
+        </Banner>
+        <FeedProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
+          <BodyLayout showLoadingSpinner={showSpinner}>
+            <SidebarLayout>
+              <FeedControls tagsTitle='Show articles about'>
+                {isLoggedIn && (
+                  <div>
+                    <p className={styles.feedTypeTitle}>Show articles from</p>
+                    <FeedTypeOptions
+                      options={FEED_OPTIONS.home}
+                    ></FeedTypeOptions>
+                  </div>
+                )}
+              </FeedControls>{' '}
+            </SidebarLayout>
+            <Feed options={FEED_OPTIONS.home} setIsLoading={setIsLoading} />
+          </BodyLayout>
+        </FeedProvider>
+      </div>
     </MainLayout>
   );
 }

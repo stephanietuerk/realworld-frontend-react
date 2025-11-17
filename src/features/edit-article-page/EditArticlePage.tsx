@@ -141,7 +141,7 @@ export default function EditArticlePage() {
   if (!slug || !article.body) return null;
 
   return (
-    <>
+    <div className={styles.heightContainer}>
       {article && user && (
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <Banner
@@ -240,6 +240,6 @@ export default function EditArticlePage() {
           </MainLayout>
         </form>
       )}
-    </>
+    </div>
   );
 }
