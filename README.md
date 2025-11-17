@@ -8,7 +8,7 @@ If you compare my implementation to the [official demo](https://demo.realworld.i
 
 The frontend was built from scratch with React, Vite, TanStack Query, a few unstyled Radix components, and Lucide icons. (My current job doesn't use React, but I wanted to make sure that I could use it if the need arose.) I intentionally tried to minimize the number of packages I brought in so that I could focus on low-level work directly with React.
 
-The [backend](https://github.com/stephanietuerk/realworld-backend-node) is a fork of the official Node/Express/Prisma RealWorld API, modified to fix known issues, update packages, and deploy. It conforms to the official endpoints spec.
+The [backend](https://github.com/stephanietuerk/realworld-backend-node) is a fork of the official Node/Express/Prisma RealWorld API, that I modified to fix known issues, update packages, and deploy. It conforms to the official endpoints spec.
 
 If you're curious to learn more about me, check out [my personal site](https://stephanietuerk.net/main)
 
