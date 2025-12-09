@@ -33,7 +33,8 @@ export default function AboutModal() {
         </a>{' '}
         that I built for learning and demonstration purposes. The site is fully
         functional, so feel free to create an account, write an article, edit
-        it, leave comments, and otherwise poke around.
+        it, leave comments, and otherwise poke around. (The DB is reset nightly
+        though, so don't get too attached to your content.)
       </p>
       <p className={styles.description}>
         {' '}
