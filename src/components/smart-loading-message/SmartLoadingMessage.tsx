@@ -20,7 +20,7 @@ export function SmartLoadingMessage({ className }: { className?: string }) {
     'Loading articles...',
     'Still loading... (the free-tier database needs to warm up)',
     "Gathering firewood...(we'll only have to do this once)",
-    'Arranging wood into a perfect pyramid...',
+    'Arranging wood in the fire pit...',
     'Lighting the fire...',
     'Roasting marshmallows...',
     'Feeling the warmth...almost there!',

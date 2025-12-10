@@ -130,6 +130,7 @@ export default function SettingsPage() {
     const mutation = {} as UserUpdate;
     (Object.keys(updates) as (keyof FormUserSettings)[]).forEach((key) => {
       if (updates[key].dirty) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (mutation as any)[key] = updates[key].value;
       }
     });

@@ -1,13 +1,5 @@
-import { createContext, useEffect, useState, type ReactNode } from 'react';
-
-interface AuthContextType {
-  isLoggedIn: boolean;
-  setToken: (token: string | null) => void;
-}
-
-export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined,
-);
+import { useEffect, useState, type ReactNode } from 'react';
+import { AuthContext } from './auth-context';
 
 function localStorageHasToken(): boolean {
   return !!localStorage.getItem('token');

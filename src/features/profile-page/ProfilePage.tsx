@@ -15,15 +15,14 @@ import { FeedProvider } from '../../context/FeedProvider';
 import { FEED_OPTIONS } from '../../shared/constants/feed';
 import { ROUTE } from '../../shared/constants/routing';
 import type { FeedSelections } from '../../shared/types/feed.types';
-import { useModalAwareLoading } from '../about-modal/useModalAwareLoading';
-import Feed from '../feed/Feed';
+import FeedWithLoadingOverlay from '../feed/FeedWithLoadingOverlay';
 import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOptions';
 import FeedControls from '../feed/feed-controls/FeedControls';
 import { NONE_TAG } from '../feed/feed-controls/tag-options/TagOptions';
 import styles from './ProfilePage.module.scss';
 
 const FEED_CONTROLS_DEFAULTS: FeedSelections = {
-  feed: FEED_OPTIONS.profile[0]?.id!,
+  feed: FEED_OPTIONS.profile[0]?.id || '',
   tags: [NONE_TAG],
 };
 
@@ -42,7 +41,6 @@ export default function ProfilePage() {
   const { username } = useParams();
   const { user: loggedInUser } = useAuthenticatedUser();
   const { profile, error, refetch } = useProfile(username);
-  const { setIsLoading, showSpinner } = useModalAwareLoading();
 
   const isLoggedInUser = isLoggedIn && username === loggedInUser?.username;
   const showFollowUserButton =
@@ -88,7 +86,7 @@ export default function ProfilePage() {
       </Banner>
       <ContentSidePaddingLayout>
         <FeedProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
-          <ContentMaxWidthLayout showLoadingSpinner={showSpinner}>
+          <ContentMaxWidthLayout>
             <SidebarLayout>
               <FeedControls tagsTitle='Show articles about'>
                 <div>
@@ -102,10 +100,7 @@ export default function ProfilePage() {
               </FeedControls>
             </SidebarLayout>
             <ArticleContentLayout>
-              <Feed
-                options={FEED_OPTIONS.profile}
-                setIsLoading={setIsLoading}
-              />
+              <FeedWithLoadingOverlay options={FEED_OPTIONS.profile} />
             </ArticleContentLayout>
           </ContentMaxWidthLayout>
         </FeedProvider>

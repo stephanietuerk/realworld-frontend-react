@@ -1,6 +1,5 @@
 import { clsx } from 'clsx';
 import type { PropsWithChildren } from 'react';
-import { SmartLoadingMessage } from '../smart-loading-message/SmartLoadingMessage';
 import styles from './Layout.module.scss';
 
 // Main layout container underneath banner, provides side padding
@@ -12,19 +11,12 @@ export function ContentSidePaddingLayout({ children }: PropsWithChildren<{}>) {
 export function ContentMaxWidthLayout({
   children,
   className,
-  showLoadingSpinner,
 }: PropsWithChildren<{
   className?: string;
-  showLoadingSpinner?: boolean;
 }>) {
   return (
     <div className={clsx(styles.contentMaxWidthLayout, className)}>
       {children}
-      {showLoadingSpinner && (
-        <div className={styles.loadingSpinnerContainer}>
-          <SmartLoadingMessage className={styles.loadingMessage} />
-        </div>
-      )}
     </div>
   );
 }

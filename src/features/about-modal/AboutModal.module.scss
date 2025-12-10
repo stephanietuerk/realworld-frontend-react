@@ -50,8 +50,33 @@
   margin-left: grid(1);
 }
 
-.instructions {
-  @include body-2xs;
-  color: var(--color-neutral-50);
+.showMessageAgainRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: grid(1);
   margin-top: grid(2);
+  cursor: pointer;
+
+  @include body-2xs;
+  color: var(--color-neutral-40);
+}
+
+.showMessageAgainText {
+  position: relative;
+  top: 1px;
+}
+
+.showMessageIcon {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1px;
+}
+
+.showMessageAgainRow.showMessageSelected {
+  color: var(--color-text);
+  .showMessageIcon {
+    stroke: var(--color-text);
+    stroke-width: 2px;
+  }
 }

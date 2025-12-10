@@ -46,7 +46,7 @@ export function useComments(slug: string): CommentsState {
     Comment[]
   >({
     queryKey: queryKeys.comments(slug),
-    url: !!slug ? `${API_ROOT}/articles/${slug}/comments` : undefined,
+    url: slug ? `${API_ROOT}/articles/${slug}/comments` : undefined,
     queryOptions: {
       select: ({ comments }) => transformAndSortComments(comments),
     },

@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState, type ReactNode } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { useParams } from 'react-router';
 import { dateifyResponse, sortResponsesByDate } from '../api/dateify';
 import { queryKeys } from '../api/queryKeys';
@@ -7,30 +7,21 @@ import { NONE_TAG } from '../features/feed/feed-controls/tag-options/TagOptions'
 import { API_ROOT } from '../shared/constants/api';
 import { FEED_PAGE_SIZE } from '../shared/constants/feed';
 import type {
-  FeedContextType,
+  FeedEndpoint,
   FeedItem,
   FeedSelections,
   HomeFeed,
   ProfileFeed,
+  RawFeed,
   RawFeedItem,
 } from '../shared/types/feed.types';
 import { buildArticlesUrl } from '../shared/utilities/url-utilities';
-
-export interface RawFeed {
-  articles: RawFeedItem[];
-  articlesCount: number;
-}
+import { FeedContext } from './feed-context';
 
 interface FeedProviderProps {
   feedControlsDefaults: FeedSelections;
   children: ReactNode;
 }
-
-export type FeedEndpoint = 'global' | 'loggedInUser';
-
-export const FeedContext = createContext<FeedContextType | undefined>(
-  undefined,
-);
 
 function getSortedItems(items: RawFeedItem[]): FeedItem[] {
   return sortResponsesByDate(items.map((a) => dateifyResponse(a)));

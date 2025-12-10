@@ -2,52 +2,13 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../../api/useAuth';
 import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
 import { APP_NAME } from '../../shared/constants/app';
-import { ROUTE, type RouteId } from '../../shared/constants/routing';
 import styles from './Header.module.scss';
 import AccountMenu from './account-menu/AccountMenu';
-
-interface RouteConfig {
-  key: RouteId;
-  path: (param?: string) => string;
-  display: string;
-  type: 'page' | 'dialog';
-}
-
-export const NAVBAR_ROUTES_NO_AUTH: RouteConfig[] = [
-  {
-    key: 'explore',
-    path: () => ROUTE.explore,
-    display: 'Explore',
-    type: 'page',
-  },
-  {
-    key: 'login',
-    path: () => ROUTE.login,
-    display: 'Sign In',
-    type: 'dialog',
-  },
-  {
-    key: 'register',
-    path: () => ROUTE.register,
-    display: 'Sign Up',
-    type: 'dialog',
-  },
-];
-
-const NAVBAR_ROUTES_AUTH: RouteConfig[] = [
-  {
-    key: 'explore',
-    path: () => ROUTE.explore,
-    display: 'Explore',
-    type: 'page',
-  },
-  {
-    key: 'articleNew',
-    path: () => ROUTE.articleNew,
-    display: 'Write',
-    type: 'page',
-  },
-];
+import {
+  NAVBAR_ROUTES_AUTH,
+  NAVBAR_ROUTES_NO_AUTH,
+} from '../../shared/constants/nav-routes';
+import { ROUTE } from '../../shared/constants/routing';
 
 export default function Header() {
   const location = useLocation();

@@ -26,6 +26,13 @@ export interface RawFeedItem extends Omit<FeedItem, 'createdAt' | 'updatedAt'> {
   updatedAt: string;
 }
 
+export interface RawFeed {
+  articles: RawFeedItem[];
+  articlesCount: number;
+}
+
+export type FeedEndpoint = 'global' | 'loggedInUser';
+
 export interface Article extends FeedItem {
   body: string;
   bodyMarkdown: string;
@@ -54,10 +61,14 @@ export interface FeedOption {
   };
 }
 
+export type FeedAction =
+  | { text: string; route: string }
+  | { text: string; onClick: () => void };
+
 export interface FeedEmptyState {
   title: string;
   body: string[];
-  action?: { text: string; route: string };
+  action?: FeedAction;
 }
 
 export interface FeedContextType {

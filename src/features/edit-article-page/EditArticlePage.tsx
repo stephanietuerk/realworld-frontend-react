@@ -96,7 +96,7 @@ export default function EditArticlePage() {
   );
   const [everEdited, setEverEdited] = useState(false);
   const editArticle = useEditArticle(slug!);
-  const { setIsLoading, showSpinner } = useModalAwareLoading();
+  const { setIsLoading } = useModalAwareLoading();
 
   const dirty = Boolean(
     article &&
@@ -186,7 +186,7 @@ export default function EditArticlePage() {
             </fieldset>
           </Banner>
           <ContentSidePaddingLayout>
-            <ContentMaxWidthLayout showLoadingSpinner={showSpinner}>
+            <ContentMaxWidthLayout>
               <ArticleContentLayout>
                 {article && (
                   <ArticleTextLayout className={styles.lowerEditContainer}>

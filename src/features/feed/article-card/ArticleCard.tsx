@@ -70,7 +70,7 @@ export default function ArticleCard({
       <p className={styles.title}>{article.title}</p>
       <p className={styles.description}>{article.description}</p>
       <div className={styles.bottomRow}>
-  <Tags article={article} containerClassName={styles.tags} />
+        <Tags article={article} containerClassName={styles.tags} />
         {isLoggedIn ? (
           <FavoriteButton
             className={styles.favoriteButton}
