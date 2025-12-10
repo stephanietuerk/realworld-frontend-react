@@ -12,7 +12,7 @@ The [backend](https://github.com/stephanietuerk/realworld-backend-node) is a for
 
 If you're curious to learn more about me, check out [my personal site](https://stephanietuerk.net/main)
 
-Caveat lector: This no where near being a prod-ready app. It is barely optimized for mobile, it is entirely untested, and many more details could use additional polish. Its current level of polish reflects its status as a personal exercise.
+Caveat lector: This is not prod-ready app / something I built to cover all aspects of frontend engineering. It is barely optimized for mobile, it is untested, and many more details could use additional polish. Its current level of polish reflects its status as a personal exercise for working with React.
 
 ## Application Features
 
