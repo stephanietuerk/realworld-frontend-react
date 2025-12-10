@@ -64,7 +64,7 @@ export default function AboutModal() {
         to reason about, and the additional frontend functionality created more
         opportunities for learning. You can read about the UX enhancements{' '}
         <a
-          href='https://github.com/stephanietuerk/realworld-frontend-react?tab=readme-ov-file#ux-improvements-not-in-realworld-spec---couldnt-help-myself--'
+          href='https://github.com/stephanietuerk/realworld-frontend-react?tab=readme-ov-file#ux-improvements-not-in-realworld-spec-'
           target='_blank'
           rel='noreferrer'
           className={styles.link}

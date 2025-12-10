@@ -12,6 +12,8 @@ The [backend](https://github.com/stephanietuerk/realworld-backend-node) is a for
 
 If you're curious to learn more about me, check out [my personal site](https://stephanietuerk.net/main)
 
+Caveat lector: This no where near being a prod-ready app. It is barely optimized for mobile, it is entirely untested, and many more details could use additional polish. Its current level of polish reflects its status as a personal exercise.
+
 ## Application Features
 
 The functionality of the application includes the following:
@@ -90,7 +92,7 @@ The functionality of the application includes the following:
 - Protected/authenticated routes
 - Dynamic routing with parameters (slugs, usernames)
 
-## UX Improvements (Not in RealWorld Spec - couldn't help myself :) )
+## UX Improvements (Not in RealWorld Spec)
 
 ### Navigation & Workflow
 
@@ -150,5 +152,3 @@ The functionality of the application includes the following:
 - **Modern color palette**: Updated from the original green/gray to a blue/mint scheme that feels more contemporary and has additional contrast, color is used consistenly based on functionality
 - **CSS variables implementation**: Styling is implemented through CSS variables for easy theming and component reuse
 - **Professional polish**: Added details like proper border radii, consistent shadows on cards, refined color usage, and breadcrumb navigation throughout
-
-Please note that this app would need more work to be ready for prod. It is barely optimized for mobile, it is entirely untested, and many more details could use additional polish. Its current level of polish reflects its status as a personal exercise.
