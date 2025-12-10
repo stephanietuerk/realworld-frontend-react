@@ -15,6 +15,8 @@ import { ROUTE } from '../../shared/constants/routing';
 import ArticleSidebar from './article-sidebar/ArticleSidebar';
 import styles from './ArticlePage.module.scss';
 import Comments from './comments/Comments';
+import { useModalAwareLoading } from '../about-modal/useModalAwareLoading';
+import { LoadingOverlay } from '../../components/loading-overlay/LoadingOverlay';
 
 const BREADCRUMBS: (slug: string) => { display: string; route: string }[] = (
   slug,
@@ -29,7 +31,8 @@ const BREADCRUMBS: (slug: string) => { display: string; route: string }[] = (
 export default function ArticlePage() {
   const navigate = useNavigate();
   const { slug } = useParams();
-  const { article } = useArticle();
+  const { article, isLoading } = useArticle();
+  const { showSpinner } = useModalAwareLoading(isLoading);
 
   const navigateToEditor = () => {
     if (slug) {
@@ -41,6 +44,7 @@ export default function ArticlePage() {
 
   return (
     <>
+      {showSpinner && <LoadingOverlay />}
       <Banner
         outerContainerClassName={styles.bannerOuter}
         contentClassName={styles.bannerContent}

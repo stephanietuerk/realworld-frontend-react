@@ -1,8 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { RawFeed } from '../context/FeedProvider';
 import { API_ROOT } from '../shared/constants/api';
 import type { AppError } from '../shared/types/errors.types';
-import type { Article } from '../shared/types/feed.types';
+import type { Article, RawFeed } from '../shared/types/feed.types';
 import { callApiWithAuth } from './callApiWithAuth';
 import { queryKeys } from './queryKeys';
 

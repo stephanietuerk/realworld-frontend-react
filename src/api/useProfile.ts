@@ -21,7 +21,7 @@ export function useProfile(username: string | undefined): ProfileState {
     Profile
   >({
     queryKey: queryKeys.profile(username),
-    url: !!username ? `${API_ROOT}/profiles/${username}` : undefined,
+    url: username ? `${API_ROOT}/profiles/${username}` : undefined,
     queryOptions: {
       select: ({ profile }) => profile,
     },

@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../../api/useAuth';
-import { NAVBAR_ROUTES_NO_AUTH } from '../../app/header/Header';
 import FavoriteIcon from '../icons/FavoriteIcon';
 import styles from './FavoriteReadout.module.scss';
+import { NAVBAR_ROUTES_NO_AUTH } from '../../shared/constants/nav-routes';
 
 interface FavoriteReadoutProps {
   count: number;

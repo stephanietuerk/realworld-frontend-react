@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { FeedContext } from '../context/FeedProvider';
+import { FeedContext } from '../context/feed-context';
 import type { FeedContextType } from '../shared/types/feed.types';
 
 export function useFeed(): FeedContextType {

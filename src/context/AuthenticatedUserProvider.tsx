@@ -1,23 +1,13 @@
-import type { QueryObserverResult } from '@tanstack/react-query';
-import { createContext, useMemo, type ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
 import { queryKeys } from '../api/queryKeys';
 import { useApiGet } from '../api/useApiGet';
 import { useAuth } from '../api/useAuth';
 import { API_ROOT } from '../shared/constants/api';
-import type { AppError } from '../shared/types/errors.types';
 import type { AuthenticatedUser } from '../shared/types/user.types';
-
-interface UserContextType {
-  user?: AuthenticatedUser;
-  isPending: boolean;
-  isError: boolean;
-  error: AppError | null;
-  refetch: () => Promise<QueryObserverResult<AuthenticatedUser, AppError>>;
-}
-
-export const AuthenticatedUserContext = createContext<
-  UserContextType | undefined
->(undefined);
+import {
+  AuthenticatedUserContext,
+  type UserContextType,
+} from './authenticated-user-context';
 
 export function AuthenticatedUserProvider({
   children,
@@ -40,11 +30,12 @@ export function AuthenticatedUserProvider({
 
   const user = useMemo(() => {
     return isLoggedIn ? (data ?? undefined) : undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, data?.email, data?.username, data?.token]);
 
   const ctxValue = useMemo<UserContextType>(() => {
     return { user, isPending, isError, error, refetch };
-  }, [user, isPending, isError]);
+  }, [user, isPending, isError, error, refetch]);
 
   return (
     <AuthenticatedUserContext.Provider value={ctxValue}>

@@ -1,5 +1,4 @@
-import type { FeedEndpoint } from '../context/FeedProvider';
-import type { HomeFeed, ProfileFeed } from '../shared/types/feed.types';
+import type { FeedEndpoint, HomeFeed, ProfileFeed } from '../shared/types/feed.types';
 
 export const queryKeys = {
   comments: (slug: string) => ['comments', slug],

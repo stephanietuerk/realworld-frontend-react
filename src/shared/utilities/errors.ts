@@ -26,6 +26,7 @@ export function normalizeToAppError(e: unknown): AppError {
     };
   }
   // Our HTTP wrapper path
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const any = e as any;
   if (any && typeof any === 'object' && typeof any.status === 'number') {
     const status: number = any.status;
@@ -36,8 +37,10 @@ export function normalizeToAppError(e: unknown): AppError {
     const fieldBag = (body?.errors ?? {}) as Record<string, string[] | string>;
     const entries = Object.entries(fieldBag);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const globalMsgs = Array.isArray((fieldBag as any).body)
-      ? ((fieldBag as any).body as string[])
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ((fieldBag as any).body as string[])
       : [];
 
     const fieldErrors =

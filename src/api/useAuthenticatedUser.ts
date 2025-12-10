@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { AuthenticatedUserContext } from '../context/AuthenticatedUserProvider';
+import { AuthenticatedUserContext } from '../context/authenticated-user-context';
 
 export function useAuthenticatedUser() {
   const ctx = useContext(AuthenticatedUserContext);

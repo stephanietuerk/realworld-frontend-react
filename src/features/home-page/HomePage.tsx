@@ -10,8 +10,7 @@ import { FeedProvider } from '../../context/FeedProvider';
 import { APP_NAME } from '../../shared/constants/app';
 import { FEED_OPTIONS } from '../../shared/constants/feed';
 import type { FeedSelections } from '../../shared/types/feed.types';
-import { useModalAwareLoading } from '../about-modal/useModalAwareLoading';
-import Feed from '../feed/Feed';
+import FeedWithLoadingOverlay from '../feed/FeedWithLoadingOverlay';
 import FeedTypeOptions from '../feed/feed-controls/feed-type-options/FeedTypeOptions';
 import FeedControls from '../feed/feed-controls/FeedControls';
 import { NONE_TAG } from '../feed/feed-controls/tag-options/TagOptions';
@@ -24,36 +23,37 @@ const FEED_CONTROLS_DEFAULTS: FeedSelections = {
 
 export default function HomePage() {
   const { isLoggedIn } = useAuth();
-  const { setIsLoading, showSpinner } = useModalAwareLoading();
 
   return (
-    <ContentSidePaddingLayout>
-      <Banner
-        outerContainerClassName={styles.bannerOuter}
-        contentClassName={styles.bannerContent}
-      >
-        <p className={styles.name}>{APP_NAME}</p>
-        <p className={styles.description}>A place to share your knowledge</p>
-      </Banner>
-      <FeedProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
-        <ContentMaxWidthLayout showLoadingSpinner={showSpinner}>
-          <SidebarLayout>
-            <FeedControls tagsTitle='Show articles about'>
-              {isLoggedIn && (
-                <div>
-                  <p className={styles.feedTypeTitle}>Show articles from</p>
-                  <FeedTypeOptions
-                    options={FEED_OPTIONS.home}
-                  ></FeedTypeOptions>
-                </div>
-              )}
-            </FeedControls>{' '}
-          </SidebarLayout>
-          <ArticleContentLayout>
-            <Feed options={FEED_OPTIONS.home} setIsLoading={setIsLoading} />
-          </ArticleContentLayout>
-        </ContentMaxWidthLayout>
-      </FeedProvider>
-    </ContentSidePaddingLayout>
+    <>
+      <ContentSidePaddingLayout>
+        <Banner
+          outerContainerClassName={styles.bannerOuter}
+          contentClassName={styles.bannerContent}
+        >
+          <p className={styles.name}>{APP_NAME}</p>
+          <p className={styles.description}>A place to share your knowledge</p>
+        </Banner>
+        <FeedProvider feedControlsDefaults={FEED_CONTROLS_DEFAULTS}>
+          <ContentMaxWidthLayout>
+            <SidebarLayout>
+              <FeedControls tagsTitle='Show articles about'>
+                {isLoggedIn && (
+                  <div>
+                    <p className={styles.feedTypeTitle}>Show articles from</p>
+                    <FeedTypeOptions
+                      options={FEED_OPTIONS.home}
+                    ></FeedTypeOptions>
+                  </div>
+                )}
+              </FeedControls>{' '}
+            </SidebarLayout>
+            <ArticleContentLayout>
+              <FeedWithLoadingOverlay options={FEED_OPTIONS.home} />
+            </ArticleContentLayout>
+          </ContentMaxWidthLayout>
+        </FeedProvider>
+      </ContentSidePaddingLayout>
+    </>
   );
 }

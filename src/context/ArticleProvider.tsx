@@ -1,23 +1,16 @@
-import { createContext, useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { dateifyResponse } from '../api/dateify';
 import { queryKeys } from '../api/queryKeys';
 import { useApiGet } from '../api/useApiGet';
 import { API_ROOT } from '../shared/constants/api';
-import type {
-  Article,
-  ArticleContextType,
-  RawArticle,
-} from '../shared/types/feed.types';
+import type { Article, RawArticle } from '../shared/types/feed.types';
 import { mdToHtml } from '../shared/utilities/markdown-to-html';
+import { ArticleContext } from './article-context';
 
 interface ArticleProviderProps {
   slug: string;
   children: ReactNode;
 }
-
-export const ArticleContext = createContext<ArticleContextType | undefined>(
-  undefined,
-);
 
 export function ArticleProvider({ slug, children }: ArticleProviderProps) {
   const { data: article, isLoading } = useApiGet<

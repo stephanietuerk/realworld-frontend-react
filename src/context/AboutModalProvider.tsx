@@ -1,15 +1,6 @@
-import { createContext, useEffect, useState } from 'react';
-
-interface AboutModalContextValue {
-  isModalVisible: boolean;
-  dismissModal: (forever: boolean) => void;
-}
-
-const tokenString = 'prevent-welcome-modal';
-
-export const AboutModalContext = createContext<AboutModalContextValue | null>(
-  null,
-);
+import { useEffect, useState } from 'react';
+import { AboutModalContext } from './about-modal-context';
+import { PREVENT_MODAL_TOKEN } from './about-modal-context';
 
 export function AboutModalProvider({
   children,
@@ -19,15 +10,18 @@ export function AboutModalProvider({
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
-    const hasSeen = localStorage.getItem(tokenString) === 'true';
-    if (!hasSeen) {
+    const preventModalLocal =
+      localStorage.getItem(PREVENT_MODAL_TOKEN) === 'true';
+    if (!preventModalLocal) {
       setIsModalVisible(true);
     }
   }, []);
 
   const dismissModal = (forever: boolean) => {
     if (forever) {
-      localStorage.setItem(tokenString, 'true');
+      localStorage.setItem(PREVENT_MODAL_TOKEN, 'true');
+    } else {
+      localStorage.setItem(PREVENT_MODAL_TOKEN, 'false');
     }
     setIsModalVisible(false);
   };

@@ -18,7 +18,7 @@ function getNewTagSelections(
   clickedTag: string,
 ): string[] {
   let newTagSelections: string[];
-  let prevTagSelections = prevTags.filter((x) => x !== NONE_TAG);
+  const prevTagSelections = prevTags.filter((x) => x !== NONE_TAG);
   if (!tagOptions.length) {
     newTagSelections = [];
   } else if (clickedTag === NONE_TAG || !tagOptions.includes(clickedTag)) {

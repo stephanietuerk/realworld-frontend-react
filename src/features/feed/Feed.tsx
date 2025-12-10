@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, type Dispatch } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../../api/useAuth';
 import { useAuthenticatedUser } from '../../api/useAuthenticatedUser';
@@ -11,13 +11,7 @@ import NoArticles from './no-articles/NoArticles';
 import PaginationControls from './pagination-controls/PaginationControls';
 import { useDelayedLoading } from './useDelayedLoading';
 
-export default function Feed({
-  options,
-  setIsLoading,
-}: {
-  options: FeedOption[];
-  setIsLoading: Dispatch<React.SetStateAction<boolean>>;
-}) {
+export default function Feed({ options }: { options: FeedOption[] }) {
   const { isLoggedIn } = useAuth();
   const { user: loggedInUser } = useAuthenticatedUser();
   const { username: profileUsername } = useParams<{ username: string }>();
@@ -35,12 +29,7 @@ export default function Feed({
 
   useEffect(() => {
     setFeedSelections((prev) => ({ ...prev, feed: options[0].id }));
-  }, [options]);
-
-  useEffect(() => {
-    setIsLoading(isLoading);
-    return () => setIsLoading(false);
-  }, [isLoading]);
+  }, [options, setFeedSelections]);
 
   const option = useMemo(() => {
     const foundOption = options.find((o) => o.id === feedSelections.feed);
@@ -56,8 +45,40 @@ export default function Feed({
     if (!emptyState) {
       throw new Error('No empty state defined for this feed option');
     }
-    return emptyState(isLoggedIn && loggedInUser?.username === profileUsername);
-  }, [isLoggedIn, loggedInUser, profileUsername, option]);
+    const state = emptyState(
+      isLoggedIn && loggedInUser?.username === profileUsername,
+    );
+
+    // If the action is exploreCTA and we're on the home feed showing "following",
+    // convert it to a callback that switches to the "community" feed
+    if (
+      state.action &&
+      'route' in state.action &&
+      state.action.route === '/' &&
+      feedSelections.feed === 'following'
+    ) {
+      return {
+        ...state,
+        action: {
+          text: state.action.text,
+          onClick: () => {
+            setPage(1);
+            setFeedSelections((prev) => ({ ...prev, feed: 'community' }));
+          },
+        },
+      };
+    }
+
+    return state;
+  }, [
+    isLoggedIn,
+    loggedInUser,
+    profileUsername,
+    option,
+    feedSelections.feed,
+    setFeedSelections,
+    setPage,
+  ]);
 
   return (
     <div className={styles.feed}>

@@ -25,6 +25,8 @@
   border-radius: grid(1);
   padding: grid(3) grid(2);
   border: 1px solid var(--color-neutral-90);
+  position: relative;
+  z-index: calc(var(--z-index-header) + 1);
 }
 
 .menuItemContainer:not(:last-child) {

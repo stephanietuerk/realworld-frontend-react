@@ -34,9 +34,9 @@ export function useEditSettings(username?: string) {
 
       return { previousUser };
     },
-    mutationFn: (user) => {
+    mutationFn: async (user): Promise<{ user: AuthenticatedUser }> => {
       if (!username) {
-        return Promise.resolve({} as any);
+        throw new Error('Username is required');
       }
       return callApiWithAuth(`${API_ROOT}/user`, {
         method: 'PUT',
